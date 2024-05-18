@@ -1,10 +1,7 @@
 package com.bside.backendapi.domain.cloudtest;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,7 +10,8 @@ public class TestController {
 
     private final TestService testService;
 
-    @PostMapping("/test/api")
+    @PostMapping("/")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String createTest(@RequestBody String text){
         return testService.createTest(text);
     }
