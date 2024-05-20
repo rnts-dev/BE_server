@@ -1,51 +1,60 @@
-//package com.bside.backendapi.global.config;
-//
-//
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.web.servlet.config.annotation.CorsRegistry;
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-//import org.springframework.web.cors.CorsConfiguration;
-//import org.springframework.web.cors.CorsConfigurationSource;
-//import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//
-//import java.util.Arrays;
-//
-//import static org.springframework.security.config.Customizer.withDefaults;
-//
-//@RequiredArgsConstructor
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity
-//@EnableWebMvc
-//public class SecurityConfig implements WebMvcConfigurer {
-//
-//    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api.**"};
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(authorizeRequests ->
-//                        authorizeRequests.requestMatchers(allowedUrls).permitAll()
-//                                .anyRequest().authenticated()
-//                )
-//                .sessionManagement(sessionManagement ->
-//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                )
-//                .cors(withDefaults());
-//
-//        return http.build();
-//    }
-//
-//
+package com.bside.backendapi.global.config;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
+
+@RequiredArgsConstructor
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+@EnableWebMvc
+public class SecurityConfig implements WebMvcConfigurer {
+
+    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests.requestMatchers(allowedUrls).permitAll()
+                                .anyRequest().authenticated()
+                )
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .cors(cors -> cors.disable());
+
+        return http.build();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*") // 모든 도메인을 허용
+                .allowedMethods("*") // 모든 HTTP 메서드를 허용
+                .allowedHeaders("*") // 모든 헤더를 허용
+                .allowCredentials(true);
+    }
+
+
 //    @Bean
 //    public CorsConfigurationSource corsConfigurationSource() {
 //        CorsConfiguration configuration = new CorsConfiguration();
@@ -58,7 +67,7 @@
 //        source.registerCorsConfiguration("/**", configuration);
 //        return source;
 //    }
-//
+
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
 //        registry.addMapping("/**")
@@ -67,4 +76,4 @@
 //                .allowedHeaders("*")
 //                .allowCredentials(true);
 //    }
-//}
+}

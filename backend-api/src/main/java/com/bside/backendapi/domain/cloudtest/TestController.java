@@ -11,7 +11,7 @@ public class TestController {
     private final TestService testService;
 
     @PostMapping("/")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+//    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String createTest(@RequestBody String text){
         return testService.createTest(text);
     }

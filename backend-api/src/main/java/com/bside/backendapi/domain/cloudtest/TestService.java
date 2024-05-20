@@ -11,6 +11,6 @@ public class TestService {
 
     public String createTest(String text){
         TestEntity testEntity = TestEntity.createTest(text);
-        return "저장성공";
+        return "test";
     }
 }
