@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.security.security.handler;
+package com.bside.backendapi.global.security.handler;
 
 import com.nimbusds.jose.shaded.gson.Gson;
 import jakarta.servlet.ServletException;

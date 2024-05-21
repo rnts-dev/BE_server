@@ -1,10 +1,10 @@
-package com.bside.backendapi.global.security.oauth.service;
+package com.bside.backendapi.domain.user.service;
 
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.domain.MemberRole;
 import com.bside.backendapi.domain.member.domain.PrincipalDetail;
 import com.bside.backendapi.domain.member.repository.MemberRepository;
-import com.bside.backendapi.global.security.oauth.user.KakaoUserInfo;
+import com.bside.backendapi.domain.user.entity.KakaoUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
