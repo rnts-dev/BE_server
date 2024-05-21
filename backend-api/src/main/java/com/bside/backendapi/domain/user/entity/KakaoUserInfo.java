@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.security.oauth.user;
+package com.bside.backendapi.domain.user.entity;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.security.security.service;
+package com.bside.backendapi.global.security.service;
 
 import com.bside.backendapi.domain.member.domain.PrincipalDetail;
 import com.bside.backendapi.domain.member.repository.MemberRepository;

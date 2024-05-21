@@ -1,9 +1,9 @@
-package com.bside.backendapi.global.security.security.config;
+package com.bside.backendapi.global.security.config;
 
 import com.bside.backendapi.global.security.jwt.filter.JwtVerifyFilter;
-import com.bside.backendapi.global.security.oauth.service.OAuth2UserService;
-import com.bside.backendapi.global.security.security.handler.CommonLoginFailHandler;
-import com.bside.backendapi.global.security.security.handler.CommonLoginSuccessHandler;
+import com.bside.backendapi.domain.user.service.OAuth2UserService;
+import com.bside.backendapi.global.security.handler.CommonLoginFailHandler;
+import com.bside.backendapi.global.security.handler.CommonLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
