@@ -14,7 +14,7 @@ public class AuthController {
 
     @PostMapping("/")
     public ResponseEntity<String> authorize(@RequestBody TokenRequest tokenRequest) {
-//        return ResponseEntity.ok(authService.refreshToken(tokenRequest));
+//        return ResponseEntity.ok(authService.accessToken(tokenRequest));
         return ResponseEntity.ok("testtoken");
     }
 }
