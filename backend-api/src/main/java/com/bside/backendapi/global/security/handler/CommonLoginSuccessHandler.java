@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.security.security.handler;
+package com.bside.backendapi.global.security.handler;
 
 import com.bside.backendapi.domain.member.domain.PrincipalDetail;
 import com.bside.backendapi.global.security.jwt.utils.JwtConstants;
