@@ -15,3 +15,12 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: true
+
+
+  profiles:
+    include: oauth
+
+  # 로그인 시 사용할 JWT (secretKey, validation time)
+  jwt:
+    secretKey: 3d23ac438a19538d2fe3c4725b62ea11745e08c73e543d1376cf53f77d50d1c0
+    #  token-validity-in-seconds: 86400000
