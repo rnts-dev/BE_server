@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.userappt.dto;
+package com.bside.backendapi.domain.userappt.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -15,8 +15,6 @@ public class UserApptResponse {
 
     private String apTitle;
     private String apPlace;
-
-    @JsonFormat(pattern = "HH:mm")
     private LocalDateTime apTime;
     private List<String> imageUrl;
 }

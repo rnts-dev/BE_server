@@ -21,7 +21,7 @@ public class AppointmentController {
 
 
     private AppointmentService appointmentService;
-    @Operation(summary = "약속 생성", description = "약속 생성 메서드, 첫 생성자만 userappointment까지 생성")
+    @Operation(summary = "약속 생성", description = "약속 생성 메서드, 생성자 userappointment까지 생성")
     @PostMapping("/")
     public ResponseEntity<Objects> createAppointment(@RequestBody AppointmentRequest appointmentRequest){
 

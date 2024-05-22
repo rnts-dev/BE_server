@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class JoinRequest {
-    private String joinCode;
+    private Long appointmentId;
 }
