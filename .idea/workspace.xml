@@ -5,30 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d19543a0-6c8f-4aa5-a34c-530243b43001" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/rnts_BE.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/controller/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/controller/MyController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/entity/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/CorsMvcConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/util/JwtUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/dto/CustomOAuth2User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/dto/KakaoResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/handler/CustomSuccessHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/service/CustomOAuth2UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/handler/CommonLoginFailHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/Penalty.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/Penalty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/ReceivedPenalty.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/ReceivedPenalty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/dto/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/entity/UserAppt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/entity/UserAppt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/config/SecurityConfig.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

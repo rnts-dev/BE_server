@@ -76,7 +76,7 @@ public class SecurityConfig {
                 // 경로 인가 작업
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
 
                 // session -> STATELESS
                 .sessionManagement((session) -> session

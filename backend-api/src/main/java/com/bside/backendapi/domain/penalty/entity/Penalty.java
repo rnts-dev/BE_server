@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.penalty.entity;
 
 import com.bside.backendapi.domain.appointment.entity.Appointment;
-import com.bside.backendapi.domain.user_temp.entity.User_temp;
+import com.bside.backendapi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class Penalty {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User_temp user;
+    private User user;
 
     @OneToOne
     private Appointment appointment;

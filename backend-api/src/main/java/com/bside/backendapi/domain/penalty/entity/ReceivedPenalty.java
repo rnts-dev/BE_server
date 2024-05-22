@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.penalty.entity;
 
-import com.bside.backendapi.domain.user_temp.entity.User_temp;
+
+import com.bside.backendapi.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class ReceivedPenalty {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User_temp user;
+    private User user;
 
     private String receivedUser;
     private LocalTime resTime;
