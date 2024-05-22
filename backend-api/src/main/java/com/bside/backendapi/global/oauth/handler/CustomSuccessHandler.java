@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -38,15 +39,18 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String token = jwtUtil.createJwt(username, role, 60*60*60L);
 
-        response.addCookie(createCookie("Authorization", token));
-        response.sendRedirect("http://localhost:8080/");
+        log.info("AccessToken : {}", token);
 
+        response.addCookie(createCookie("Authorization", token));
+        response.sendRedirect("http://localhost:8080/login/oauth2/code/kakao"); // 로그인 성공시 프론트에 알려줄 redirect 경로
+//        response.sendRedirect("http://localhost:8080/kakao-redirect"); // 로그인 성공시 프론트에 알려줄 redirect 경로
+        response.setStatus(HttpStatus.OK.value());
     }
 
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(60*60*60);
-        //cookie.setSecure(true);
+        //cookie.setSecure(true); //
         cookie.setPath("/");
         cookie.setHttpOnly(true);
 

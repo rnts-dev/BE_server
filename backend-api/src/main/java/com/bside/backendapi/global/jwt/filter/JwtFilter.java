@@ -27,10 +27,10 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
         String authorization = null;
+
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
 
-            log.info(cookie.getName());
             if (cookie.getName().equals("Authorization")) {
                 authorization = cookie.getValue();
             }
@@ -59,7 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        //토큰에서 username과 role 획득
+        //토큰에서 usernamerhk role 획득
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
 
@@ -74,6 +74,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+
         //세션에 사용자 등록
         SecurityContextHolder.getContext().setAuthentication(authToken);
 

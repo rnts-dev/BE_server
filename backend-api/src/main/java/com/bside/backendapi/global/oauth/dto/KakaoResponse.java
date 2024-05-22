@@ -4,18 +4,18 @@ import java.util.Map;
 
 public class KakaoResponse {
 
-    public static String socialId;
+    public static String providerId;
     public static Map<String, Object> account;
     public static Map<String, Object> profile;
 
     public KakaoResponse(Map<String, Object> attributes) {
-        socialId = String.valueOf(attributes.get("id"));
+        providerId = String.valueOf(attributes.get("id"));
         account = (Map<String, Object>) attributes.get("kakao_account");
         profile = (Map<String, Object>) account.get("profile");
     }
 
-    public String getSocialId() {
-        return socialId;
+    public String getProviderId() {
+        return providerId;
     }
 
     public String getName() {
@@ -25,5 +25,4 @@ public class KakaoResponse {
     public Map<String, Object> getProfile() {
         return profile;
     }
-
 }
