@@ -5,8 +5,5 @@ import java.time.LocalTime;
 
 public class CheckInRequest {
 
-    private boolean isLate;
-    private LocalTime arriveTime;
-
     private int checkCode;
 }

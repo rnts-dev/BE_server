@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -27,10 +28,11 @@ public class UserAppt {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private LocalTime arrivalTime;
+    private LocalDateTime arrivalTime;
     private boolean safe;
 
-    private int userRank;  //default = 0?
+    private ArriveType arriveType;
+
 
 
 }

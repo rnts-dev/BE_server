@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -13,7 +14,6 @@ public class AppointmentRequest {
 
     private String title;
     private AppointmentType appointmentType;
-    private LocalDate date;
-    private LocalTime time;
+    private LocalDateTime time;
     private String place;
 }
