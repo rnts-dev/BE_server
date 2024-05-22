@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.user.entity;
 
 import com.bside.backendapi.domain.penalty.entity.Penalty;
+import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -23,6 +24,10 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserAppt> userAppts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ReceivedPenalty> receivedPenalties = new ArrayList<>();
+
 
     private String socialId;
     private String password;

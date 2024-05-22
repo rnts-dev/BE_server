@@ -7,6 +7,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,16 +19,19 @@ public class Penalty {
     @Column(name = "penalty_id")
     private int id;
 
-    private String description;
+    private String content;
     private PenaltyType penaltyType;
+    private int PenaltyPrice;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
-    @ManyToOne
-    @JoinColumn(name = "appointment_id", nullable = false)
+    @OneToOne
     private Appointment appointment;
+
+
+    @OneToMany(mappedBy = "penalty", fetch = FetchType.LAZY)
+    private List<ReceivedPenalty> receivedPenalties = new ArrayList<>();
 
 }
