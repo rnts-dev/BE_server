@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.userappt.entity;
 
 import com.bside.backendapi.domain.appointment.entity.Appointment;
-import com.bside.backendapi.domain.user.entity.User;
+import com.bside.backendapi.domain.user.entity.User_temp;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class UserAppt {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User_temp user;
 
     private LocalTime arrivalTime;
     private boolean safe;

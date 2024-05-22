@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User_temp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
