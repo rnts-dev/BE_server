@@ -1,7 +1,9 @@
 package com.bside.backendapi.global.security.config;
 
-import com.bside.backendapi.global.oauth.service.CustomOAuth2UserService;
-
+import com.bside.backendapi.global.security.jwt.filter.JwtVerifyFilter;
+import com.bside.backendapi.domain.user.service.OAuth2UserService;
+import com.bside.backendapi.global.security.handler.CommonLoginFailHandler;
+import com.bside.backendapi.global.security.handler.CommonLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService oAuth2UserService;
+    private final OAuth2UserService oAuth2UserService;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
