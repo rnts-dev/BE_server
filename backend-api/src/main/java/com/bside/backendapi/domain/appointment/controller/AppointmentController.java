@@ -21,7 +21,10 @@ public class AppointmentController {
     @PostMapping("/")
     public ResponseEntity<Objects> createAppointment(@RequestBody AppointmentRequest appointmentRequest){
 
+        //appointment 생성
+
         // userappointment를 생성해서 해당 id 리턴 해줘야 함
+
         return ResponseEntity.ok().build();
     }
 

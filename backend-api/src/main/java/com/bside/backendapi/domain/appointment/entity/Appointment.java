@@ -29,7 +29,6 @@ public class Appointment {
     private String place;
     private String apkey;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_appt_id")
+    @OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY)
     private List<UserAppt> userAppts = new ArrayList<>();
 }
