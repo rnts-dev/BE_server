@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.user.entity;
+package com.bside.backendapi.domain.user_temp.entity;
 
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;

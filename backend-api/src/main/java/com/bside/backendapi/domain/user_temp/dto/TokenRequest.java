@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.user.dto;
+package com.bside.backendapi.domain.user_temp.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

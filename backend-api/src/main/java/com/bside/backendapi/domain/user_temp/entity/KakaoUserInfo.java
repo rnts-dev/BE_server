@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.user.entity;
+package com.bside.backendapi.domain.user_temp.entity;
 
 import java.util.Map;
 

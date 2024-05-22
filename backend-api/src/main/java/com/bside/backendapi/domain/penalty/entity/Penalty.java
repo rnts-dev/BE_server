@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.penalty.entity;
 
 import com.bside.backendapi.domain.appointment.entity.Appointment;
-import com.bside.backendapi.domain.user.entity.User_temp;
+import com.bside.backendapi.domain.user_temp.entity.User_temp;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
