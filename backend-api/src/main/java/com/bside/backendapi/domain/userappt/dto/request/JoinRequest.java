@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.userappt.dto;
+package com.bside.backendapi.domain.userappt.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.appointment.entity;
 
+import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -29,7 +30,10 @@ public class Appointment {
     private String place;
     private String apkey;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_appt_id")
+    @OneToOne()
+    @JoinColumn(name = "penalty_id")
+    private Penalty penalty;
+
+    @OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY)
     private List<UserAppt> userAppts = new ArrayList<>();
 }

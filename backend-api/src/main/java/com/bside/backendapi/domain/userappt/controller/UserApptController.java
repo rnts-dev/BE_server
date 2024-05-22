@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.userappt.controller;
 
-import com.bside.backendapi.domain.userappt.dto.JoinRequest;
+import com.bside.backendapi.domain.userappt.dto.request.CheckInRequest;
+import com.bside.backendapi.domain.userappt.dto.request.JoinRequest;
 import com.bside.backendapi.domain.userappt.dto.UserApptResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,14 @@ public class UserApptController {
     public ResponseEntity<Objects> createPenalty(@PathVariable Long id){
         //일단 체크인 이후 메서드 (등수 정해진 후 호출) -> 1등만 이 메서드 호출
         return  ResponseEntity.ok().build();
+    }
+
+
+
+    @PostMapping("checkin")
+    public ResponseEntity<Objects> checkIn(@PathVariable Long id, @RequestBody CheckInRequest checkInRequest){
+
+        return ResponseEntity.ok().build();
     }
 
 }
