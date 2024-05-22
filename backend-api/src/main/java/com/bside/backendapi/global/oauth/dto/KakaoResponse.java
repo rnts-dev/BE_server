@@ -1,14 +1,14 @@
-package com.bside.backendapi.domain.user.entity;
+package com.bside.backendapi.global.oauth.dto;
 
 import java.util.Map;
 
-public class KakaoUserInfo {
+public class KakaoResponse {
 
     public static String socialId;
     public static Map<String, Object> account;
     public static Map<String, Object> profile;
 
-    public KakaoUserInfo(Map<String, Object> attributes) {
+    public KakaoResponse(Map<String, Object> attributes) {
         socialId = String.valueOf(attributes.get("id"));
         account = (Map<String, Object>) attributes.get("kakao_account");
         profile = (Map<String, Object>) account.get("profile");
@@ -25,4 +25,5 @@ public class KakaoUserInfo {
     public Map<String, Object> getProfile() {
         return profile;
     }
+
 }
