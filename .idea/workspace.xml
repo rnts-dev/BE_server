@@ -5,7 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d19543a0-6c8f-4aa5-a34c-530243b43001" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/security/SecurityConfig_temp.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/security/SecurityConfig_temp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/rnts_BE.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/controller/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/controller/MyController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/CorsMvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/util/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/dto/CustomOAuth2User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/dto/KakaoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/handler/CustomSuccessHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/service/CustomOAuth2UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/security/handler/CommonLoginFailHandler.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,19 +69,19 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/dongwonchu/Desktop/rnts/rnts_BE/backend-api/src/main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/dongwonchu/Desktop/rnts/rnts_BE/backend-api/src/main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend-api/src/main" />
