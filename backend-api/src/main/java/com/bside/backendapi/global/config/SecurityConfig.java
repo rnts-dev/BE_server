@@ -28,6 +28,9 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
 
+    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -46,7 +49,7 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8080"));
+                        configuration.setAllowedOrigins(Collections.singletonList("https://localhost:8443"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -78,7 +81,7 @@ public class SecurityConfig {
 
                 // 경로 인가 작업
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers(allowedUrls).permitAll()
                         .anyRequest().authenticated())
 
                 .build();
