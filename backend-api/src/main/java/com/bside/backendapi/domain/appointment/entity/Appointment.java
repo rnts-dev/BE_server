@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor()
 public class Appointment {

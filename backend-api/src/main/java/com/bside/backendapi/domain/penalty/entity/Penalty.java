@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor() //access = AccessLevel.PROTECTED
 public class Penalty {
@@ -25,7 +25,7 @@ public class Penalty {
     @Enumerated(EnumType.STRING)
     private PenaltyType penaltyType;
 
-    private int penaltyPrice;
+    private int fine;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
