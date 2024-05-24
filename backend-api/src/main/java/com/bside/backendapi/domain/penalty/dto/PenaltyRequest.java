@@ -10,6 +10,6 @@ public class PenaltyRequest {
 
     private PenaltyType penaltyType;
     private String content;
-    private int price;
+    private int fine;
 
 }

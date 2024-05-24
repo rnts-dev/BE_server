@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder(toBuilder = true)
 @Getter @Setter
-@Builder
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor()
 public class Appointment {

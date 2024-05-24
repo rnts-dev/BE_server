@@ -12,4 +12,5 @@ import java.util.List;
 public interface UserApptRepository extends JpaRepository<UserAppt, Long> {
     List<UserAppt> findByUser(User user);
     List<UserAppt> findByAppointment(Appointment appointment);
+    UserAppt findUserApptById(Long uaid);
 }
