@@ -3,7 +3,7 @@ package com.bside.backendapi.domain.penalty.controller;
 import com.bside.backendapi.domain.penalty.dto.PenaltyRequest;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
 import com.bside.backendapi.domain.penalty.dto.response.UserApptPenaltyResponse;
-import com.bside.backendapi.domain.penalty.entity.PenaltyType;
+import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.service.PenaltyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,22 +28,20 @@ public class PenaltyController {
             @PathVariable("uaid") long uaid,
             @RequestBody PenaltyRequest penaltyRequest) {
 
-        PenaltyType penaltyType = penaltyRequest.getPenaltyType();
-        String content = penaltyRequest.getContent();
-        int fine = penaltyRequest.getFine();
-
-        penaltyService.createPenalty(uaid, penaltyType, content, fine);
+        penaltyService.createPenalty(uaid, penaltyRequest.getPenaltyType(),
+                penaltyRequest.getContent(), penaltyRequest.getFine());
 
         return ResponseEntity.ok().build();
     }
 
-
     //1등 아닌사람
     @Operation(summary = "해당 userappt 패널티 조회", description = "패널티 조회 : 1등 아닌사람")
     @GetMapping("/{uaid}")
-    public ResponseEntity<Objects> getUserapptPenalty(@RequestBody PenaltyRequest penaltyRequest) {
+    public ResponseEntity<Penalty> getUserapptPenalty(
+            @PathVariable("uaid") long uaid,
+            @RequestBody PenaltyRequest penaltyRequest) {
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(penaltyService.getUserapptPenalty(uaid));
     }
 
 

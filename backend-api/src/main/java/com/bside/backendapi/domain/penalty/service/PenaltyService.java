@@ -59,4 +59,12 @@ public class PenaltyService {
             throw new RuntimeException("Appointment not found");
         }
     }
+
+    public Penalty getUserapptPenalty(long uaid) {
+        UserAppt userAppts = userApptRepository.findUserApptById(uaid);
+        User user = userRepository.findByUserId(userAppts.getUser().getId());
+        Appointment appointment = appointmentRepository.findAppointmentByUserId(user.getId());
+
+        return penaltyRepository.findPenaltyByUserIdAndAppointmentId(user.getId(), appointment.getId());
+    }
 }

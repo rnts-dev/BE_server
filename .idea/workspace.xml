@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d19543a0-6c8f-4aa5-a34c-530243b43001" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/repository/PenaltyRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/service/PenaltyService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/entity/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/entity/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/repository/AppointmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/repository/AppointmentRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/controller/PenaltyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/controller/PenaltyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/PenaltyRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/PenaltyRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/response/PenaltyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/response/PenaltyResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/Penalty.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/Penalty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/PenaltyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/PenaltyType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/repository/UserApptRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/repository/UserApptRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/repository/PenaltyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/repository/PenaltyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/service/PenaltyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/service/PenaltyService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +111,7 @@
       <workItem from="1716456955836" duration="16539000" />
       <workItem from="1716479653303" duration="689000" />
       <workItem from="1716480882576" duration="18013000" />
-      <workItem from="1716536507182" duration="3788000" />
+      <workItem from="1716536507182" duration="5795000" />
     </task>
     <servers />
   </component>
