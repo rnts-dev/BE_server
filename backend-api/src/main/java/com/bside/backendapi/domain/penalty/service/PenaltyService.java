@@ -30,45 +30,36 @@ public class PenaltyService {
 
     public void createPenalty(long uaid, PenaltyType penaltyType, String content, int fine) {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
-        User user = userRepository.findByUserId(userAppts.getUser().getId());
-        Appointment appointment = appointmentRepository.findAppointmentByUserId(user.getId());
+        User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();
+        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
 
-        if (appointment != null) {
+        Penalty penalty = Penalty.builder()
+                .user(user)
+                .appointment(appointment)
+                .penaltyType(penaltyType)
+                .content(content)
+                .fine(fine)
+                .build();
 
-            Penalty penalty = Penalty.builder()
-                    .user(user)
-                    .appointment(appointment)
-                    .penaltyType(penaltyType)
-                    .content(content)
-                    .fine(fine)
-                    .build();
-
-            // 패널티 타입에 따라 초기화
-            if (penaltyType == PenaltyType.FINE) {
-                penalty.toBuilder().content(null);
-            } else {
-                penalty.toBuilder().fine(0);
-            }
-
-            // 패널티 저장
-            penaltyRepository.save(penalty);
-
-            // 약속에 생성한 패널티 부여
-            appointment.toBuilder().penalty(penalty).build();
-
-            // 약속 저장
-            appointmentRepository.save(appointment);
-
+        // 패널티 타입에 따라 초기화
+        if (penaltyType == PenaltyType.FINE) {
+            penalty.toBuilder().content(null);
         } else {
-            // 예외 처리 로직 추가
-            throw new RuntimeException("Appointment not found");
+            penalty.toBuilder().fine(0);
         }
+
+        // 패널티 저장
+        penaltyRepository.save(penalty);
+
+        // 약속에 생성한 패널티 부여 후 저장
+        appointment.toBuilder().penalty(penalty).build();
+        appointmentRepository.save(appointment);
     }
 
     public Penalty getUserapptPenalty(long uaid) {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
-        User user = userRepository.findByUserId(userAppts.getUser().getId());
-        Appointment appointment = appointmentRepository.findAppointmentByUserId(user.getId());
+        User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();;
+        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
 
         return penaltyRepository.findPenaltyByUserIdAndAppointmentId(user.getId(), appointment.getId());
     }

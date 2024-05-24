@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Entity
 @Getter @Setter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor() //access = AccessLevel.PROTECTED
 public class UserAppt {
