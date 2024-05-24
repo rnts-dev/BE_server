@@ -4,7 +4,9 @@ import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.PenaltyType;
+import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.repository.PenaltyRepository;
+import com.bside.backendapi.domain.penalty.repository.ReceivedPenaltyRepository;
 import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.user.repository.UserRepository;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
@@ -22,8 +24,9 @@ public class PenaltyService {
 
     private final UserRepository userRepository;
     private final UserApptRepository userApptRepository;
-    private final PenaltyRepository penaltyRepository;
     private final AppointmentRepository appointmentRepository;
+    private final PenaltyRepository penaltyRepository;
+    private final ReceivedPenaltyRepository receivedPenaltyRepository;
 
     public void createPenalty(long uaid, PenaltyType penaltyType, String content, int fine) {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
@@ -72,5 +75,9 @@ public class PenaltyService {
 
     public List<Penalty> getAllPenaltyies(long userId) {
         return penaltyRepository.findAllByUserId(userId);
+    }
+
+    public List<ReceivedPenalty> getAllReceivedPenalties(long userId) {
+        return receivedPenaltyRepository.findByUserId(userId);
     }
 }
