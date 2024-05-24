@@ -56,11 +56,11 @@ public class UserApptController {
 
 
 
-    @PostMapping("checkin")
+    @PostMapping("checkin/{id}")
     @Operation(summary = "체크인", description = "지각여부, 도착순서, 오차시간 리턴")
-    public ResponseEntity<CheckinResponse> checkIn(@PathVariable Long id, @RequestBody CheckInRequest checkInRequest){
+    public ResponseEntity<CheckinResponse> checkIn(@PathVariable Long id, HttpServletRequest httpRequest){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userApptService.checkIn(id, httpRequest));
     }
 
 }

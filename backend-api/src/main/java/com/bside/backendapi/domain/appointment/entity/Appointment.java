@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @Builder
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor()
@@ -33,6 +33,7 @@ public class Appointment {
     private LocalDateTime time;
     private String place;
     private String apkey;
+    private boolean isfirst = false;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "penalty_id")
