@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +52,56 @@ public class UserApptService {
 
     }
 
+    public List<UserApptResponse> findAllMyUserApptFuture(HttpServletRequest httpRequest){
+
+        //현재 아이디 불렁오기
+        String token = jwtUtil.extractTokenFromHeader(httpRequest);
+        String userIdString = jwtUtil.getUserId(token);
+        Long userid = Long.parseLong(userIdString);
+        log.info("userid {}", userid);
+
+        //현재 user 불러오기
+        User user = userRepository.findById(userid).orElseThrow(NoSuchFieldError::new);
+        //해당 유저 userappt 불러오기
+        List<UserAppt> userAppts = userApptRepository.findByUser(user);
+
+        LocalDateTime today = LocalDateTime.now();
+
+        return userAppts.stream()
+                .filter(userAppt -> userAppt.getAppointment().getTime().isAfter(today))
+                .map(userAppt -> {
+                    List<UserAppt> sameAppointmentUserAppts = userApptRepository.findByAppointment(userAppt.getAppointment());
+                    return userApptMapper.toUserApptResponseWithImages(userAppt, sameAppointmentUserAppts);
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    public List<UserApptResponse> findAllMyUserApptPast(HttpServletRequest httpRequest){
+
+        //현재 아이디 불렁오기
+        String token = jwtUtil.extractTokenFromHeader(httpRequest);
+        String userIdString = jwtUtil.getUserId(token);
+        Long userid = Long.parseLong(userIdString);
+        log.info("userid {}", userid);
+
+        //현재 user 불러오기
+        User user = userRepository.findById(userid).orElseThrow(NoSuchFieldError::new);
+        //해당 유저 userappt 불러오기
+        List<UserAppt> userAppts = userApptRepository.findByUser(user);
+
+        LocalDateTime today = LocalDateTime.now();
+
+        return userAppts.stream()
+                .filter(userAppt -> userAppt.getAppointment().getTime().isBefore(today))
+                .map(userAppt -> {
+                    List<UserAppt> sameAppointmentUserAppts = userApptRepository.findByAppointment(userAppt.getAppointment());
+                    return userApptMapper.toUserApptResponseWithImages(userAppt, sameAppointmentUserAppts);
+                })
+                .collect(Collectors.toList());
+    }
+
+
     public List<UserApptResponse> findAllMyUserAppt(HttpServletRequest httpRequest){
 
         //현재 아이디 불렁오기
@@ -72,14 +123,6 @@ public class UserApptService {
                     return userApptMapper.toUserApptResponseWithImages(userAppt, sameAppointmentUserAppts);
                 })
                 .collect(Collectors.toList());
-
-//        List<UserApptResponse> responseList = new ArrayList<>();
-//        for (UserAppt userAppt : userAppts) {
-//            responseList.add(userApptMapper.toUserApptResponse(userAppt));
-//        }
-//
-//        log.info("responseList {}", responseList);
-//        return responseList;
     }
 
 
