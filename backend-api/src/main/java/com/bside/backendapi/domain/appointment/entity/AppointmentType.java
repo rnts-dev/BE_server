@@ -4,5 +4,5 @@ public enum AppointmentType {
     MEAL,
     HOBBY,
     DRINKING,
-    TEAM;
+    TEAM
 }

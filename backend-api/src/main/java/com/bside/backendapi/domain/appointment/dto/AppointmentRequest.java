@@ -13,7 +13,7 @@ import java.time.LocalTime;
 public class AppointmentRequest {
 
     private String title;
-    private AppointmentType appointmentType;
+    private String appointmentType;
     private LocalDateTime time;
     private String place;
 }

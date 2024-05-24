@@ -11,10 +11,14 @@ import java.util.List;
 @AllArgsConstructor
 public class UserApptResponse {
 
-    private Long id;
-
+    private Long uaid;
     private String apTitle;
     private String apPlace;
     private LocalDateTime apTime;
     private List<String> imageUrl;
+
+    public void setImageUrl(List<String> imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 }

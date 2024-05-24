@@ -3,16 +3,16 @@ package com.bside.backendapi.domain.userappt.entity;
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter
+@Builder
+@NoArgsConstructor() //access = AccessLevel.PROTECTED
+@AllArgsConstructor() //access = AccessLevel.PROTECTED
 public class UserAppt {
 
     @Id
@@ -31,8 +31,16 @@ public class UserAppt {
     private LocalDateTime arrivalTime;
     private boolean safe;
 
+    @Enumerated(EnumType.STRING)
     private ArriveType arriveType;
 
 
+    public static UserAppt createUserAppt(User user, Appointment appointment){
+        UserAppt userAppt = new UserAppt();
+        userAppt.setUser(user);
+        userAppt.setAppointment(appointment);
+
+        return userAppt;
+    }
 
 }
