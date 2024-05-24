@@ -4,6 +4,7 @@ import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
 import com.bside.backendapi.domain.appointment.service.AppointmentService;
 import com.bside.backendapi.domain.userappt.service.UserApptService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +27,14 @@ public class AppointmentController {
 
     @Operation(summary = "약속 생성", description = "약속 생성 메서드, 생성자 userappointment까지 생성")
     @PostMapping("/")
-    public ResponseEntity<String> createAppointment(@RequestBody AppointmentRequest appointmentRequest){
+    public ResponseEntity<String> createAppointment(@RequestBody AppointmentRequest appointmentRequest, HttpServletRequest httpRequest){
 
         //appointment 생성
-        Long apid = appointmentService.createAppointment(appointmentRequest);
+        Long apid = appointmentService.createAppointment(appointmentRequest, httpRequest);
         log.info("Created appointment with ID: {}", apid);
 
         // userappointment를 생성해서
-        userApptService.createUserAppt(apid);
+        userApptService.createUserAppt(apid,httpRequest);
 
         return ResponseEntity.ok().body("create appointment and userappt");
     }

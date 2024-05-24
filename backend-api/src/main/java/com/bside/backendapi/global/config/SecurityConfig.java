@@ -35,25 +35,25 @@ public class SecurityConfig {
 
     private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .cors(cors -> cors.disable())
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .addFilterAfter(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
-                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService))
-                        .successHandler(customSuccessHandler))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(allowedUrls).permitAll()
-                        .anyRequest().authenticated())
-                .build();
-    }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .cors(cors -> cors.disable())
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                .httpBasic(AbstractHttpConfigurer::disable)
+//                .addFilterAfter(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
+//                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
+//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+//                                .userService(customOAuth2UserService))
+//                        .successHandler(customSuccessHandler))
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(allowedUrls).permitAll()
+//                        .anyRequest().authenticated())
+//                .build();
+//    }
 
 //    private final CustomOAuth2UserService customOAuth2UserService;
 //    private final CustomSuccessHandler customSuccessHandler;
@@ -118,42 +118,42 @@ public class SecurityConfig {
 //                .build();
 //    }
 
-//    @RequiredArgsConstructor
-//    @Configuration
-//    @EnableWebSecurity
-//    @EnableMethodSecurity
-//    @EnableWebMvc
-//    public class SecurityConfig_temp implements WebMvcConfigurer {
-//
-//        private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
-//
-//
-//        @Bean
-//        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//            http
-//                    .csrf(csrf -> csrf.disable())
-//                    .authorizeHttpRequests(authorizeRequests ->
-//                            authorizeRequests.requestMatchers(allowedUrls).permitAll()
-//                                    .anyRequest().authenticated()
-//                    )
-//                    .sessionManagement(sessionManagement ->
-//                            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                    )
-////                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-//                    .cors(cors -> cors.disable());
-//
-//
-//            return http.build();
-//        }
-//
-//        @Override
-//        public void addCorsMappings(CorsRegistry registry) {
-//            registry.addMapping("/**")
-//                    .allowedOriginPatterns("*") // 모든 도메인을 허용
-//                    .allowedMethods("*") // 모든 HTTP 메서드를 허용
-//                    .allowedHeaders("*") // 모든 헤더를 허용
-//                    .allowCredentials(true);
-//        }
-//
-//    }
+    @RequiredArgsConstructor
+    @Configuration
+    @EnableWebSecurity
+    @EnableMethodSecurity
+    @EnableWebMvc
+    public class SecurityConfig_temp implements WebMvcConfigurer {
+
+        private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
+
+
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http
+                    .csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(authorizeRequests ->
+                            authorizeRequests.requestMatchers(allowedUrls).permitAll()
+                                    .anyRequest().authenticated()
+                    )
+                    .sessionManagement(sessionManagement ->
+                            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    )
+//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                    .cors(cors -> cors.disable());
+
+
+            return http.build();
+        }
+
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOriginPatterns("*") // 모든 도메인을 허용
+                    .allowedMethods("*") // 모든 HTTP 메서드를 허용
+                    .allowedHeaders("*") // 모든 헤더를 허용
+                    .allowCredentials(true);
+        }
+
+    }
 }

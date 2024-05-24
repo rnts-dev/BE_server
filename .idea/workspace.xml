@@ -5,31 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d19543a0-6c8f-4aa5-a34c-530243b43001" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/mapper/AppointmentMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/mapper/UserApptMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/Test/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/Test/TestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/controller/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/entity/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/entity/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/entity/AppointmentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/entity/AppointmentType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/service/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/service/AppointmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/response/PenaltyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/response/PenaltyResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/Penalty.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/Penalty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/PenaltyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/PenaltyType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/ReceivedPenalty.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/entity/ReceivedPenalty.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/user/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/controller/UserApptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/controller/UserApptController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/dto/response/UserApptResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/dto/response/UserApptResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/entity/UserAppt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/entity/UserAppt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/repository/UserApptRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/repository/UserApptRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/service/UserApptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/userappt/service/UserApptService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/util/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/util/JwtUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +109,7 @@
       <workItem from="1716397158929" duration="726000" />
       <workItem from="1716456955836" duration="16539000" />
       <workItem from="1716479653303" duration="689000" />
-      <workItem from="1716480882576" duration="12943000" />
+      <workItem from="1716480882576" duration="18013000" />
     </task>
     <servers />
   </component>
