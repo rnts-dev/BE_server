@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.user.entity;
 
+import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
@@ -25,10 +26,10 @@ public class User {
     private List<UserAppt> userAppts;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<ReceivedPenalty> receivedPenalties;
+    private List<Penalty> penalties;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Penalty> penalties;
+    private List<ReceivedPenalty> receivedPenalties;
 
     private String username;
     private String name;

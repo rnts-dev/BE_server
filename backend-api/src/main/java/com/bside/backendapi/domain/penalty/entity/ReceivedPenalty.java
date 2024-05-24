@@ -3,15 +3,15 @@ package com.bside.backendapi.domain.penalty.entity;
 
 import com.bside.backendapi.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalTime;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@NoArgsConstructor() //access = AccessLevel.PROTECTED
+@AllArgsConstructor() //access = AccessLevel.PROTECTED
 public class ReceivedPenalty {
 
     @Id
@@ -20,11 +20,11 @@ public class ReceivedPenalty {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "penalty_id", nullable = false)
+    @JoinColumn(name = "penalty_id")
     private Penalty penalty;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String receivedUser;

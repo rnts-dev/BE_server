@@ -29,6 +29,15 @@ public class JwtFilter extends OncePerRequestFilter {
         String authorization = null;
 
         Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                    authorization = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
         for (Cookie cookie : cookies) {
 
             if (cookie.getName().equals("Authorization")) {
@@ -62,6 +71,12 @@ public class JwtFilter extends OncePerRequestFilter {
         //토큰에서 usernamerhk role 획득
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
+
+        if (username == null || role == null) {
+            log.info("Invalid token: missing username or role");
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         //userDTO를 생성하여 값 set
         UserDTO userDTO = UserDTO.builder()
