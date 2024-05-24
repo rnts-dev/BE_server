@@ -42,25 +42,25 @@ public class UserApptController {
 
     @GetMapping("/myappt/past")
     @Operation(summary = "내 지난 약속 모두 조회", description = ".")
-    public ResponseEntity<List<UserApptResponse>> getPastMyUserAppt(){
+    public ResponseEntity<List<UserApptResponse>> getPastMyUserAppt(HttpServletRequest httpServletRequest){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userApptService.findAllMyUserApptPast(httpServletRequest));
     }
 
     @GetMapping("/myappt/future")
     @Operation(summary = "내 남은 약속 모두 조회", description = ".")
-    public ResponseEntity<List<UserApptResponse>> getFutureMyUserAppt(){
+    public ResponseEntity<List<UserApptResponse>> getFutureMyUserAppt(HttpServletRequest httpRequest){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userApptService.findAllMyUserApptFuture(httpRequest));
     }
 
 
 
-    @PostMapping("checkin")
+    @PostMapping("checkin/{id}")
     @Operation(summary = "체크인", description = "지각여부, 도착순서, 오차시간 리턴")
-    public ResponseEntity<CheckinResponse> checkIn(@PathVariable Long id, @RequestBody CheckInRequest checkInRequest){
+    public ResponseEntity<CheckinResponse> checkIn(@PathVariable Long id, HttpServletRequest httpRequest){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userApptService.checkIn(id, httpRequest));
     }
 
 }
