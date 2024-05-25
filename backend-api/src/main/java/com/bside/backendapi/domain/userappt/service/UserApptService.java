@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,12 @@ public class UserApptService {
     private final UserApptMapper userApptMapper;
 
     private final JwtUtil jwtUtil;
+
+    // 현재 시간을 한국 표준시로 가져오기
+    public LocalDateTime getCurrentTimeInKorea() {
+        ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        return nowInKorea.toLocalDateTime();
+    }
 
     public void createUserAppt(Long appointmentId, HttpServletRequest httpRequest){
 
@@ -146,7 +154,7 @@ public class UserApptService {
         //약속시간 불러오고
         LocalDateTime appointTime = appointment.getTime();
 
-        LocalDateTime nowTime = LocalDateTime.now();
+        LocalDateTime nowTime = getCurrentTimeInKorea();
 
         //남은 시간 계산
         long timeDifference = ChronoUnit.MINUTES.between(appointTime, nowTime);
