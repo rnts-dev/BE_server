@@ -11,7 +11,7 @@ public interface PenaltyRepository extends JpaRepository<Penalty, Long> {
 
     Penalty findPenaltyByUser(User user);
 
-    Penalty findPenaltyByAppointmentId(Long appointmentId);
+    Penalty findByAppointmentId(Long id);
 
     List<Penalty> findAllByUserId(Long userId);
 

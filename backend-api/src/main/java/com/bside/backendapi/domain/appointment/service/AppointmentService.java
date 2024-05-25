@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.appointment.service;
 
+import com.bside.backendapi.domain.appointment.dto.AppointmentDTO;
 import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.appointment.mapper.AppointmentMapper;
@@ -38,7 +39,10 @@ public class AppointmentService {
         return saveAppointment.getId();
     }
 
-    public Appointment searchSingleAppointment(long appointmentId) {
-        return appointmentRepository.findById(appointmentId).orElseThrow();
+    public AppointmentDTO searchSingleAppointment(long appointmentId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        return AppointmentDTO.toDTO(appointment);
     }
 }

@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.appointment.controller;
 
+import com.bside.backendapi.domain.appointment.dto.AppointmentDTO;
 import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.appointment.service.AppointmentService;
@@ -39,8 +40,9 @@ public class AppointmentController {
 
     @Operation(summary = "약속 단일 조회", description = ".")
     @PostMapping("/searchSingleAppointment/{appointmentId}")
-    public ResponseEntity<Appointment> searchSingleAppointment(@PathVariable("appointmentId") long appointmentId){
-        return ResponseEntity.ok(appointmentService.searchSingleAppointment(appointmentId));
+    public ResponseEntity<AppointmentDTO> searchSingleAppointment(@PathVariable("appointmentId") long appointmentId) {
+        AppointmentDTO appointmentDTO = appointmentService.searchSingleAppointment(appointmentId);
+        return ResponseEntity.ok(appointmentDTO);
     }
 
 }
