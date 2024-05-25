@@ -33,11 +33,13 @@ public class User {
     private List<ReceivedPenalty> receivedPenalties;
 
     private String username;
+    private String name;
     private Long kakaoId;
     private String nickName;
     private String profileImg;
     private String thumbnailImg;
     private String role;
+    private String email;
     private String tendency;
 
 }
