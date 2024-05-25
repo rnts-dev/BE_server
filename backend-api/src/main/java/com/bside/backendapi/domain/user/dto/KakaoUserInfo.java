@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class KakaoUserInfo {
     private Long kakaoId;
-    private String email;
     private String nickname;
+    private String profileImageUrl;
 }

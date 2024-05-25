@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -16,6 +18,12 @@ import java.util.List;
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor()
 public class Appointment {
+
+    // 현재 시간을 한국 표준시로 가져오기
+    ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+
+    // ZonedDateTime을 LocalDateTime으로 변환
+    LocalDateTime localDateTimeInKorea = nowInKorea.toLocalDateTime();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +36,12 @@ public class Appointment {
     private String appointmentType;
     private int count;
     private LocalDateTime time;
+    private String latitude;
+    private String longitude;
     private String place;
     private String latitude; // 위도
     private String longitude; // 경도
     private String apkey;
-
 
     private boolean isfirst = false;
 
