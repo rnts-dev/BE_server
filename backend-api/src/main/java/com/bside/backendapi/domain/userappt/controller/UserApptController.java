@@ -57,7 +57,14 @@ public class UserApptController {
 
 
     @PostMapping("checkin/{id}")
-    @Operation(summary = "체크인", description = "지각여부, 도착순서, 오차시간 리턴")
+    @Operation(
+            summary = "체크인",
+            description = """
+    resTime: 편차시간 빠르면 -로 표기 (분)  / /  checkType: success(정상접근 지각 or 안지각) - disable(30분 이전 아직 비활성화) - already(이미 체크인 완료),
+    / /   isLate: 지각여부,
+    / /   isFirst: 1등여부
+    """
+    )
     public ResponseEntity<CheckinResponse> checkIn(@PathVariable Long id, HttpServletRequest httpRequest){
 
         return ResponseEntity.ok(userApptService.checkIn(id, httpRequest));
