@@ -15,5 +15,7 @@ public class AppointmentRequest {
     private String title;
     private String appointmentType;
     private LocalDateTime time;
+    private String latitude;
+    private String longitude;
     private String place;
 }

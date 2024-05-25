@@ -16,6 +16,7 @@ public class UserApptResponse {
     private String apPlace;
     private LocalDateTime apTime;
     private String apType;
+
     private List<String> imageUrl;
 
     public void setImageUrl(List<String> imageUrl) {

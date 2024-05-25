@@ -27,7 +27,7 @@ public class AppointmentController {
 
     @Operation(summary = "약속 생성", description = "약속 생성 메서드, 생성자 userappointment까지 생성")
     @PostMapping("/")
-    public ResponseEntity<String> createAppointment(@RequestBody AppointmentRequest appointmentRequest, HttpServletRequest httpRequest){
+    public ResponseEntity<Long> createAppointment(@RequestBody AppointmentRequest appointmentRequest, HttpServletRequest httpRequest){
 
         //appointment 생성
         Long apid = appointmentService.createAppointment(appointmentRequest, httpRequest);
@@ -36,7 +36,7 @@ public class AppointmentController {
         // userappointment를 생성해서
         userApptService.createUserAppt(apid,httpRequest);
 
-        return ResponseEntity.ok().body("create appointment and userappt");
+        return ResponseEntity.ok().body(apid);
     }
 
     @Operation(summary = "약속 단일 조회", description = ".")
