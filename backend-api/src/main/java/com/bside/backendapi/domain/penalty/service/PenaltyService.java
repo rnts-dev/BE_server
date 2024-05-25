@@ -35,18 +35,24 @@ public class PenaltyService {
     private final ReceivedPenaltyRepository receivedPenaltyRepository;
     private final JwtUtil jwtUtil;
 
-    public void createPenalty(long uaid, PenaltyType penaltyType, String content, int fine) {
+    public void createPenalty(long uaid, PenaltyType penaltyType, String content, int fine) throws Exception {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
         User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();
         Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
 
-        Penalty penalty = Penalty.builder()
-                .user(user)
+        Penalty penalty = penaltyRepository.findPenaltyByUser(user);
+        if (penalty != null) {
+            throw new Exception("이미 패널티가 존재합니다.");
+        } else {
+            penalty = Penalty.builder()
+                    .user(user)
 //                .appointment(appointment)
-                .penaltyType(penaltyType)
-                .content(content)
-                .fine(fine)
-                .build();
+                    .penaltyType(penaltyType)
+                    .content(content)
+                    .fine(fine)
+                    .build();
+        }
+
 
         // 패널티 타입에 따라 초기화
         if (penaltyType == PenaltyType.FINE) {

@@ -33,7 +33,7 @@ public class ReceivedPenalty {
         return penalty.getContent();
     }
 
-    public <E> Enum<PenaltyType> getPenaltyType() {
+    public Object getPenaltyType() {
         return penalty.getPenaltyType();
     }
 

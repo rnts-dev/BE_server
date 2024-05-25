@@ -8,6 +8,7 @@ import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
 import com.bside.backendapi.domain.penalty.dto.response.UserApptPenaltyResponse;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
+import com.bside.backendapi.domain.penalty.exception.PenaltyCreationException;
 import com.bside.backendapi.domain.penalty.service.PenaltyService;
 import com.bside.backendapi.global.jwt.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,14 +35,20 @@ public class PenaltyController {
 
     @Operation(summary = "패널티 생성", description = "패널티 생성 : 1등 도착한 사람")
     @PostMapping("/{uaid}")
-    public ResponseEntity<Objects> createPenalty(
+    public ResponseEntity<String> createPenalty(
             @PathVariable("uaid") long uaid,
-            @RequestBody PenaltyRequest penaltyRequest) {
+            @RequestBody PenaltyRequest penaltyRequest) throws Exception {
 
-        penaltyService.createPenalty(uaid, penaltyRequest.getPenaltyType(),
-                penaltyRequest.getContent(), penaltyRequest.getFine());
+        try {
+            penaltyService.createPenalty(uaid, penaltyRequest.getPenaltyType(),
+                    penaltyRequest.getContent(), penaltyRequest.getFine());
 
-        return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
+        } catch (PenaltyCreationException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        }
     }
 
     @Operation(summary = "해당 userappt 패널티 조회", description = "패널티 조회 : 1등 아닌사람")
@@ -54,7 +62,6 @@ public class PenaltyController {
     @Operation(summary = "내가 보낸 패널티 조회", description = ".")
     @GetMapping("/my")
     public ResponseEntity<List<PenaltyDTO>> getAllPenalties(HttpServletRequest httpRequest){
-
         return ResponseEntity.ok(penaltyService.getAllPenaltyies(httpRequest));
     }
 
