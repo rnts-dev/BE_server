@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Builder
+@Setter
 @NoArgsConstructor() //access = AccessLevel.PROTECTED
 @AllArgsConstructor() //access = AccessLevel.PROTECTED
 public class ReceivedPenalty {
@@ -17,7 +18,7 @@ public class ReceivedPenalty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "received_penalty_id")
-    private int id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "penalty_id")
@@ -28,4 +29,15 @@ public class ReceivedPenalty {
 
     private LocalTime resTime;
 
+    public Object getContent() {
+        return penalty.getContent();
+    }
+
+    public <E> Enum<PenaltyType> getPenaltyType() {
+        return penalty.getPenaltyType();
+    }
+
+    public Object getFine() {
+        return penalty.getFine();
+    }
 }

@@ -4,6 +4,7 @@ import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.user.repository.UserRepository;
 import com.bside.backendapi.domain.user.service.UserService;
 import com.bside.backendapi.global.jwt.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -35,8 +36,7 @@ public class UserController {
     @GetMapping("/token/{userId}")
     public String login(@PathVariable Long userId){
 
-        String tempToekn = userService.creatUserToken(userId);
-        return tempToekn;
+        return userService.creatUserToken(userId);
     }
 
     @GetMapping("/login")
@@ -98,15 +98,19 @@ public class UserController {
         userRepository.save(user);
 
         // JWT 토큰 생성
-        String jwtToken = jwtUtil.createJwt(nickname, "USER_ROLE", 60*60*60L);
-
-        return jwtToken;
+        return jwtUtil.createJwt(nickname, "USER_ROLE", 60*60*60L);
     }
 
     @GetMapping("/create-temp-user")
     public ResponseEntity<User> createTemporaryUser() {
         User tempUser = userService.createTemporaryUser();
         return ResponseEntity.ok(tempUser);
+    }
+
+    @PostMapping("/tendency")
+    public ResponseEntity<Object> getTendency(@RequestBody String tendency, HttpServletRequest httpRequest) {
+        userService.getTendency(tendency, httpRequest);
+        return ResponseEntity.ok().build();
     }
 
 }

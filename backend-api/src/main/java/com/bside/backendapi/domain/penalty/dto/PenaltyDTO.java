@@ -23,7 +23,7 @@ public class PenaltyDTO {
     private AppointmentDTO appointment;
 
     public static PenaltyDTO toDTO(Penalty penalty) {
-        AppointmentDTO appointmentDTO = new AppointmentDTO(penalty.getAppointment().getId(), penalty.getAppointment().getTitle(), penalty.getAppointment().getCount(), penalty.getAppointment().getTime(), penalty.getAppointment().getPlace(), null, null);
+        AppointmentDTO appointmentDTO = new AppointmentDTO(penalty.getAppointment().getId(), penalty.getAppointment().getTitle(), penalty.getAppointment().getCount(), penalty.getAppointment().getTime(), penalty.getAppointment().getPlace(), penalty.getAppointment().getLatitude(), penalty.getAppointment().getLongitude());
         return new PenaltyDTO(
                 penalty.getId(),
                 penalty.getContent(),

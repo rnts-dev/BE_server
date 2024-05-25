@@ -2,21 +2,25 @@ package com.bside.backendapi.domain.penalty.service;
 
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
+import com.bside.backendapi.domain.penalty.dto.PenaltyDTO;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.PenaltyType;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.repository.PenaltyRepository;
 import com.bside.backendapi.domain.penalty.repository.ReceivedPenaltyRepository;
+import com.bside.backendapi.domain.user.dto.UserDTO;
 import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.user.repository.UserRepository;
-import com.bside.backendapi.domain.userappt.dto.response.CheckinResponse;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
 import com.bside.backendapi.domain.userappt.repository.UserApptRepository;
+import com.bside.backendapi.global.jwt.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -28,6 +32,7 @@ public class PenaltyService {
     private final AppointmentRepository appointmentRepository;
     private final PenaltyRepository penaltyRepository;
     private final ReceivedPenaltyRepository receivedPenaltyRepository;
+    private final JwtUtil jwtUtil;
 
     public void createPenalty(long uaid, PenaltyType penaltyType, String content, int fine) {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
@@ -57,7 +62,7 @@ public class PenaltyService {
         appointmentRepository.save(appointment);
     }
 
-    public Penalty getUserapptPenalty(long uaid) {
+    public PenaltyDTO getUserapptPenalty(long uaid) {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
         User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();
         Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
@@ -67,11 +72,23 @@ public class PenaltyService {
         log.info("appointment : {}", appointment.getId());
         log.info("패널티 조회 = {}", penaltyRepository.findPenaltyByUser(user).getContent());
 
-        return penaltyRepository.findPenaltyByUser(user);
+        Penalty penalty = penaltyRepository.findPenaltyByUser(user);
+        return PenaltyDTO.toDTO(penalty);
     }
 
-    public List<Penalty> getAllPenaltyies(long userId) {
-        return penaltyRepository.findAllByUserId(userId);
+    public List<PenaltyDTO> getAllPenaltyies(HttpServletRequest httpServletRequest) {
+
+        String token = jwtUtil.extractTokenFromHeader(httpServletRequest);
+        log.info("appointment token {}", token);
+        String userIdString = jwtUtil.getUserId(token);
+        log.info("userIdString {}", userIdString);
+        Long userId = Long.parseLong(userIdString);        //현재 사용자
+        log.info("userid {}", userId);
+
+        List<Penalty> penalties = penaltyRepository.findAllByUserId(userId);
+        return penalties.stream()
+                .map(PenaltyDTO::toDTO)  // Penalty를 PenaltyDTO로 변환
+                .collect(Collectors.toList());
     }
 
     public List<ReceivedPenalty> getAllReceivedPenalties(long userId) {
