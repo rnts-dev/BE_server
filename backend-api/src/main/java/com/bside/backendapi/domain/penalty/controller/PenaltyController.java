@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.penalty.controller;
 
+import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.penalty.dto.PenaltyRequest;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
 import com.bside.backendapi.domain.penalty.dto.response.UserApptPenaltyResponse;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/penalty")
+@RequestMapping("/api/penalty")
 @Tag(name = "Penalty", description = "Penalty API Document / uaid = userAppointmentId")
 public class PenaltyController {
 
@@ -44,15 +45,22 @@ public class PenaltyController {
     }
 
     @Operation(summary = "내가 보낸 패널티 조회", description = ".")
-    @GetMapping("/{userid}")
+    @GetMapping("/my/{userid}")
     public ResponseEntity<List<Penalty>> getAllPenalties(@PathVariable("userid") long userId){
         return ResponseEntity.ok(penaltyService.getAllPenaltyies(userId));
     }
 
     @Operation(summary = "내가 받은 패널티 조회", description = ".")
-    @GetMapping("received/{userid}")
+    @GetMapping("/received/{userid}")
     public ResponseEntity<List<ReceivedPenalty>> getAllReceivedPenalties(@PathVariable("userid") long userId){
         return ResponseEntity.ok(penaltyService.getAllReceivedPenalties(userId));
+    }
+
+    @Operation(summary = "내가 받은 패널티 등록", description = ".")
+    @GetMapping("/createReceivedPenalty/{uaid}")
+    public ResponseEntity<Penalty> createReceivedPenalty(@PathVariable("uaid") long uaid) {
+        penaltyService.createReceivedPenalty(uaid);
+        return ResponseEntity.ok().build();
     }
 
 }

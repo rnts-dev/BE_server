@@ -24,10 +24,8 @@ public class ReceivedPenalty {
     private Penalty penalty;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private User user;
 
-    private String receivedUser;
     private LocalTime resTime;
 
 }

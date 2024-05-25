@@ -9,6 +9,7 @@ import com.bside.backendapi.domain.penalty.repository.PenaltyRepository;
 import com.bside.backendapi.domain.penalty.repository.ReceivedPenaltyRepository;
 import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.user.repository.UserRepository;
+import com.bside.backendapi.domain.userappt.dto.response.CheckinResponse;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
 import com.bside.backendapi.domain.userappt.repository.UserApptRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,16 +53,21 @@ public class PenaltyService {
         penaltyRepository.save(penalty);
 
         // 약속에 생성한 패널티 부여 후 저장
-        appointment.toBuilder().penalty(penalty).build();
+        appointment.setPenalty(penalty);
         appointmentRepository.save(appointment);
     }
 
     public Penalty getUserapptPenalty(long uaid) {
         UserAppt userAppts = userApptRepository.findUserApptById(uaid);
-        User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();;
+        User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();
         Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
 
-        return penaltyRepository.findPenaltyByUserIdAndAppointmentId(user.getId(), appointment.getId());
+        log.info("userAppts : {}", userAppts.getId());
+        log.info("user : {}", user.getId());
+        log.info("appointment : {}", appointment.getId());
+        log.info("패널티 조회 = {}", penaltyRepository.findPenaltyByUser(user).getContent());
+
+        return penaltyRepository.findPenaltyByUser(user);
     }
 
     public List<Penalty> getAllPenaltyies(long userId) {
@@ -70,5 +76,26 @@ public class PenaltyService {
 
     public List<ReceivedPenalty> getAllReceivedPenalties(long userId) {
         return receivedPenaltyRepository.findByUserId(userId);
+    }
+
+    public void createReceivedPenalty(long uaid) {
+        // uaid로 약속 조회 -> apptid로 패널티 조회 -> 받은 패널티 저장
+        UserAppt userAppt = userApptRepository.findUserApptById(uaid);
+        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(uaid);
+        Penalty penalty = penaltyRepository.findPenaltyByAppointmentId(appointment.getId());
+
+        log.info("user appt : {}", userAppt.getId());
+        log.info("appointment : {}", appointment.getPlace());
+        // 지각인 유저 가져오기
+        User user = userRepository.findById(userAppt.getUser().getId()).orElseThrow();
+
+        log.info("저장하려는 패널티 : {}", penalty.getContent());
+        ReceivedPenalty receivedPenalty = ReceivedPenalty.builder()
+                .penalty(penalty)
+                .user(user)
+//                .resTime() // 추가 필요
+                .build();
+
+        receivedPenaltyRepository.save(receivedPenalty);
     }
 }
