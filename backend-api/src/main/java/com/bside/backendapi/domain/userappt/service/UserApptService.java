@@ -168,7 +168,6 @@ public class UserApptService {
         //도착시간 set
         userAppt.setArrivalTime(nowTime);
 
-
         //1등으로 온사람 있는지 확인
         boolean isFirst = appointment.isIsfirst();
         log.info("isFirst {}", isFirst);
@@ -180,8 +179,6 @@ public class UserApptService {
             appointment.setIsfirst(true);   //1등 왔다 appointment에 설정
         }
         log.info("isRegistPenalty {}", isRegistPenalty);
-
-
 
         //테이블 변경 사항 저장
         userApptRepository.save(userAppt);
