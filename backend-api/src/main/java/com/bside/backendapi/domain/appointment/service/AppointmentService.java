@@ -26,8 +26,6 @@ public class AppointmentService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-
-
     public Long createAppointment(AppointmentRequest request, HttpServletRequest httpRequest){
 
 //        User user = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User not found"));
@@ -40,4 +38,7 @@ public class AppointmentService {
         return saveAppointment.getId();
     }
 
+    public Appointment searchSingleAppointment(long appointmentId) {
+        return appointmentRepository.findById(appointmentId).orElseThrow();
+    }
 }
