@@ -36,8 +36,6 @@ public class Appointment {
     private String appointmentType;
     private int count;
     private LocalDateTime time;
-    private String latitude;
-    private String longitude;
     private String place;
     private String latitude; // 위도
     private String longitude; // 경도
