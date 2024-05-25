@@ -7,9 +7,12 @@ import com.bside.backendapi.domain.penalty.dto.response.UserApptPenaltyResponse;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.service.PenaltyService;
+import com.bside.backendapi.global.jwt.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +20,14 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/penalty")
 @Tag(name = "Penalty", description = "Penalty API Document / uaid = userAppointmentId")
 public class PenaltyController {
 
     private final PenaltyService penaltyService;
+    private final JwtUtil jwtUtil;
 
     @Operation(summary = "패널티 생성", description = "패널티 생성 : 1등 도착한 사람")
     @PostMapping("/{uaid}")
@@ -46,7 +51,15 @@ public class PenaltyController {
 
     @Operation(summary = "내가 보낸 패널티 조회", description = ".")
     @GetMapping("/my/{userid}")
-    public ResponseEntity<List<Penalty>> getAllPenalties(@PathVariable("userid") long userId){
+    public ResponseEntity<List<Penalty>> getAllPenalties(HttpServletRequest httpRequest){
+
+        String token = jwtUtil.extractTokenFromHeader(httpRequest);
+        log.info("appointment token {}", token);
+        String userIdString = jwtUtil.getUserId(token);
+        log.info("userIdString {}", userIdString);
+        Long userId = Long.parseLong(userIdString);        //현재 사용자
+        log.info("userid {}", userId);
+
         return ResponseEntity.ok(penaltyService.getAllPenaltyies(userId));
     }
 

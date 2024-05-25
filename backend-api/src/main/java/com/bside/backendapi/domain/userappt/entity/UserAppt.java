@@ -2,6 +2,7 @@ package com.bside.backendapi.domain.userappt.entity;
 
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 

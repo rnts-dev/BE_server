@@ -4,6 +4,7 @@ import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
