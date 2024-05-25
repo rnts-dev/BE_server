@@ -24,15 +24,16 @@ public class Appointment {
 
     private String title;
 
-//    @Enumerated(EnumType.STRING)
-    private String appointmentType;
 
+    private String appointmentType;
     private int count;
     private LocalDateTime time;
     private String place;
     private String latitude; // 위도
     private String longitude; // 경도
     private String apkey;
+
+
     private boolean isfirst = false;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

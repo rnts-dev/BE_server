@@ -1,7 +1,9 @@
 package com.bside.backendapi.domain.user.controller;
 
+import com.bside.backendapi.domain.user.dto.KakaoUserInfo;
 import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.user.repository.UserRepository;
+import com.bside.backendapi.domain.user.service.KaKaoService;
 import com.bside.backendapi.domain.user.service.UserService;
 import com.bside.backendapi.global.jwt.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private final KaKaoService kaKaoService;
 
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String clientId;
@@ -38,6 +41,27 @@ public class UserController {
 
         return userService.creatUserToken(userId);
     }
+
+    @PostMapping("/kakao/login")
+    public ResponseEntity<String> kakaologin(@RequestParam String code){
+        String accessToken = kaKaoService.getAccessTokenFromKakao(code);
+        KakaoUserInfo kakaoUserInfo = kaKaoService.getUserInfo(accessToken);
+
+        User user = userRepository.findByKakaoId(kakaoUserInfo.getKakaoId())
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setKakaoId(kakaoUserInfo.getKakaoId());
+                    newUser.setEmail(kakaoUserInfo.getEmail());
+                    newUser.setNickName(kakaoUserInfo.getNickname());
+                    newUser.setRole("USER"); // 사용자의 기본 역할 설정
+                    return userRepository.save(newUser);
+                });
+
+        String token = jwtUtil.createJwt(String.valueOf(user.getId()), user.getRole(), 3600000L); // 1시간 만료
+
+        return ResponseEntity.ok(token);
+    }
+
 
     @GetMapping("/login")
     public String login(@RequestBody Map<String, String> request) {
