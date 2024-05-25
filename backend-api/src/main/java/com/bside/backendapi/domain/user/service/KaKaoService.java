@@ -36,10 +36,10 @@ public class KaKaoService {
         log.info("test {} {}", clientId, redirectUri);
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes()));
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
+        params.add("client_secret", clientSecret);
         params.add("client_id", clientId);
         params.add("redirect_uri", redirectUri);
         params.add("code", code);
@@ -87,9 +87,10 @@ public class KaKaoService {
                 Long id = root.path("id").asLong();
                 String email = root.path("kakao_account").path("email").asText();
                 String nickname = root.path("properties").path("nickname").asText();
+                String profileImageUrl = root.path("properties").path("profile_image").asText();
 
 
-                return new KakaoUserInfo(id, email, nickname);
+                return new KakaoUserInfo(id, nickname, profileImageUrl);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException("Failed to parse Kakao user info", e);
             }

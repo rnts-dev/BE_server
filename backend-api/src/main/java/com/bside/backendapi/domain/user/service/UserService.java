@@ -19,8 +19,6 @@ public class UserService {
     public User createTemporaryUser(){
         User tempUser = User.builder()
                 .username("tempUser")
-                .name("Temporary User")
-                .email("tempuser@example.com")
                 .profileImg("defaultProfileImg.jpg")
                 .thumbnailImg("defaultThumbnailImg.jpg")
                 .role("USER")

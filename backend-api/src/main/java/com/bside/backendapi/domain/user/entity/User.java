@@ -31,13 +31,10 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<ReceivedPenalty> receivedPenalties;
 
-    private Long kakaoId;
     private String username;
-    private String name;
+    private Long kakaoId;
     private String nickName;
-    private String email;
     private String profileImg;
     private String thumbnailImg;
     private String role;
-
 }
