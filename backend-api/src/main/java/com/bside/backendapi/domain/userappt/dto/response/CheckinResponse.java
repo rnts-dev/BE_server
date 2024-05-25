@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.userappt.dto.response;
 
 import com.bside.backendapi.domain.userappt.entity.ArriveType;
+import com.bside.backendapi.domain.userappt.entity.CheckInType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +14,9 @@ import java.time.LocalTime;
 public class CheckinResponse {
 
     private boolean isLate;
-    private boolean isRegistPenalty;
+    private boolean isFirst;
     private Long resTime;
-    private boolean isAlreadyCheckedIn;
+    private CheckInType checkInType;
 //    private ArriveType arriveType;
 
 }
