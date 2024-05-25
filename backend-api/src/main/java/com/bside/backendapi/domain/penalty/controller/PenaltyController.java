@@ -59,7 +59,7 @@ public class PenaltyController {
     }
 
     @Operation(summary = "내가 받은 패널티 조회", description = ".")
-    @GetMapping("/received/{userid}")
+    @GetMapping("/received")
     public ResponseEntity<List<ReceivedPenaltyDTO>> getAllReceivedPenalties(HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(penaltyService.getAllReceivedPenalties(httpServletRequest));
     }
