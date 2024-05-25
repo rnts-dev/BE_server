@@ -15,6 +15,7 @@ public interface UserApptMapper {
     @Mapping(source = "id", target = "uaid")
     @Mapping(source = "appointment.title", target = "apTitle")
     @Mapping(source = "appointment.place", target = "apPlace")
+    @Mapping(source = "appointment.appointmentType", target = "apType")
     @Mapping(source = "appointment.time", target = "apTime")
     @Mapping(target = "imageUrl", ignore = true)  // imageUrl은 따로 설정할 예정
     UserApptResponse toUserApptResponse(UserAppt userAppt);

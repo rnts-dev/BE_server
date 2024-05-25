@@ -3,7 +3,6 @@ package com.bside.backendapi.global.config;
 import com.bside.backendapi.global.jwt.filter.JwtFilter;
 import com.bside.backendapi.global.jwt.util.JwtUtil;
 import com.bside.backendapi.global.oauth.handler.CustomSuccessHandler;
-import com.bside.backendapi.global.oauth.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +28,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
 
@@ -125,7 +124,7 @@ public class SecurityConfig {
     @EnableWebMvc
     public class SecurityConfig_temp implements WebMvcConfigurer {
 
-        private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
+        private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**", "/kakao/login"};
 
 
         @Bean

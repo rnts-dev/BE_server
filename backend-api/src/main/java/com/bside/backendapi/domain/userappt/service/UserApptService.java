@@ -6,6 +6,7 @@ import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.user.repository.UserRepository;
 import com.bside.backendapi.domain.userappt.dto.response.CheckinResponse;
 import com.bside.backendapi.domain.userappt.dto.response.UserApptResponse;
+import com.bside.backendapi.domain.userappt.entity.CheckInType;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
 import com.bside.backendapi.domain.userappt.mapper.UserApptMapper;
 import com.bside.backendapi.domain.userappt.repository.UserApptRepository;
@@ -145,19 +146,27 @@ public class UserApptService {
         //약속시간 불러오고
         LocalDateTime appointTime = appointment.getTime();
 
-        //현재시간이랑 비교 해서 지각 여부
         LocalDateTime nowTime = LocalDateTime.now();
+
+        //남은 시간 계산
+        long timeDifference = ChronoUnit.MINUTES.between(appointTime, nowTime);
+        log.info("timeDifference {}", timeDifference);
+        //30분 넘게 남았으면 Disabled
+        if (timeDifference < -30) {
+            return new CheckinResponse(false, false, timeDifference, CheckInType.Disabled);
+        }
+
+        //현재시간이랑 비교 해서 지각 여부
         boolean isLate = nowTime.isAfter(appointTime);
         log.info("isLate {}", isLate);
 
         //이미 체크인 됐으면 리턴
         if (userAppt.getArrivalTime() != null) {
             log.info("User already checked in at {}", userAppt.getArrivalTime());
-            return new CheckinResponse(false, false, 0L, true);
+            return new CheckinResponse(false, false, 0L, CheckInType.Already);
         }
         //도착시간 set
         userAppt.setArrivalTime(nowTime);
-
 
         //1등으로 온사람 있는지 확인
         boolean isFirst = appointment.isIsfirst();
@@ -171,14 +180,11 @@ public class UserApptService {
         }
         log.info("isRegistPenalty {}", isRegistPenalty);
 
-        long timeDifference = ChronoUnit.MINUTES.between(appointTime, nowTime);
-        log.info("timeDifference {}", timeDifference);
-
         //테이블 변경 사항 저장
         userApptRepository.save(userAppt);
         appointmentRepository.save(appointment);
 
-        CheckinResponse checkinResponse = new CheckinResponse(isLate,isRegistPenalty,timeDifference, false);
+        CheckinResponse checkinResponse = new CheckinResponse(isLate,isRegistPenalty,timeDifference, CheckInType.success);
         return checkinResponse;
     }
 
