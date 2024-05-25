@@ -7,7 +7,21 @@
 //import org.springframework.security.core.annotation.AuthenticationPrincipal;
 //import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 //import org.springframework.security.oauth2.core.user.OAuth2User;
-//import org.springframework.stereotype.Controller;
+//import org.springframework.stekage com.bside.backendapi.controller;
+////
+////import org.springframework.stereotype.Controller;
+////import org.springframework.web.bind.annotation.GetMapping;
+////import org.springframework.web.bind.annotation.ResponseBody;
+////
+////@Controller
+////public class MyController {
+////
+////    @GetMapping("/my")
+////    @ResponseBody
+////    public String myAPI() {
+////        return "my route";
+////    }
+////}reotype.Controller;
 //import org.springframework.web.bind.annotation.*;
 //
 //import java.util.Map;

@@ -1,15 +1,11 @@
 package com.bside.backendapi.domain.appointment.entity;
 
 import com.bside.backendapi.domain.penalty.entity.Penalty;
-import com.bside.backendapi.domain.user.entity.User;
 import com.bside.backendapi.domain.userappt.entity.UserAppt;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

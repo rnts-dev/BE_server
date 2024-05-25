@@ -32,6 +32,7 @@ public class Penalty {
     private User user;
 
     @OneToOne(mappedBy = "penalty", fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     @OneToMany(mappedBy = "penalty", fetch = FetchType.LAZY)

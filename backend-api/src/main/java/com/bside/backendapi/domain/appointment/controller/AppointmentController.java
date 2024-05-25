@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.controller;
 
 import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
+import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.appointment.service.AppointmentService;
 import com.bside.backendapi.domain.userappt.service.UserApptService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,10 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.Objects;
@@ -37,6 +35,12 @@ public class AppointmentController {
         userApptService.createUserAppt(apid,httpRequest);
 
         return ResponseEntity.ok().body("create appointment and userappt");
+    }
+
+    @Operation(summary = "약속 단일 조회", description = ".")
+    @PostMapping("/searchSingleAppointment/{appointmentId}")
+    public ResponseEntity<Appointment> searchSingleAppointment(@PathVariable("appointmentId") long appointmentId){
+        return ResponseEntity.ok(appointmentService.searchSingleAppointment(appointmentId));
     }
 
 }
