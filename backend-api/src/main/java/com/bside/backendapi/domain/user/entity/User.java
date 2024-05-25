@@ -38,4 +38,6 @@ public class User {
     private String profileImg;
     private String thumbnailImg;
     private String role;
+    private String tendency;
+
 }

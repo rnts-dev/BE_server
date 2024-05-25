@@ -24,8 +24,13 @@ public class AppointmentDTO {
     private int count;
     private LocalDateTime time;
     private String place;
+    private String latitude;
+    private String longitude;
     private PenaltyDTO penalty;
     private List<UserApptDTO> userAppts;
+
+    public AppointmentDTO(Long id, String title, int count, LocalDateTime time, String place, String latitude, String longitude) {
+    }
 
     public static AppointmentDTO toDTO(Appointment appointment) {
         PenaltyDTO penaltyDTO = appointment.getPenalty() != null ? PenaltyDTO.toDTO(appointment.getPenalty()) : null;
@@ -38,6 +43,8 @@ public class AppointmentDTO {
                 appointment.getCount(),
                 appointment.getTime(),
                 appointment.getPlace(),
+                appointment.getLatitude(),
+                appointment.getLongitude(), 
                 penaltyDTO,
                 userApptDTOs
         );
