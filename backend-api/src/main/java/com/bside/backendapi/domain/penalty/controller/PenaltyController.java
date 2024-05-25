@@ -3,6 +3,7 @@ package com.bside.backendapi.domain.penalty.controller;
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.penalty.dto.PenaltyDTO;
 import com.bside.backendapi.domain.penalty.dto.PenaltyRequest;
+import com.bside.backendapi.domain.penalty.dto.ReceivedPenaltyDTO;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
 import com.bside.backendapi.domain.penalty.dto.response.UserApptPenaltyResponse;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
@@ -58,9 +59,9 @@ public class PenaltyController {
     }
 
     @Operation(summary = "내가 받은 패널티 조회", description = ".")
-    @GetMapping("/received/{userid}")
-    public ResponseEntity<List<ReceivedPenalty>> getAllReceivedPenalties(@PathVariable("userid") long userId){
-        return ResponseEntity.ok(penaltyService.getAllReceivedPenalties(userId));
+    @GetMapping("/received")
+    public ResponseEntity<List<ReceivedPenaltyDTO>> getAllReceivedPenalties(HttpServletRequest httpServletRequest){
+        return ResponseEntity.ok(penaltyService.getAllReceivedPenalties(httpServletRequest));
     }
 
     @Operation(summary = "내가 받은 패널티 등록", description = ".")

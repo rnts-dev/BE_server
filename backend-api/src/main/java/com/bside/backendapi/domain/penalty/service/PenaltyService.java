@@ -3,6 +3,7 @@ package com.bside.backendapi.domain.penalty.service;
 import com.bside.backendapi.domain.appointment.entity.Appointment;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.penalty.dto.PenaltyDTO;
+import com.bside.backendapi.domain.penalty.dto.ReceivedPenaltyDTO;
 import com.bside.backendapi.domain.penalty.entity.Penalty;
 import com.bside.backendapi.domain.penalty.entity.PenaltyType;
 import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
@@ -91,8 +92,19 @@ public class PenaltyService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReceivedPenalty> getAllReceivedPenalties(long userId) {
-        return receivedPenaltyRepository.findByUserId(userId);
+    public List<ReceivedPenaltyDTO> getAllReceivedPenalties(HttpServletRequest httpServletRequest) {
+
+        String token = jwtUtil.extractTokenFromHeader(httpServletRequest);
+        log.info("appointment token {}", token);
+        String userIdString = jwtUtil.getUserId(token);
+        log.info("userIdString {}", userIdString);
+        Long userId = Long.parseLong(userIdString);        //현재 사용자
+        log.info("userid {}", userId);
+
+        List<ReceivedPenalty> receivedPenalties = receivedPenaltyRepository.findByUserId(userId);
+        return receivedPenalties.stream()
+                .map(ReceivedPenaltyDTO::toDTO)
+                .collect(Collectors.toList());
     }
 
     public void createReceivedPenalty(long uaid) {
