@@ -36,7 +36,7 @@ public class PenaltyService {
 
         Penalty penalty = Penalty.builder()
                 .user(user)
-                .appointment(appointment)
+//                .appointment(appointment)
                 .penaltyType(penaltyType)
                 .content(content)
                 .fine(fine)
@@ -82,7 +82,7 @@ public class PenaltyService {
         // uaid로 약속 조회 -> apptid로 패널티 조회 -> 받은 패널티 저장
         UserAppt userAppt = userApptRepository.findUserApptById(uaid);
         Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(uaid);
-        Penalty penalty = penaltyRepository.findPenaltyByAppointmentId(appointment.getId());
+        Penalty penalty = penaltyRepository.findByAppointmentId(appointment.getId());
 
         log.info("user appt : {}", userAppt.getId());
         log.info("appointment : {}", appointment.getPlace());
