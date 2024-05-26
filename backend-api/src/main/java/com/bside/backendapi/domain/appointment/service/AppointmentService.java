@@ -39,8 +39,8 @@ public class AppointmentService {
         return saveAppointment.getId();
     }
 
-    public AppointmentDTO searchSingleAppointment(long uaid) {
-        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(uaid);
+    public AppointmentDTO searchSingleAppointment(long appointmentId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         return AppointmentDTO.toDTO(appointment);
     }
 }
