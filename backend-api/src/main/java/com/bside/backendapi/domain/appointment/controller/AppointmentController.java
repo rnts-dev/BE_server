@@ -40,9 +40,9 @@ public class AppointmentController {
     }
 
     @Operation(summary = "약속 단일 조회", description = ".")
-    @PostMapping("/searchSingleAppointment/{uaid}")
-    public ResponseEntity<AppointmentDTO> searchSingleAppointment(@PathVariable("uaid") long uaid) {
-        AppointmentDTO appointmentDTO = appointmentService.searchSingleAppointment(uaid);
+    @PostMapping("/searchSingleAppointment/{appointmentId}")
+    public ResponseEntity<AppointmentDTO> searchSingleAppointment(@PathVariable("appointmentId") long appointmentId) {
+        AppointmentDTO appointmentDTO = appointmentService.searchSingleAppointment(appointmentId);
         return ResponseEntity.ok(appointmentDTO);
     }
 
