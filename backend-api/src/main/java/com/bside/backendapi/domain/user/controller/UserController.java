@@ -57,7 +57,8 @@ public class UserController {
                     return userRepository.save(newUser);
                 });
 
-        String token = jwtUtil.createJwt(String.valueOf(user.getId()), user.getRole(), 3600000L);
+        String token = jwtUtil.createJwt(String.valueOf(user.getId()), user.getRole(), 604800000L);
+
 
         return ResponseEntity.ok(token);
     }
