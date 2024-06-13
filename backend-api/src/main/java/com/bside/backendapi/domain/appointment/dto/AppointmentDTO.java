@@ -1,4 +1,4 @@
-//package com.bside.backendapi.domain.appointment.dto;
+package com.bside.backendapi.domain.appointment.dto;//package com.bside.backendapi.domain.appointment.dto;
 //
 //import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 //import com.bside.backendapi.domain.penalty.dto.PenaltyDTO;

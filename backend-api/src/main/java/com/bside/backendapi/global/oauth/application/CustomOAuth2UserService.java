@@ -1,4 +1,4 @@
-//package com.bside.backendapi.global.oauth.service;
+package com.bside.backendapi.global.oauth.application;//package com.bside.backendapi.global.oauth.service;
 //
 //import com.bside.backendapi.domain.user.dto.UserDTO;
 //import com.bside.backendapi.domain.user.entity.User;

@@ -1,4 +1,4 @@
-//package com.bside.backendapi.domain.member.application;
+package com.bside.backendapi.domain.member.application;//package com.bside.backendapi.domain.member.application;
 //
 //import com.bside.backendapi.domain.member.entity.User;
 //import com.bside.backendapi.domain.member.repository.UserRepository;

@@ -1,4 +1,4 @@
-//package com.bside.backendapi.global.oauth.domain;
+package com.bside.backendapi.global.oauth.domain;//package com.bside.backendapi.global.oauth.domain;
 //
 //import com.bside.backendapi.domain.member.dto.UserDTO;
 //import lombok.RequiredArgsConstructor;
