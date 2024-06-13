@@ -1,8 +1,8 @@
 package com.bside.backendapi.global.jwt.filter;
 
-import com.bside.backendapi.domain.user.dto.UserDTO;
+import com.bside.backendapi.domain.member.dto.UserDTO;
 import com.bside.backendapi.global.jwt.util.JwtUtil;
-import com.bside.backendapi.global.oauth.dto.CustomOAuth2User;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;

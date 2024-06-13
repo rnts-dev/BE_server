@@ -1,6 +1,6 @@
 package com.bside.backendapi.domain.penalty.dto;
 
-import com.bside.backendapi.domain.penalty.entity.ReceivedPenalty;
+import com.bside.backendapi.domain.penalty.domain.ReceivedPenalty;
 import lombok.*;
 
 import java.time.LocalTime;

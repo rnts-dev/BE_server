@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.penalty.dto;
 
 import com.bside.backendapi.domain.appointment.dto.AppointmentDTO;
-import com.bside.backendapi.domain.penalty.entity.Penalty;
+import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
