@@ -30,6 +30,7 @@ public class CustomUserDetails implements UserDetails, Serializable {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
+    // password는 Context에 포함되지 않는다.
     @Override
     public String getPassword() {
         return "password";
