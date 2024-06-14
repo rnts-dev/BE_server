@@ -35,7 +35,11 @@ public class MemberController {
     }
 
     // delete
-//    @DeleteMapping("/members")
+    @DeleteMapping("/members")
+    public ResponseEntity<Void> delete() {
+        memberService.delete(this.getPrincipal().getId());
+        return ResponseEntity.noContent().build();
+    }
 
     // 현재 인증된 사용자의 정보 가져오기
     public CustomUserDetails getPrincipal() {
