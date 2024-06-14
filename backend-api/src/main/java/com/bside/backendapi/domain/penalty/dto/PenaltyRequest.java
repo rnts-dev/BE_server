@@ -1,6 +1,6 @@
 package com.bside.backendapi.domain.penalty.dto;
 
-import com.bside.backendapi.domain.penalty.entity.PenaltyType;
+import com.bside.backendapi.domain.penalty.domain.vo.PenaltyType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +10,6 @@ public class PenaltyRequest {
 
     private PenaltyType penaltyType;
     private String content;
-    private int price;
+    private int fine;
 
 }

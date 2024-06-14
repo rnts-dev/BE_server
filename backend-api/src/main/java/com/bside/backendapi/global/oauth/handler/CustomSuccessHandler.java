@@ -1,7 +1,7 @@
 package com.bside.backendapi.global.oauth.handler;
 
 import com.bside.backendapi.global.jwt.util.JwtUtil;
-import com.bside.backendapi.global.oauth.dto.CustomOAuth2User;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
