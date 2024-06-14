@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.memberAppointment.dto.response;
+package com.bside.backendapi.domain.appointmentMember.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class UserApptResponse {
+public class AppointmentMemberResponse {
 
     private Long uaid;
     private String apTitle;
