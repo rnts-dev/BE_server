@@ -10,25 +10,25 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "member_appointment")
+@Table(name = "appointment_member")
 public class AppointmentMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_appointment_id", nullable = false)
+    @Column(name = "appointment_member_id", nullable = false)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointment appointment;
 
-    public AppointmentMember(Member member, Appointment appointment) {
-        this.member = member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    public AppointmentMember(Appointment appointment, Member member) {
         this.appointment = appointment;
+        this.member = member;
     }
 
 }
