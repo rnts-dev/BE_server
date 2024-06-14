@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.domain.persist;
 
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
+import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -22,6 +24,9 @@ public class Appointment extends BaseEntity {
 
     @Column(nullable = false)
     private String title;
+
+    @Column(name = "creatorId", nullable = false)
+    private Long creatorId;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "appointment_type", nullable = false)
@@ -45,11 +50,15 @@ public class Appointment extends BaseEntity {
     @Column(name = "is_first")
     private boolean isFirst = false;
 
-    @Builder
-    private Appointment(Long id, String title, AppointmentType appointmentType, LocalDateTime appointmentTime,
+    @OneToMany(mappedBy = "appointment")
+    private List<AppointmentMember> members;
+
+    @Builder(toBuilder = true)
+    private Appointment(Long id, String title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
                         String location, Double latitude, Double longitude, boolean isDeleted, boolean isFirst) {
         this.id = id;
         this.title = title;
+        this.creatorId = creatorId;
         this.appointmentType = appointmentType;
         this.appointmentTime = appointmentTime;
         this.location = location;
