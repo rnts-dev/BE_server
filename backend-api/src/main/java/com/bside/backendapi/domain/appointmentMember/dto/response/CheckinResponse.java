@@ -1,6 +1,5 @@
-package com.bside.backendapi.domain.memberAppointment.dto.response;
+package com.bside.backendapi.domain.appointmentMember.dto.response;
 
-import com.bside.backendapi.domain.memberAppointment.entity.CheckInType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ public class CheckinResponse {
     private boolean isLate;
     private boolean isFirst;
     private Long resTime;
-    private CheckInType checkInType;
+//    private CheckInType checkInType;
 //    private ArriveType arriveType;
 
 }

@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.memberAppointment.domain.entity;
+package com.bside.backendapi.domain.appointmentMember.domain.entity;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.member.domain.persist.Member;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member_appointment")
-public class MemberAppointment {
+public class AppointmentMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class MemberAppointment {
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointment appointment;
 
-    public MemberAppointment(Member member, Appointment appointment) {
+    public AppointmentMember(Member member, Appointment appointment) {
         this.member = member;
         this.appointment = appointment;
     }

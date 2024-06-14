@@ -3,7 +3,7 @@ package com.bside.backendapi.domain.appointment.application;
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.memberAppointment.domain.repository.MemberAppointmentRepository;
+import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final MemberRepository memberRepository;
-    private final MemberAppointmentRepository memberAppointmentRepository;
+    private final AppointmentMemberRepository appointmentMemberRepository;
 
     public Long create(Appointment appointment, Long memberId){
 
