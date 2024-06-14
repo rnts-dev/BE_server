@@ -34,7 +34,8 @@ public class MemberService {
 
     // update
     public void update(final Member updateMember, final Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // 닉네임 중복 불가능
         if (member.getNickname() != updateMember.getNickname()) {
@@ -44,14 +45,21 @@ public class MemberService {
         member.update(updateMember, passwordEncoder);
     }
 
+    public void delete(final Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
+                .delete();
+    }
+
     // duplicate check email
+
     private void existedEmail(final Email email) {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
         }
     }
-
     // duplicate check nickname
+
     private void existedNickname(final Nickname nickname) {
         if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
