@@ -15,12 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Appointment extends BaseEntity {
 
-//    // 현재 시간을 한국 표준시로 가져오기
-//    ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-//
-//    // ZonedDateTime을 LocalDateTime으로 변환
-//    LocalDateTime localDateTimeInKorea = nowInKorea.toLocalDateTime();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
@@ -40,16 +34,20 @@ public class Appointment extends BaseEntity {
     private String location;
 
     @Column(nullable = false)
-    private String latitude;
+    private Double latitude;
 
     @Column(nullable = false)
-    private String longitude;
+    private Double longitude;
 
-    private boolean isfirst = false;
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
+
+    @Column(name = "is_first")
+    private boolean isFirst = false;
 
     @Builder
     private Appointment(Long id, String title, AppointmentType appointmentType, LocalDateTime appointmentTime,
-                        String location, String latitude, String longitude, boolean isfirst) {
+                        String location, Double latitude, Double longitude, boolean isDeleted, boolean isFirst) {
         this.id = id;
         this.title = title;
         this.appointmentType = appointmentType;
@@ -57,7 +55,8 @@ public class Appointment extends BaseEntity {
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.isfirst = isfirst;
+        this.isDeleted = false;
+        this.isFirst = false;
     }
 
     // 비즈니스 로직 추가

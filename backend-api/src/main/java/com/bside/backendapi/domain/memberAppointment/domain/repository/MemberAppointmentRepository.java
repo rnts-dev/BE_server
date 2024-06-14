@@ -1,4 +1,7 @@
 package com.bside.backendapi.domain.memberAppointment.domain.repository;
 
-public interface MemberAppointmentRepository {
+import com.bside.backendapi.domain.memberAppointment.domain.entity.MemberAppointment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberAppointmentRepository extends JpaRepository<MemberAppointment, Long> {
 }
