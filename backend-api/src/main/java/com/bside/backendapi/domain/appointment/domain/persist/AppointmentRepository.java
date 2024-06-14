@@ -8,5 +8,5 @@ import java.util.Optional;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    Optional<Appointment> findAppointmentByUserApptsId(Long userApptsId);
+    Optional<Appointment> findByMemberId(Long memberId);
 }
