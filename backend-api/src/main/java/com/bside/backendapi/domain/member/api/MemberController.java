@@ -30,6 +30,7 @@ public class MemberController {
     // update
     @PatchMapping("/members")
     public ResponseEntity<Void> update(@Valid @RequestBody MemberUpdateRequest memberUpdateRequest) {
+        log.info(">>>>>>>>>>>>>> 사용자 : {}", getPrincipal().getId());
         memberService.update(memberUpdateRequest.toEntity(), this.getPrincipal().getId());
         return ResponseEntity.ok().build();
     }
@@ -43,6 +44,8 @@ public class MemberController {
 
     // 현재 인증된 사용자의 정보 가져오기
     public CustomUserDetails getPrincipal() {
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>> getPrincipal() 호출 >>>>>>>>>>>>>>>>>>>>>>>>>>");
+        log.info(">>>>>>>>>>>>>>>> {}", SecurityContextHolder.getContext().getAuthentication());
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
