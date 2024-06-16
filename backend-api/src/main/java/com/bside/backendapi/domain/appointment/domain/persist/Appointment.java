@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.domain.persist;
 
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
+import com.bside.backendapi.domain.appointment.domain.vo.Location;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -35,14 +36,9 @@ public class Appointment extends BaseEntity {
     @Column(name = "appointment_time", nullable = false)
     private LocalDateTime appointmentTime;
 
+    @Embedded
     @Column(nullable = false)
-    private String location;
-
-    @Column(nullable = false)
-    private Double latitude;
-
-    @Column(nullable = false)
-    private Double longitude;
+    private Location location;
 
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
@@ -53,17 +49,15 @@ public class Appointment extends BaseEntity {
     @OneToMany(mappedBy = "appointment")
     private List<AppointmentMember> members;
 
-    @Builder(toBuilder = true)
+    @Builder
     private Appointment(Long id, String title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
-                        String location, Double latitude, Double longitude, boolean isDeleted, boolean isFirst) {
+                        Location location, boolean isDeleted, boolean isFirst) {
         this.id = id;
         this.title = title;
         this.creatorId = creatorId;
         this.appointmentType = appointmentType;
         this.appointmentTime = appointmentTime;
         this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.isDeleted = false;
         this.isFirst = false;
     }

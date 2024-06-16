@@ -30,18 +30,10 @@ public class AppointmentController {
     @Operation(summary = "약속 생성", description = "약속 생성 메서드, 생성자 userappointment까지 생성")
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentCreateRequest request){
-
-        Long appointmentId = appointmentService.create(request.toEntity(), getPrincipal().getId());
-
+        Long creatorId = getPrincipal().getId();
+        Long appointmentId = appointmentService.create(request.toEntity(creatorId));
         return ResponseEntity.status(HttpStatus.CREATED).body(new AppointmentResponse(appointmentId));
     }
-
-//    @Operation(summary = "약속 단일 조회", description = ".")
-//    @PostMapping("/searchSingleAppointment/{appointmentId}")
-//    public ResponseEntity<AppointmentDTO> searchSingleAppointment(@PathVariable("appointmentId") long appointmentId) {
-//        AppointmentDTO appointmentDTO = appointmentService.searchSingleAppointment(appointmentId);
-//        return ResponseEntity.ok(appointmentDTO);
-//    }
 
     private CustomUserDetails getPrincipal() {
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

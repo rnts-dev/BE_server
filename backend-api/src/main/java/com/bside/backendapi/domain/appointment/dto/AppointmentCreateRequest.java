@@ -2,7 +2,9 @@ package com.bside.backendapi.domain.appointment.dto;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
+import com.bside.backendapi.domain.appointment.domain.vo.Location;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -26,33 +28,24 @@ public class AppointmentCreateRequest {
     private LocalDateTime appointmentTime;
 
     @Valid
-    @NotNull(message = "location은 필수값입니다.")
-    private String location;
+    @NotNull(message = "Location은 필수값입니다.")
+    private Location location;
 
-    @Valid
-    @NotNull(message = "latitude은 필수값입니다.")
-    private Double latitude;
 
-    @Valid
-    @NotNull(message = "longitude은 필수값입니다.")
-    private Double longitude;
-
+    // 정적 팩토리 메서드 추가
     public static AppointmentCreateRequest of(final Appointment appointment) {
-        return new AppointmentCreateRequest(
-                appointment.getTitle(), appointment.getAppointmentType(),
-                appointment.getAppointmentTime(), appointment.getLocation(),
-                appointment.getLatitude(), appointment.getLongitude());
+        return new AppointmentCreateRequest(appointment.getTitle(), appointment.getAppointmentType(),
+                appointment.getAppointmentTime(), appointment.getLocation());
     }
 
     @Builder
-    public Appointment toEntity() {
+    public Appointment toEntity(Long creatorId) {
         return Appointment.builder()
                 .title(title)
+                .creatorId(creatorId)
                 .appointmentType(appointmentType)
                 .appointmentTime(appointmentTime)
                 .location(location)
-                .latitude(latitude)
-                .longitude(longitude)
                 .build();
     }
 }
