@@ -21,8 +21,7 @@ public class AppointmentService {
     private final AppointmentMemberRepository appointmentMemberRepository;
     private final PenaltyRepository penaltyRepository;
 
-    public Long create(Appointment appointment, Long memberId){
-        appointment.toBuilder().creatorId(memberId);
+    public Long create(Appointment appointment){
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return savedAppointment.getId();
     }
