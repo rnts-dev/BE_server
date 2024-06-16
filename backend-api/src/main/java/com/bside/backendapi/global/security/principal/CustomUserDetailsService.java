@@ -5,7 +5,6 @@ import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,21 +13,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    public static final MemberNotFoundException NOT_FOUND_EXCEPTION =
-            new MemberNotFoundException(ErrorCode.USER_NOT_FOUND);
+    public static final MemberNotFoundException NOT_FOUND_EXCEPTION = new MemberNotFoundException(ErrorCode.USER_NOT_FOUND);
 
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-        Member member = memberRepository.findById(Long.valueOf(memberId)).orElseThrow(() -> NOT_FOUND_EXCEPTION);
-        return new CustomUserDetails(member.getId(), member.getEmail(), member.getRole());
+    public CustomUserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+        return memberRepository.findByIdWithDetails(Long.valueOf(memberId))
+                .orElseThrow(() -> NOT_FOUND_EXCEPTION);
     }
-
-//    @Override
-//    public CustomUserDetails loadUserByUsername(final String userId) throws UsernameNotFoundException {
-//        return memberRepository.findByIdWithDetails(Long.valueOf(userId)).orElseThrow(() -> NOT_FOUND_EXCEPTION);
-//    }
-
-
 }
