@@ -1,7 +1,9 @@
 package com.bside.backendapi.domain.member.api;
 
+import com.bside.backendapi.domain.member.application.MemberReadService;
 import com.bside.backendapi.domain.member.application.MemberService;
 import com.bside.backendapi.domain.member.dto.JoinRequest;
+import com.bside.backendapi.domain.member.dto.MemberDetailsResponse;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
 import com.bside.backendapi.domain.member.dto.MemberUpdateRequest;
 import com.bside.backendapi.global.security.principal.CustomUserDetails;
@@ -20,11 +22,18 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberReadService memberReadService;
 
     // join
     @PostMapping("/public/members")
     public ResponseEntity<MemberResponse> join(@Valid @RequestBody JoinRequest joinRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.join(joinRequest.toEntity()));
+    }
+
+    // read
+    @GetMapping("/members/detail")
+    public ResponseEntity<MemberDetailsResponse> getDetailById() {
+        return ResponseEntity.ok().body(memberReadService.getDetailBy(this.getPrincipal()));
     }
 
     // update
