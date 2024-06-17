@@ -89,8 +89,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts
-                .parser()
+        Claims claims = Jwts.parser()
                 .verifyWith(getSignInKey())
                 .build()
                 .parseSignedClaims(token)
@@ -107,9 +106,11 @@ public class TokenProvider implements InitializingBean {
 
         return new UsernamePasswordAuthenticationToken(principal, "password", authorities);
     }
+
     private SecretKey getSignInKey() {
         byte[] bytes = Base64.getDecoder().decode(secret.getBytes(StandardCharsets.UTF_8));
-        return new SecretKeySpec(bytes, "HmacSHA512"); }
+        return new SecretKeySpec(bytes, "HmacSHA512");
+    }
 
     public boolean validateToken(String token) {
         try {

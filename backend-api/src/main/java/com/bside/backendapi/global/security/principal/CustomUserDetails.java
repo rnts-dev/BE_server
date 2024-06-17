@@ -22,11 +22,8 @@ import java.util.Collections;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails, Serializable {
 
-    private final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
-
     @Getter
     private Long id;
-
     private Email email;
     private RoleType role;
 
