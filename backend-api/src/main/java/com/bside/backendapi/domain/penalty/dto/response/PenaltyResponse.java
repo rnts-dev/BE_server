@@ -8,9 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PenaltyResponse{
 
-    private String receiver;
-    private String content;
-    private PenaltyType penaltyType;
-    private int fine;
+    private Long penaltyId;
+    private boolean result;
+
 
 }

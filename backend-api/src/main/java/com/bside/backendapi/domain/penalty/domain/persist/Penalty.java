@@ -46,5 +46,9 @@ public class Penalty extends BaseEntity {
     }
 
     // 비즈니스 로직 추가
+    public Penalty addPenaltyCreatorId(final Long penaltyCreatorId){
+        this.penaltyCreatorId = penaltyCreatorId;
+        return this;
+    }
 
 }
