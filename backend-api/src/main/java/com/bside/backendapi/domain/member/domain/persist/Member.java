@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.member.domain.persist;
 
+import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.member.domain.vo.*;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -61,6 +63,9 @@ public class Member extends BaseEntity {
     @Column(name = "activated")
     private Boolean activated = true;
 
+    @OneToMany(mappedBy = "member")
+    private List<AppointmentMember> appointmentMembers;
+
     @Builder
     private Member(Long id, Email email, Password password, Name name, Nickname nickname,
                    LocalDate birth, String profileUrl, Tendency tendency, RoleType role) {
@@ -82,12 +87,11 @@ public class Member extends BaseEntity {
         return this;
     }
 
-    public Member update(final Member member, final PasswordEncoder passwordEncoder) {
+    public void update(final Member member, final PasswordEncoder passwordEncoder) {
         this.password = Password.encode(member.getPassword().password(), passwordEncoder);
         this.nickname = member.getNickname();
         this.name = member.getName();
         this.profileUrl = member.getProfileUrl();
-        return this;
     }
 
     public void delete() {

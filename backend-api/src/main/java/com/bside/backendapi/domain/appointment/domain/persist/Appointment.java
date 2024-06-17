@@ -1,6 +1,8 @@
 package com.bside.backendapi.domain.appointment.domain.persist;
 
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
+import com.bside.backendapi.domain.appointment.domain.vo.Location;
+import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,17 +11,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Appointment extends BaseEntity {
-
-//    // 현재 시간을 한국 표준시로 가져오기
-//    ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-//
-//    // ZonedDateTime을 LocalDateTime으로 변환
-//    LocalDateTime localDateTimeInKorea = nowInKorea.toLocalDateTime();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +26,9 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
+    @Column(name = "creatorId", nullable = false)
+    private Long creatorId;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "appointment_type", nullable = false)
     private AppointmentType appointmentType;
@@ -36,28 +36,30 @@ public class Appointment extends BaseEntity {
     @Column(name = "appointment_time", nullable = false)
     private LocalDateTime appointmentTime;
 
+    @Embedded
     @Column(nullable = false)
-    private String location;
+    private Location location;
 
-    @Column(nullable = false)
-    private String latitude;
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
 
-    @Column(nullable = false)
-    private String longitude;
+    @Column(name = "is_first")
+    private boolean isFirst = false;
 
-    private boolean isfirst = false;
+    @OneToMany(mappedBy = "appointment")
+    private List<AppointmentMember> members;
 
     @Builder
-    private Appointment(Long id, String title, AppointmentType appointmentType, LocalDateTime appointmentTime,
-                        String location, String latitude, String longitude, boolean isfirst) {
+    private Appointment(Long id, String title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
+                        Location location, boolean isDeleted, boolean isFirst) {
         this.id = id;
         this.title = title;
+        this.creatorId = creatorId;
         this.appointmentType = appointmentType;
         this.appointmentTime = appointmentTime;
         this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.isfirst = isfirst;
+        this.isDeleted = false;
+        this.isFirst = false;
     }
 
     // 비즈니스 로직 추가

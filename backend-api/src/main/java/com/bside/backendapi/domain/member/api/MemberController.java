@@ -43,7 +43,12 @@ public class MemberController {
 
     // 현재 인증된 사용자의 정보 가져오기
     public CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            return (CustomUserDetails) principal;
+        } else {
+            throw new IllegalStateException("현재 인증된 사용자가 없습니다.");
+        }
     }
 
 }

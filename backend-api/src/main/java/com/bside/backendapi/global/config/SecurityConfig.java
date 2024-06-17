@@ -1,158 +1,91 @@
 package com.bside.backendapi.global.config;
 
-import com.bside.backendapi.global.jwt.filter.JwtFilter;
-import com.bside.backendapi.global.jwt.util.JwtUtil;
-import com.bside.backendapi.global.oauth.handler.CustomSuccessHandler;
-import jakarta.servlet.http.HttpServletRequest;
+import com.bside.backendapi.global.jwt.JwtAccessDeniedHandler;
+import com.bside.backendapi.global.jwt.JwtAuthenticationEntryPoint;
+import com.bside.backendapi.global.jwt.JwtFilter;
+import com.bside.backendapi.global.jwt.TokenProvider;
+import com.bside.backendapi.global.security.principal.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final TokenProvider tokenProvider;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    private final CustomSuccessHandler customSuccessHandler;
-    private final JwtUtil jwtUtil;
+    private static final String PUBLIC = "/api/v1/public/**";
 
-    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
+    // AuthenticationManager 는 인터페이스이기 때문에 빈 등록 필수
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .cors(cors -> cors.disable())
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .httpBasic(AbstractHttpConfigurer::disable)
-//                .addFilterAfter(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
-//                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-//                                .userService(customOAuth2UserService))
-//                        .successHandler(customSuccessHandler))
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(allowedUrls).permitAll()
-//                        .anyRequest().authenticated())
-//                .build();
-//    }
+    @Bean
+    public CustomAuthenticationProvider customAuthenticationProvider() {
+        return new CustomAuthenticationProvider();
+    }
 
-//    private final CustomOAuth2UserService customOAuth2UserService;
-//    private final CustomSuccessHandler customSuccessHandler;
-//    private final JwtUtil jwtUtil;
-//
-//    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**"};
-//
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity
-//                // csrf disable
-//                .csrf(AbstractHttpConfigurer::disable)
-//
-//                // session -> STATELESS
-//                .sessionManagement((session) -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//
-//                // cors 설정
-//                .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
-//
-//                    @Override
-//                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-//
-//                        CorsConfiguration configuration = new CorsConfiguration();
-//
-//                        configuration.setAllowedOrigins(Collections.singletonList("*"));
-//                        configuration.setAllowedMethods(Collections.singletonList("*"));
-//                        configuration.setAllowCredentials(false);
-//                        configuration.setAllowedHeaders(Collections.singletonList("*"));
-//                        configuration.setMaxAge(3600L);
-//
-//                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-//                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-//
-//                        return configuration;
-//                    }
-//                }))
-//
-//                // default login form disable
-//                .formLogin(AbstractHttpConfigurer::disable)
-//
-//                // HTTP Basic 인증 방식 disable
-//                .httpBasic(AbstractHttpConfigurer::disable)
-//
-//                //JwtFilter 추가
-////                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterAfter(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
-//
-//                // OAuth2 설정
-//                .oauth2Login((oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-//                        .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
-//                                .userService(customOAuth2UserService)))
-//                        .successHandler(customSuccessHandler)
-//                ))
-//
-//                // 경로 인가 작업
-//                .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers(allowedUrls).permitAll()
-//                        .anyRequest().permitAll())
-//
-//                .build();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-    @RequiredArgsConstructor
-    @Configuration
-    @EnableWebSecurity
-    @EnableMethodSecurity
-    @EnableWebMvc
-    public class SecurityConfig_temp implements WebMvcConfigurer {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
 
-        private final String[] allowedUrls = {"/", "/swagger-ui/**", "/v3/**", "/api/**", "/kakao/login"};
+                .cors(cors -> cors.configurationSource(configurationSource()))
 
+                .httpBasic(AbstractHttpConfigurer::disable)
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http
-                    .csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(authorizeRequests ->
-                            authorizeRequests.requestMatchers(allowedUrls).permitAll()
-                                    .anyRequest().authenticated()
-                    )
-                    .sessionManagement(sessionManagement ->
-                            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    )
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                    .cors(cors -> cors.disable());
+                .exceptionHandling(handlingConfigurer -> handlingConfigurer
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler))
 
+                .sessionManagement(sessionManagement
+                        -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll())
 
-            return http.build();
-        }
+                .authenticationProvider(customAuthenticationProvider())
 
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/**")
-                    .allowedOriginPatterns("*") // 모든 도메인을 허용
-                    .allowedMethods("*") // 모든 HTTP 메서드를 허용
-                    .allowedHeaders("*") // 모든 헤더를 허용
-                    .allowCredentials(true);
-        }
+                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 
+                .formLogin(AbstractHttpConfigurer::disable)
+                .build();
+    }
+
+    public CorsConfigurationSource configurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
+        // localhost:8080 백엔드, localhost:3000 프론트엔드
+        configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트 앤드 IP만 허용 react)
+        configuration.setAllowCredentials(true); // 클라이언트에서 쿠키 요청 허용
+        configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트 였다. 지금은 아닙니다.
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // /login, /board, /product/
+        return source;
     }
 }

@@ -2,12 +2,15 @@ package com.bside.backendapi.global.security.principal;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.Name;
+import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.domain.vo.RoleType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,7 +24,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
 
     @Getter
     private Long id;
-
     private Email email;
     private RoleType role;
 
