@@ -6,7 +6,7 @@ import com.bside.backendapi.global.security.principal.CustomUserDetails;
 import java.util.Optional;
 
 public interface MemberCustomRepository {
-    Optional<CustomUserDetails> findByIdWithDetails(Long memberId);
+    Optional<CustomUserDetails> findByIdWithDetails(final Long memberId);
 
-    Optional<CustomUserDetails> findUserDetailsByEmail(Email email);
+    Optional<CustomUserDetails> findUserDetailsByEmail(final Email email);
 }
