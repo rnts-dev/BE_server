@@ -29,7 +29,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     }
 
     @Override
-    public Optional<CustomUserDetails> findUserDetailsByEmail(Email email) {
+    public Optional<CustomUserDetails> findUserDetailsByEmail(final Email email) {
         return Optional.ofNullable(
                 query.select(Projections.constructor(CustomUserDetails.class,
                                 member.id.as("id"),
