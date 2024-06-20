@@ -49,6 +49,10 @@ public class Appointment extends BaseEntity {
     @OneToMany(mappedBy = "appointment")
     private List<AppointmentMember> members;
 
+
+    @Column(name = "penalty_id")
+    private Long penaltyId;
+
     @Builder
     private Appointment(Long id, String title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
                         Location location, boolean isDeleted, boolean isFirst) {
@@ -64,5 +68,9 @@ public class Appointment extends BaseEntity {
 
     // 비즈니스 로직 추가
 
+    //패널티 추가
+    public void addPenalty(final Long penaltyId){
+        this.penaltyId = penaltyId;
+    }
 }
 

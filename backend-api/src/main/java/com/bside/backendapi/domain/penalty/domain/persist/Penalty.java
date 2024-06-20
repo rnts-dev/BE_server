@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -49,6 +50,14 @@ public class Penalty extends BaseEntity {
     public Penalty addPenaltyCreatorId(final Long penaltyCreatorId){
         this.penaltyCreatorId = penaltyCreatorId;
         return this;
+    }
+
+    //패널티 등록 로직
+    public void addReceivedMember(Long memberId) {
+        if (this.penaltyReceivedMemberId == null) {
+            this.penaltyReceivedMemberId = new ArrayList<>();
+        }
+        this.penaltyReceivedMemberId.add(memberId);
     }
 
 }
