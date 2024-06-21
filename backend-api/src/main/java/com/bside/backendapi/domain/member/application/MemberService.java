@@ -65,4 +65,12 @@ public class MemberService {
             throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
         }
     }
+
+    // update tendency
+    public void updateTendency(final Member updateMember, final Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        member.setTendency(updateMember);
+    }
 }
