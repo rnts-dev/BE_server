@@ -2,10 +2,7 @@ package com.bside.backendapi.domain.member.api;
 
 import com.bside.backendapi.domain.member.application.MemberReadService;
 import com.bside.backendapi.domain.member.application.MemberService;
-import com.bside.backendapi.domain.member.dto.JoinRequest;
-import com.bside.backendapi.domain.member.dto.MemberDetailsResponse;
-import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.dto.MemberUpdateRequest;
+import com.bside.backendapi.domain.member.dto.*;
 import com.bside.backendapi.global.security.principal.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +45,13 @@ public class MemberController {
     public ResponseEntity<Void> delete() {
         memberService.delete(this.getPrincipal().getId());
         return ResponseEntity.noContent().build();
+    }
+
+    // tendency
+    @PatchMapping("/members/tendency")
+    public ResponseEntity<Void> updateTendency(@Valid @RequestBody TendencyRequest tendencyRequest) {
+        memberService.updateTendency(tendencyRequest.toEntity(), this.getPrincipal().getId());
+        return ResponseEntity.ok().build();
     }
 
     // 현재 인증된 사용자의 정보 가져오기

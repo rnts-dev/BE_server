@@ -53,7 +53,6 @@ public class Member extends BaseEntity {
     private String profileUrl;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
     private Tendency tendency;
 
     @Enumerated(value = EnumType.STRING)
@@ -92,6 +91,10 @@ public class Member extends BaseEntity {
         this.nickname = member.getNickname();
         this.name = member.getName();
         this.profileUrl = member.getProfileUrl();
+    }
+
+    public void setTendency(final Member member) {
+        this.tendency = member.getTendency();
     }
 
     public void delete() {

@@ -4,6 +4,7 @@ import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.vo.Email;
 import com.bside.backendapi.domain.member.domain.vo.Name;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
+import com.bside.backendapi.domain.member.domain.vo.Tendency;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class MemberDetailsResponse implements Serializable {
     private Email email;
     private Name name;
     private Nickname nickname;
+    private Tendency tendency;
     private int age;
 
     public static MemberDetailsResponse of(final Member member) {
@@ -33,6 +35,7 @@ public class MemberDetailsResponse implements Serializable {
                 member.getEmail(),
                 member.getName(),
                 member.getNickname(),
+                member.getTendency(),
                 age);
     }
 }
