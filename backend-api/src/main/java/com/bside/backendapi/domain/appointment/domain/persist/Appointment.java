@@ -9,12 +9,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Entity
+@SQLRestriction("is_deleted = false")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Appointment extends BaseEntity {
 
@@ -26,7 +29,7 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "creatorId", nullable = false)
+    @Column(name = "creator_id", nullable = false)
     private Long creatorId;
 
     @Enumerated(value = EnumType.STRING)
@@ -63,6 +66,10 @@ public class Appointment extends BaseEntity {
     }
 
     // 비즈니스 로직 추가
+    public Appointment addMember(final Long creatorId) {
+        this.creatorId = creatorId;
+        return this;
+    }
 
 }
 

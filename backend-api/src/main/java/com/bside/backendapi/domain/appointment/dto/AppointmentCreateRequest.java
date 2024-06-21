@@ -3,15 +3,17 @@ package com.bside.backendapi.domain.appointment.dto;
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AppointmentCreateRequest {
 
@@ -19,11 +21,12 @@ public class AppointmentCreateRequest {
     @NotNull(message = "title은 필수값입니다.")
     private String title;
 
-    @Valid
+    @Valid @JsonProperty("appointmentType")
     @NotNull(message = "appointment_type은 필수값입니다.")
     private AppointmentType appointmentType;
 
-    @Valid
+    @Valid @JsonProperty("appointmentTime")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @NotNull(message = "appointment_time은 필수값입니다.")
     private LocalDateTime appointmentTime;
 
@@ -39,13 +42,12 @@ public class AppointmentCreateRequest {
     }
 
     @Builder
-    public Appointment toEntity(Long creatorId) {
+    public Appointment toEntity() {
         return Appointment.builder()
                 .title(title)
-                .creatorId(creatorId)
                 .appointmentType(appointmentType)
                 .appointmentTime(appointmentTime)
-                .location(location)
+                .location(new Location(this.location.place(), this.location.latitude(), this.location.longitude()))
                 .build();
     }
 }
