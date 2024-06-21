@@ -21,8 +21,13 @@ public class AppointmentService {
     private final AppointmentMemberRepository appointmentMemberRepository;
     private final PenaltyRepository penaltyRepository;
 
-    public Long create(Appointment appointment){
-        Appointment savedAppointment = appointmentRepository.save(appointment);
+    public Long create(final Appointment appointment, final Long memberId){
+        Appointment savedAppointment = appointmentRepository.save(appointment.addMember(memberId));
+        log.info("약속 종류 : {}", appointment.getAppointmentType());
+        log.info("약속 시간 : {}", appointment.getAppointmentTime());
+        log.info("약속 장소 : {}", appointment.getLocation().place());
+        log.info("약속 위도 : {}", appointment.getLocation().latitude());
+        log.info("약속 경도 : {}", appointment.getLocation().longitude());
         return savedAppointment.getId();
     }
 

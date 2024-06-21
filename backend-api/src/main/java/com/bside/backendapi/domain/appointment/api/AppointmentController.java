@@ -30,8 +30,7 @@ public class AppointmentController {
     @Operation(summary = "약속 생성", description = "약속 생성 메서드, 생성자 userappointment까지 생성")
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentCreateRequest request){
-        Long creatorId = getPrincipal().getId();
-        Long appointmentId = appointmentService.create(request.toEntity(creatorId));
+        Long appointmentId = appointmentService.create(request.toEntity(), getPrincipal().getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new AppointmentResponse(appointmentId));
     }
 

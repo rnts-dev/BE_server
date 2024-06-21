@@ -7,15 +7,16 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
+@Embeddable @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Location implements Serializable {
-//    @NotBlank(message = "장소를 입력하세요.")
+    @NotBlank(message = "장소를 입력하세요.")
     @Column(nullable = false)
     private String place;
 

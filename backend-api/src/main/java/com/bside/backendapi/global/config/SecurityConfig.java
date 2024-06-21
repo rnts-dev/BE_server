@@ -57,7 +57,9 @@ public class SecurityConfig {
 
                 .authenticationProvider(customAuthenticationProvider())
 
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll())
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(PUBLIC, "/api/v1/**").permitAll()
+                        .anyRequest().authenticated())
 
                 .sessionManagement(sessionManagement
                         -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
