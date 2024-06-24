@@ -2,6 +2,7 @@ package com.bside.backendapi.domain.appointment.domain.persist;
 
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
+import com.bside.backendapi.domain.appointment.domain.vo.Title;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -26,8 +27,9 @@ public class Appointment extends BaseEntity {
     @Column(name = "appointment_id")
     private Long id;
 
+    @Embedded
     @Column(nullable = false)
-    private String title;
+    private Title title;
 
     @Column(name = "creator_id", nullable = false)
     private Long creatorId;
@@ -53,7 +55,7 @@ public class Appointment extends BaseEntity {
     private List<AppointmentMember> members;
 
     @Builder
-    private Appointment(Long id, String title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
+    private Appointment(Long id, Title title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
                         Location location, boolean isDeleted, boolean isFirst) {
         this.id = id;
         this.title = title;
@@ -73,10 +75,18 @@ public class Appointment extends BaseEntity {
 
     // 수정할 때 수정사항에 입력하지 않은 값들은 null 로 덮어씌워지는건가? 생각해봐야함
     public void updateAppointment(final Appointment updateAppointment) {
-        this.title = updateAppointment.title;
-        this.appointmentType = updateAppointment.appointmentType;
-        this.appointmentTime = updateAppointment.appointmentTime;
-        this.location = updateAppointment.location;
+        if (updateAppointment.title != null) {
+            this.title = updateAppointment.title;
+        }
+        if (updateAppointment.appointmentType != null) {
+            this.appointmentType = updateAppointment.appointmentType;
+        }
+        if (updateAppointment.appointmentTime != null) {
+            this.appointmentTime = updateAppointment.appointmentTime;
+        }
+        if (updateAppointment.location != null) {
+            this.location = updateAppointment.location;
+        }
     }
 }
 
