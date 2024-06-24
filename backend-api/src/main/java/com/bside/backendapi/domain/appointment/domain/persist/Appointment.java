@@ -71,5 +71,12 @@ public class Appointment extends BaseEntity {
         return this;
     }
 
+    // 수정할 때 수정사항에 입력하지 않은 값들은 null 로 덮어씌워지는건가? 생각해봐야함
+    public void updateAppointment(final Appointment updateAppointment) {
+        this.title = updateAppointment.title;
+        this.appointmentType = updateAppointment.appointmentType;
+        this.appointmentTime = updateAppointment.appointmentTime;
+        this.location = updateAppointment.location;
+    }
 }
 
