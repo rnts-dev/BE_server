@@ -1,5 +1,6 @@
 package com.bside.backendapi.domain.appointment.dto;
 
+import com.bside.backendapi.domain.appointment.domain.vo.Title;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AppointmentRequest {
 
-    private String title;
+    private Title title;
     private String appointmentType;
     private LocalDateTime time;
     private String latitude;

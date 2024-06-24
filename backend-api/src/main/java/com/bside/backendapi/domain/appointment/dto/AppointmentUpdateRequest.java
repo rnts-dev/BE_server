@@ -3,6 +3,7 @@ package com.bside.backendapi.domain.appointment.dto;
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
+import com.bside.backendapi.domain.appointment.domain.vo.Title;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class AppointmentUpdateRequest {
 
     @Valid @JsonProperty("title")
-    private String title;
+    private Title title;
 
     @Valid @JsonProperty("appointmentType")
     private AppointmentType appointmentType;
