@@ -3,6 +3,7 @@ package com.bside.backendapi.domain.appointment.dto;
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
+import com.bside.backendapi.domain.appointment.domain.vo.Title;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ public class AppointmentCreateRequest {
 
     @Valid
     @NotNull(message = "title은 필수값입니다.")
-    private String title;
+    private Title title;
 
     @Valid @JsonProperty("appointmentType")
     @NotNull(message = "appointment_type은 필수값입니다.")
