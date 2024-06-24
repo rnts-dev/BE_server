@@ -15,10 +15,11 @@ public enum ErrorCode {
     DUPLICATED_NICKNAME(400, "M004", "중복된 닉네임입니다."),
 
     // JWT
-    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다.");
+    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
 
 
     // APPOINTMENT
+    APPOINTMENT_NOT_FOUND(400, "A001", "약속이 없습니다.");
 
     // PENALTY
 
