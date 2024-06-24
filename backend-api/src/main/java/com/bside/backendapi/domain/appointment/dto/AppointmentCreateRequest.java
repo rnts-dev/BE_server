@@ -48,7 +48,7 @@ public class AppointmentCreateRequest {
                 .title(title)
                 .appointmentType(appointmentType)
                 .appointmentTime(appointmentTime)
-                .location(new Location(this.location.place(), this.location.latitude(), this.location.longitude()))
+                .location(new Location(this.location.getPlace(), this.location.getLatitude(), this.location.getLongitude()))
                 .build();
     }
 }
