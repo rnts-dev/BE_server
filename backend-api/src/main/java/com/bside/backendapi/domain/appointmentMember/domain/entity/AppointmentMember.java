@@ -2,8 +2,10 @@ package com.bside.backendapi.domain.appointmentMember.domain.entity;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.member.domain.persist.Member;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +28,7 @@ public class AppointmentMember {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Builder
     public AppointmentMember(Appointment appointment, Member member) {
         this.appointment = appointment;
         this.member = member;

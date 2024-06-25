@@ -19,8 +19,8 @@ public enum ErrorCode {
 
 
     // APPOINTMENT
-    APPOINTMENT_NOT_FOUND(400, "A001", "약속이 없습니다.");
-
+    APPOINTMENT_NOT_FOUND(400, "A001", "약속이 없습니다."),
+    APPOINTMENT_MISS_MATCH(400, "A002", "일치하는 약속이 없습니다.");
     // PENALTY
 
     private final int status;
