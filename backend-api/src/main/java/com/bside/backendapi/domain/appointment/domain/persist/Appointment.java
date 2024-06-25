@@ -68,13 +68,13 @@ public class Appointment extends BaseEntity {
     }
 
     // 비즈니스 로직 추가
-    public Appointment addMember(final Long creatorId) {
+    public Appointment create(final Long creatorId) {
         this.creatorId = creatorId;
         return this;
     }
 
     // 수정할 때 수정사항에 입력하지 않은 값들은 null 로 덮어씌워지는건가? 생각해봐야함
-    public void updateAppointment(final Appointment updateAppointment) {
+    public void update(final Appointment updateAppointment) {
         if (updateAppointment.title != null) {
             this.title = updateAppointment.title;
         }
@@ -87,6 +87,10 @@ public class Appointment extends BaseEntity {
         if (updateAppointment.location != null) {
             this.location = updateAppointment.location;
         }
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }
 
