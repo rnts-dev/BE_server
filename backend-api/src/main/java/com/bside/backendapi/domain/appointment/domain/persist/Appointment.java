@@ -54,6 +54,10 @@ public class Appointment extends BaseEntity {
     @OneToMany(mappedBy = "appointment")
     private List<AppointmentMember> members;
 
+
+    @Column(name = "penalty_id")
+    private Long penaltyId;
+
     @Builder
     private Appointment(Long id, Title title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
                         Location location, boolean isDeleted, boolean isFirst) {
@@ -73,6 +77,11 @@ public class Appointment extends BaseEntity {
         return this;
     }
 
+
+    //패널티 추가
+    public void addPenalty(final Long penaltyId){
+        this.penaltyId = penaltyId;
+
     // 수정할 때 수정사항에 입력하지 않은 값들은 null 로 덮어씌워지는건가? 생각해봐야함
     public void update(final Appointment updateAppointment) {
         if (updateAppointment.title != null) {
@@ -91,6 +100,7 @@ public class Appointment extends BaseEntity {
 
     public void delete() {
         this.isDeleted = true;
+
     }
 }
 
