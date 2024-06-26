@@ -1,43 +1,34 @@
 package com.bside.backendapi.domain.appointment.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
+@Embeddable @Setter @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Location implements Serializable {
-//    @NotBlank(message = "장소를 입력하세요.")
+    @NotBlank(message = "장소를 입력하세요.")
     @Column(nullable = false)
+    @JsonProperty("place")
     private String place;
 
     @Column(nullable = false)
+    @JsonProperty("latitude")
     private Double latitude;
 
     @Column(nullable = false)
+    @JsonProperty("longitude")
     private Double longitude;
 
-    @JsonValue
-    public String place() {
-        return place;
-    }
-
-    @JsonValue
-    public Double latitude() {
-        return latitude;
-    }
-
-    @JsonValue
-    public Double longitude() {
-        return longitude;
+    public static Location from(final String place, final Double latitude, final Double longitude) {
+        return new Location(place, latitude, longitude);
     }
 
     @Override
@@ -52,6 +43,6 @@ public class Location implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(place(), latitude(), longitude());
+        return Objects.hash(getPlace(), getLatitude(), getLongitude());
     }
 }

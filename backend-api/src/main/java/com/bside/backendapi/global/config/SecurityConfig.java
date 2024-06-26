@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +31,7 @@ public class SecurityConfig {
 
     private static final String PUBLIC = "/api/v1/public/**";
 
+    // 토큰 생성시 인증 부여할 AuthenticationProvider 구현체
     @Bean
     public CustomAuthenticationProvider customAuthenticationProvider() {
         return new CustomAuthenticationProvider();
@@ -42,24 +46,41 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+
+                .cors(cors -> cors.configurationSource(configurationSource()))
+
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .exceptionHandling(httpSecurityExceptionHandlingConfigurer
-                        -> httpSecurityExceptionHandlingConfigurer
+
+                .exceptionHandling(handlingConfigurer -> handlingConfigurer
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler))
+
+                .authenticationProvider(customAuthenticationProvider())
+
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(PUBLIC, "/api/v1/**").permitAll()
+                        .anyRequest().authenticated())
+
                 .sessionManagement(sessionManagement
                         -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll()
-                )
-//                .authorizeHttpRequests(authorizeRequests ->
-//                        authorizeRequests.requestMatchers(PUBLIC).permitAll()
-//                                .anyRequest().authenticated()
-//                )
-                .authenticationProvider(customAuthenticationProvider())
+
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+
+                .formLogin(AbstractHttpConfigurer::disable)
+
                 .build();
     }
 
+    public CorsConfigurationSource configurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
+        // localhost:8080 백엔드, localhost:3000 프론트엔드
+        configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트 앤드 IP만 허용 react)
+        configuration.setAllowCredentials(true); // 클라이언트에서 쿠키 요청 허용
+        configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트 였다. 지금은 아닙니다.
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // /login, /board, /product/
+        return source;
+    }
 }

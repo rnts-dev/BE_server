@@ -53,17 +53,24 @@ public class MemberService {
     }
 
     // duplicate check email
-
     private void existedEmail(final Email email) {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
         }
     }
-    // duplicate check nickname
 
+    // duplicate check nickname
     private void existedNickname(final Nickname nickname) {
         if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
         }
+    }
+
+    // update tendency
+    public void updateTendency(final Member updateMember, final Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        member.setTendency(updateMember);
     }
 }

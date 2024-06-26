@@ -18,11 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +34,7 @@ public class TokenProvider implements InitializingBean {
     private final long refreshTokenValidityInMilliseconds;
     private final CustomUserDetailsService customUserDetailsService;
 
-    private Key key;
+    private SecretKey key;
 
     public TokenProvider(
             @Value("${jwt.secret}") String secret,
@@ -67,8 +63,8 @@ public class TokenProvider implements InitializingBean {
         long now = (new Date()).getTime();
 
         String accessToken = Jwts.builder()
-                .claim(AUTHORITIES_KEY, authorities)
                 .claim("id", memberId.toString())
+                .claim(AUTHORITIES_KEY, authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(now + accessTokenValidityInMilliseconds))
                 .signWith(this.key)
@@ -89,9 +85,8 @@ public class TokenProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts
-                .parser()
-                .verifyWith(getSignInKey())
+        Claims claims = Jwts.parser()
+                .verifyWith(this.key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -101,20 +96,17 @@ public class TokenProvider implements InitializingBean {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        String id = String.valueOf(claims.getId());
+        String id = String.valueOf(claims.get("id"));
 
         CustomUserDetails principal = customUserDetailsService.loadUserByUsername(id);
 
         return new UsernamePasswordAuthenticationToken(principal, "password", authorities);
     }
-    private SecretKey getSignInKey() {
-        byte[] bytes = Base64.getDecoder().decode(secret.getBytes(StandardCharsets.UTF_8));
-        return new SecretKeySpec(bytes, "HmacSHA512"); }
 
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(getSignInKey())
+                    .verifyWith(this.key)
                     .build()
                     .parseSignedClaims(token);
 
