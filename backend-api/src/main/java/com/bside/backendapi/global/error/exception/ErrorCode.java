@@ -15,21 +15,17 @@ public enum ErrorCode {
     DUPLICATED_EMAIL(400, "M003", "중복된 이메일 입니다."),
     DUPLICATED_NICKNAME(400, "M004", "중복된 닉네임 입니다."),
 
-    DUPLICATED_EMAIL(400, "M003", "중복된 이메일입니다."),
-    DUPLICATED_NICKNAME(400, "M004", "중복된 닉네임입니다."),
+
 
 
     // JWT
     TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
 
 
-    // APPOINTMENT
-    APPOINTMENT_NOT_FOUND(400,"A001","해당 appointment를 찾을 수 없습니다."),
-
 
     // APPOINTMENT
     APPOINTMENT_NOT_FOUND(400, "A001", "약속이 없습니다."),
-    APPOINTMENT_MISS_MATCH(400, "A002", "일치하는 약속이 없습니다.");
+    APPOINTMENT_MISS_MATCH(400, "A002", "일치하는 약속이 없습니다."),
     // PENALTY
     PENALTY_NOT_FOUND(400,"P001","해당 패널티를 찾을수 없습니다");
 
