@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
@@ -31,24 +34,44 @@ public class PenaltyController {
     //패널티 조회
     @GetMapping("penalty/{appointmentId}")
     public ResponseEntity<PenaltyGetResponse> findPenaltyByAppointmentId(@PathVariable Long appointmentId){
-        Long penaltyId = penaltyService.findByAppointment(appointmentId);
-        if (penaltyId == null){
-            return ResponseEntity.ok(new PenaltyGetResponse(null, false));
-        }
-        return ResponseEntity.ok(new PenaltyGetResponse(penaltyId, true));
+        PenaltyGetResponse penaltyGetResponse = penaltyService.findByAppointment(appointmentId);
+
+        return ResponseEntity.ok(penaltyGetResponse);
     }
 
 
-    //패널티 등록
-    @GetMapping("penalty/receiveed/{penaltyId}")
+    //패널티 등록 (내가 받는 패널티 등록)
+    @PostMapping("penalty/receiveed/{penaltyId}")
     public ResponseEntity<PenaltyResponse> addReceivedMember(@PathVariable Long penaltyId){
 
         Long tempMemberId = 1L; //임시 현재 사용자
 
         Long updatedPenaltyId = penaltyService.addReceiver(penaltyId, tempMemberId);
 
-        //임시
-        return ResponseEntity.status(HttpStatus.CREATED).body(new PenaltyResponse(updatedPenaltyId, true));
+        return ResponseEntity.ok(new PenaltyResponse(penaltyId, true));
+
+    }
+
+
+    //내가 생성한 패널티 조회
+    @GetMapping("penalties/my-created")
+    public ResponseEntity<List<PenaltyGetResponse>> getMyCreatedPenalties(){
+        Long tempMemberId = 1L;
+
+        List<PenaltyGetResponse> penaltyGetResponses = penaltyService.MyCreatedPenalties(tempMemberId);
+
+        return ResponseEntity.ok(penaltyGetResponses);
+    }
+
+
+    // 내가 받은 패널티 조회
+    @GetMapping("penalies")
+    public ResponseEntity<List<PenaltyGetResponse>> getMyPenaltiest(){
+        Long tempMemberId = 1L;
+
+        List<PenaltyGetResponse> penaltyGetResponses = penaltyService.myPenalties(tempMemberId);
+
+        return ResponseEntity.ok(penaltyGetResponses);
     }
 
 

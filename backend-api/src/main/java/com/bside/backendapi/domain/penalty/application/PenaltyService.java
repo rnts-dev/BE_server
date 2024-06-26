@@ -1,41 +1,31 @@
 package com.bside.backendapi.domain.penalty.application;
 
-//import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-//import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-//import com.bside.backendapi.domain.penalty.dto.ReceivedPenaltyDTO;
-//import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
-//import com.bside.backendapi.domain.penalty.domain.vo.PenaltyType;
-//import com.bside.backendapi.domain.penalty.domain.ReceivedPenalty;
-//import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
-//import com.bside.backendapi.domain.penalty.domain.ReceivedPenaltyRepository;
-//import com.bside.backendapi.domain.member.entity.User;
-//import com.bside.backendapi.domain.member.repository.UserRepository;
-//import com.bside.backendapi.domain.memberAppointment.entity.UserAppt;
-//import com.bside.backendapi.domain.memberAppointment.repository.UserApptRepository;
-//import com.bside.backendapi.global.jwt.util.JwtUtil;
+
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.dto.AppointmentCreateRequest;
 import com.bside.backendapi.domain.appointment.error.AppointmentNotFound;
 import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
-import com.bside.backendapi.domain.penalty.error.PenaltyCreationException;
+import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenalty;
+import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenaltyRepository;
+import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
 import com.bside.backendapi.domain.penalty.error.PenaltyNotFoundExepception;
 import com.bside.backendapi.global.error.exception.ErrorCode;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-//
+
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PenaltyService {
     private final PenaltyRepository penaltyRepository;
     private final AppointmentRepository appointmentRepository;
+    private final ReceivedPenaltyRepository receivedPenaltyRepository;
 
     //패널티 생성 서비스
     public Long create(final Penalty penalty, final Long memberId, final  Long appointmentId){
@@ -55,7 +45,7 @@ public class PenaltyService {
 
 
     //약속에서 패널티 조회
-    public Long findByAppointment(final Long appointmentId){
+    public PenaltyGetResponse findByAppointment(final Long appointmentId){
 
         //이거랑 penaltyRepository에서 appointment로 penalty찾는거 중 어떤거? -> 연관간계 안써서 안되나?
         Appointment findAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
@@ -64,22 +54,58 @@ public class PenaltyService {
         //조회성공 여부
         Long penaltyId = findAppointment.getPenaltyId();
         if (penaltyId == null){
-            return null;
+            return PenaltyGetResponse.empty();
         }
+
+        Penalty getPenalty = penaltyRepository.findById(penaltyId).orElseThrow(
+                () -> new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND)
+        );
+
+        return PenaltyGetResponse.of(getPenalty);
+    }
+
+
+    //패널티 등록 서비스 (패널티 받는 사람 등록)
+    public Long addReceiver(final Long penaltyId, final Long memberId){
+
+        ReceivedPenalty receivedPenalty = ReceivedPenalty.builder()
+                .penaltyId(penaltyId)
+                .memberId(memberId)
+                .build();
+
+        receivedPenaltyRepository.save(receivedPenalty);
+
         return penaltyId;
     }
 
-    //패널티 등록 서비스
-    public Long addReceiver(final Long penaltyId, final Long memberId){
 
-        Penalty updatedPenalty = penaltyRepository.findById(penaltyId).orElseThrow(
-                () -> new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND)
-        );
-        updatedPenalty.addReceivedMember(memberId);
-        Long savedPenaltyId = penaltyRepository.save(updatedPenalty).getId();
 
-        return savedPenaltyId;
+    //내가 생성한 패널티 조회
+    public List<PenaltyGetResponse> MyCreatedPenalties(final Long memberId){
+
+        List<Penalty> penalties = penaltyRepository.findByPenaltyCreatorId(memberId);
+
+        if (penalties == null || penalties.isEmpty()){
+            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+        }
+        List<PenaltyGetResponse> penaltyResponses = penalties.stream()
+                .map(PenaltyGetResponse::of)
+                .collect(Collectors.toList());
+
+        return penaltyResponses;
     }
 
+    //내가 받은 패널티 조회
+    public List<PenaltyGetResponse> myPenalties(final Long memberId){
+        List<Penalty> penalties = receivedPenaltyRepository.findByMemberId(memberId);
+        if (penalties == null || penalties.isEmpty()){
+            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+        }
+        List<PenaltyGetResponse> penaltyResponses = penalties.stream()
+                .map(PenaltyGetResponse::of)
+                .collect(Collectors.toList());
+
+        return penaltyResponses;
+    }
 
 }

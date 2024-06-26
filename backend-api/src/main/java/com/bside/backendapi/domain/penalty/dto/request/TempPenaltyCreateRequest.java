@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PenaltyCreateRequest {
+@AllArgsConstructor()
+public class TempPenaltyCreateRequest {
 
     @Valid
     @NotNull(message = "PenaltyType은 필수값입니다.")

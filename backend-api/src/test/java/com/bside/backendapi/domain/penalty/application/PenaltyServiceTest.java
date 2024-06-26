@@ -1,54 +1,71 @@
 package com.bside.backendapi.domain.penalty.application;
-
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
+import com.bside.backendapi.domain.member.application.MemberService;
+import com.bside.backendapi.domain.member.domain.persist.Member;
+import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
+import com.bside.backendapi.domain.member.dto.MemberResponse;
+import com.bside.backendapi.domain.member.error.MemberNotFoundException;
+import com.bside.backendapi.domain.member.util.GivenMember;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
+import com.bside.backendapi.domain.penalty.domain.vo.PenaltyType;
+import com.bside.backendapi.domain.penalty.dto.request.PenaltyCreateRequest;
+import com.bside.backendapi.domain.penalty.dto.request.TempPenaltyCreateRequest;
+import com.bside.backendapi.global.error.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
+@Transactional
 public class PenaltyServiceTest {
 
-    @Mock
-    private PenaltyRepository penaltyRepository;
+    @Autowired
+    PenaltyService penaltyService;
 
-    @Mock
-    private AppointmentRepository appointmentRepository;
+    @Autowired
+    PenaltyRepository penaltyRepository;
 
-    @InjectMocks
-    private PenaltyService penaltyService;
+    @Autowired
+    MemberRepository memberRepository;
 
-    private Appointment mockAppointment;
+    @Autowired
+    MemberService memberService;
 
+    static Member testmember;
+    static Long penaltyId;
     @BeforeEach
-    void setUp() {
-        // Mock Appointment 객체 생성
-        mockAppointment = new Appointment(1L,);
-        mockAppointment.setId(1L);
-        mockAppointment.setPenaltyId(null); // 테스트 시 penaltyId를 null로 설정
+    void init(){
+        MemberResponse joinResponse = memberService.join(GivenMember.toEntity());
+
+        testmember = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND)
+        );
     }
 
     @Test
-    public void testFindByAppointment_Success() {
+    @DisplayName("패널티 생성")
+    @Transactional(readOnly = true)
+    void createPenalty(){
+        TempPenaltyCreateRequest request = getTempPenaltyCreateRequest(testmember.getId());
+        Long penaltyId = penaltyService.create(request.toEntity(), testmember.getId(), null);
 
 
-        // Mock Repository 설정
-        when(appointmentRepository.findById(1L)).thenReturn(Optional.of(appointment));
-
-        // 테스트: appointmentId로 패널티 ID 조회
-        Long penaltyId = penaltyService.findByAppointment(1L);
-
-        // 결과 검증
-        assertEquals(1L, penaltyId);
     }
+
+    private TempPenaltyCreateRequest getTempPenaltyCreateRequest(Long ceatorId){
+        return new TempPenaltyCreateRequest(
+                PenaltyType.FINE,
+                "테스트 페널티",
+                10000,
+                ceatorId
+        );
+    }
+
+
 
 }

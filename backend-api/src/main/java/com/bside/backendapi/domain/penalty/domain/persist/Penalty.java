@@ -32,8 +32,8 @@ public class Penalty extends BaseEntity {
     private Long penaltyCreatorId;
 
     // 엔티티가 아닌 값 타입, 임베디드 타에 대해 1:N 매핑으로 테이블 생성 후 데이터 저장
-    @ElementCollection(fetch = FetchType.LAZY)
-    private List<Long> penaltyReceivedMemberId;
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    private List<Long> penaltyReceivedMemberId;
 
     @Builder
     public Penalty(Long id, PenaltyType penaltyType, String content, int fine,
@@ -43,7 +43,7 @@ public class Penalty extends BaseEntity {
         this.content = content;
         this.fine = fine;
         this.penaltyCreatorId = penaltyCreatorId;
-        this.penaltyReceivedMemberId = penaltyReceivedMemberId;
+//        this.penaltyReceivedMemberId = penaltyReceivedMemberId;
     }
 
     // 비즈니스 로직 추가
@@ -53,11 +53,11 @@ public class Penalty extends BaseEntity {
     }
 
     //패널티 등록 로직
-    public void addReceivedMember(Long memberId) {
-        if (this.penaltyReceivedMemberId == null) {
-            this.penaltyReceivedMemberId = new ArrayList<>();
-        }
-        this.penaltyReceivedMemberId.add(memberId);
-    }
+//    public void addReceivedMember(Long memberId) {
+//        if (this.penaltyReceivedMemberId == null) {
+//            this.penaltyReceivedMemberId = new ArrayList<>();
+//        }
+//        this.penaltyReceivedMemberId.add(memberId);
+//    }
 
 }
