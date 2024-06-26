@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointmentMember.application;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
+import com.bside.backendapi.domain.appointment.dto.AppointmentViewResponse;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,14 @@ public class AppointmentMemberService {
 
     private final AppointmentMemberRepository appointmentMemberRepository;
 
-    public List<Appointment> getAllMyAppointment(final Long memberId) {
+    public List<AppointmentViewResponse> getAllMyAppointment(final Long memberId) {
         return appointmentMemberRepository.findAllByMemberId(memberId)
                 .stream()
-                .map(AppointmentMember::getAppointment)
+                .map(appointmentMember -> convertToResponse(appointmentMember.getAppointment()))
                 .collect(Collectors.toList());
+    }
+
+    public AppointmentViewResponse convertToResponse(final Appointment appointment) {
+        return AppointmentViewResponse.of(appointment);
     }
 }

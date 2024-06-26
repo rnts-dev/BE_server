@@ -5,6 +5,7 @@ import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.dto.AppointmentCreateRequest;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.domain.appointment.dto.AppointmentUpdateRequest;
+import com.bside.backendapi.domain.appointment.dto.AppointmentViewResponse;
 import com.bside.backendapi.domain.appointmentMember.application.AppointmentMemberService;
 import com.bside.backendapi.domain.appointmentMember.dto.response.AppointmentMemberResponse;
 import com.bside.backendapi.global.security.principal.CustomUserDetails;
@@ -42,9 +43,8 @@ public class AppointmentController {
     // read
     @Operation(summary = "내 약속 모두 조회", description = ".")
     @GetMapping("/appointments/getAllMyAppointment")
-    public ResponseEntity<List<Appointment>> getAllMyAppointment() {
-        List<Appointment> appointments = appointmentMemberService.getAllMyAppointment(this.getPrincipal().getId());
-        return ResponseEntity.ok().body(appointments);
+    public ResponseEntity<List<AppointmentViewResponse>> getAllMyAppointment() {
+        return ResponseEntity.ok().body(appointmentMemberService.getAllMyAppointment(this.getPrincipal().getId()));
     }
 
     // update
