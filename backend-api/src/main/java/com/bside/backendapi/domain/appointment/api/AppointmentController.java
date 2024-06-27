@@ -21,6 +21,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -51,7 +52,7 @@ public class AppointmentController {
     @PatchMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> update(@Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest,
                                        @PathVariable Long appointmentId) {
-        appointmentService.update(appointmentUpdateRequest.toEntity(), appointmentId, this.getPrincipal().getId());
+        appointmentService.update(appointmentUpdateRequest.toEntity(), appointmentId);
         return ResponseEntity.ok().build();
     }
 

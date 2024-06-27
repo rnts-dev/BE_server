@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,7 +53,6 @@ public class Appointment extends BaseEntity {
     @OneToMany(mappedBy = "appointment")
     private List<AppointmentMember> members;
 
-
     @Column(name = "penalty_id")
     private Long penaltyId;
 
@@ -77,30 +75,20 @@ public class Appointment extends BaseEntity {
         return this;
     }
 
-
     //패널티 추가
     public void addPenalty(final Long penaltyId) {
         this.penaltyId = penaltyId;
     }
-    // 수정할 때 수정사항에 입력하지 않은 값들은 null 로 덮어씌워지는건가? 생각해봐야함
+
     public void update(final Appointment updateAppointment) {
-        if (updateAppointment.title != null) {
-            this.title = updateAppointment.title;
-        }
-        if (updateAppointment.appointmentType != null) {
-            this.appointmentType = updateAppointment.appointmentType;
-        }
-        if (updateAppointment.appointmentTime != null) {
-            this.appointmentTime = updateAppointment.appointmentTime;
-        }
-        if (updateAppointment.location != null) {
-            this.location = updateAppointment.location;
-        }
+        this.title = updateAppointment.title;
+        this.appointmentType = updateAppointment.appointmentType;
+        this.appointmentTime = updateAppointment.appointmentTime;
+        this.location = updateAppointment.location;
     }
 
     public void delete() {
         this.isDeleted = true;
-
     }
 }
 
