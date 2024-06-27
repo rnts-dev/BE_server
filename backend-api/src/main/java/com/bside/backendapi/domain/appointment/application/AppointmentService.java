@@ -32,12 +32,12 @@ public class AppointmentService {
         Appointment savedAppointment = appointmentRepository.save(appointment.create(memberId));
         Member member = getMemberEntity(memberId);
 
-        appointmentMemberRepository.save(builderAppointmentMember(appointment, member));
+        appointmentMemberRepository.save(buildAppointmentMember(appointment, member));
 
         return savedAppointment.getId();
     }
 
-    public void update(final Appointment updateAppointment, final Long appointmentId, final Long memberId) {
+    public void update(final Appointment updateAppointment, final Long appointmentId) {
         Appointment appointment = getAppointmentEntity(appointmentId);
         appointment.update(updateAppointment);
     }
@@ -56,11 +56,11 @@ public class AppointmentService {
         Appointment appointment = getAppointmentEntity(appointmentId);
         Member invitedMember = getMemberEntity(memberId);
 
-        appointmentMemberRepository.save(builderAppointmentMember(appointment, invitedMember));
+        appointmentMemberRepository.save(buildAppointmentMember(appointment, invitedMember));
     }
 
-    // builder appointment member
-    public AppointmentMember builderAppointmentMember(final Appointment appointment, final Member member) {
+    // build appointment member
+    public AppointmentMember buildAppointmentMember(final Appointment appointment, final Member member) {
         return AppointmentMember.builder()
                 .appointment(appointment)
                 .member(member)
