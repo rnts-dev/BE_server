@@ -1,13 +1,10 @@
 package com.bside.backendapi.domain.appointment.api;
 
 import com.bside.backendapi.domain.appointment.application.AppointmentService;
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.dto.AppointmentCreateRequest;
-import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
-import com.bside.backendapi.domain.appointment.dto.AppointmentUpdateRequest;
-import com.bside.backendapi.domain.appointment.dto.AppointmentViewResponse;
-import com.bside.backendapi.domain.appointmentMember.application.AppointmentMemberService;
-import com.bside.backendapi.domain.appointmentMember.dto.response.AppointmentMemberResponse;
+import com.bside.backendapi.domain.appointment.application.CustomAppointmentTypeService;
+import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
+import com.bside.backendapi.domain.appointment.dto.*;
+import com.bside.backendapi.domain.appointment.application.AppointmentViewService;
 import com.bside.backendapi.global.security.principal.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,11 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -31,21 +26,43 @@ import java.util.Optional;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    private final AppointmentMemberService appointmentMemberService;
+    private final AppointmentViewService appointmentViewService;
+    private final CustomAppointmentTypeService customAppointmentTypeService;
 
     // create
-    @Operation(summary = "약속 생성", description = "약속 생성 메서드, 생성자 userappointment까지 생성")
+    @Operation(summary = "약속 생성", description = ".")
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentCreateRequest appointmentCreateRequest){
-        Long appointmentId = appointmentService.create(appointmentCreateRequest.toEntity(), this.getPrincipal().getId());
+        // 사용자 정의 약속 유형 DB 저장
+        String customTypeName = appointmentCreateRequest.getCustomAppointmentType().getTypeName();
+
+        if (customTypeName != null && !customTypeName.isEmpty()) {
+             customAppointmentTypeService.createCustomAppointmentType(customTypeName, this.getPrincipal().getId());
+        }
+
+        Long appointmentId = appointmentService.create(appointmentCreateRequest.toEntity(), customTypeName, this.getPrincipal().getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new AppointmentResponse(appointmentId));
     }
 
-    // read
+    // get all appointments
     @Operation(summary = "내 약속 모두 조회", description = ".")
-    @GetMapping("/appointments/getAllMyAppointment")
-    public ResponseEntity<List<AppointmentViewResponse>> getAllMyAppointment() {
-        return ResponseEntity.ok().body(appointmentMemberService.getAllMyAppointment(this.getPrincipal().getId()));
+    @GetMapping("/appointments/getAllAppointments")
+    public ResponseEntity<List<AppointmentViewResponse>> getAllAppointments() {
+        return ResponseEntity.ok().body(appointmentViewService.getAllAppointments(this.getPrincipal().getId()));
+    }
+
+    // get past appointments
+    @Operation(summary = "지난 약속 조회", description = ".")
+    @GetMapping("/appointments/getPastAppointments")
+    public ResponseEntity<List<AppointmentViewResponse>> getPastAppointments() {
+        return ResponseEntity.ok().body(appointmentViewService.getPastAppointments(this.getPrincipal().getId()));
+    }
+
+    // get rest appointments
+    @Operation(summary = "지난 약속 조회", description = ".")
+    @GetMapping("/appointments/getRestAppointments")
+    public ResponseEntity<List<AppointmentViewResponse>> getRestAppointments() {
+        return ResponseEntity.ok().body(appointmentViewService.getRestAppointments(this.getPrincipal().getId()));
     }
 
     // update
@@ -60,6 +77,20 @@ public class AppointmentController {
     @DeleteMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> delete(@PathVariable Long appointmentId) {
         appointmentService.delete(appointmentId, this.getPrincipal().getId());
+        return ResponseEntity.noContent().build();
+    }
+
+    // accept invitation
+    @PostMapping("/appointments/invite/{appointmentId}")
+    public ResponseEntity<Void> invite(@PathVariable Long appointmentId) {
+        appointmentService.invite(appointmentId, this.getPrincipal().getId());
+        return ResponseEntity.ok().build();
+    }
+
+    // cancel appointment
+    @DeleteMapping("/appointments/cancel/{appointmentId}")
+    public ResponseEntity<Void> cancel(@PathVariable Long appointmentId) {
+        appointmentService.cancel(appointmentId, this.getPrincipal().getId());
         return ResponseEntity.noContent().build();
     }
 

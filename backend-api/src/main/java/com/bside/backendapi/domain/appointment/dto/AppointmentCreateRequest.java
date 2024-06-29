@@ -2,6 +2,7 @@ package com.bside.backendapi.domain.appointment.dto;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
+import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
 import com.bside.backendapi.domain.appointment.domain.vo.Title;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,8 +23,10 @@ public class AppointmentCreateRequest {
     private Title title;
 
     @Valid @JsonProperty("appointmentType")
-    @NotNull(message = "appointment_type은 필수값입니다.")
     private AppointmentType appointmentType;
+
+    @Valid
+    private CustomAppointmentType customAppointmentType;
 
     @Valid @JsonProperty("appointmentTime")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -34,11 +37,14 @@ public class AppointmentCreateRequest {
     @NotNull(message = "Location은 필수값입니다.")
     private Location location;
 
-
     // 정적 팩토리 메서드 추가
     public static AppointmentCreateRequest of(final Appointment appointment) {
-        return new AppointmentCreateRequest(appointment.getTitle(), appointment.getAppointmentType(),
-                appointment.getAppointmentTime(), appointment.getLocation());
+        return new AppointmentCreateRequest(
+                appointment.getTitle(),
+                appointment.getAppointmentType(),
+                appointment.getCustomAppointmentType(),
+                appointment.getAppointmentTime(),
+                appointment.getLocation());
     }
 
     @Builder
@@ -46,6 +52,7 @@ public class AppointmentCreateRequest {
         return Appointment.builder()
                 .title(title)
                 .appointmentType(appointmentType)
+                .customAppointmentType(customAppointmentType)
                 .appointmentTime(appointmentTime)
                 .location(Location.from(location.getPlace(), location.getLatitude(), location.getLongitude()))
                 .build();

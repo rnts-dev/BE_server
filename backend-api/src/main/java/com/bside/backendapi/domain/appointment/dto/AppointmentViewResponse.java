@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.dto;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
+import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
 import com.bside.backendapi.domain.appointment.domain.vo.Title;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,16 +22,29 @@ public class AppointmentViewResponse {
     private Title title;
     private Long creatorId;
     private AppointmentType appointmentType;
+    private String typeName;
     private LocalDateTime appointmentTime;
     private Location location;
 
     public static AppointmentViewResponse of(final Appointment appointment) {
-        return new AppointmentViewResponse(
-                appointment.getId(),
-                appointment.getTitle(),
-                appointment.getCreatorId(),
-                appointment.getAppointmentType(),
-                appointment.getAppointmentTime(),
-                appointment.getLocation());
+        if (appointment.getCustomAppointmentType() == null) {
+            return new AppointmentViewResponse(
+                    appointment.getId(),
+                    appointment.getTitle(),
+                    appointment.getCreatorId(),
+                    appointment.getAppointmentType(),
+                    null,
+                    appointment.getAppointmentTime(),
+                    appointment.getLocation());
+        } else {
+            return new AppointmentViewResponse(
+                    appointment.getId(),
+                    appointment.getTitle(),
+                    appointment.getCreatorId(),
+                    null,
+                    appointment.getCustomAppointmentType().getTypeName(),
+                    appointment.getAppointmentTime(),
+                    appointment.getLocation());
+        }
     }
 }

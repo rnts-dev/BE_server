@@ -41,7 +41,7 @@ public class AppointmentUpdateRequest {
                 .title(title)
                 .appointmentType(appointmentType)
                 .appointmentTime(appointmentTime)
-                .location(new Location(this.location.getPlace(), this.location.getLatitude(), this.location.getLongitude()))
+                .location(Location.from(this.location.getPlace(), this.location.getLatitude(), this.location.getLongitude()))
                 .build();
     }
 
