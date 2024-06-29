@@ -19,7 +19,7 @@ public class Title implements Serializable {
 
     @Length(min = 2, max = 30)
     @NotBlank(message = "title은 필수 값입니다.")
-    @Column(unique = true, length = 40)
+    @Column(length = 40)
     private String title;
 
     public static Title from(final String title) {

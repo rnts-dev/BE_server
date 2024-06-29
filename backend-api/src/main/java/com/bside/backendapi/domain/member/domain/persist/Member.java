@@ -62,8 +62,8 @@ public class Member extends BaseEntity {
     @Column(name = "activated")
     private Boolean activated = true;
 
-    @OneToMany(mappedBy = "member")
-    private List<AppointmentMember> appointmentMembers;
+//    @OneToMany(mappedBy = "member")
+//    private List<AppointmentMember> appointmentMembers;
 
     @Builder
     private Member(Long id, Email email, Password password, Name name, Nickname nickname,

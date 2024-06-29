@@ -8,4 +8,7 @@ import java.util.List;
 public interface AppointmentMemberRepository extends JpaRepository<AppointmentMember, Long> {
 
     List<AppointmentMember> findAllByMemberId(Long memberId);
+
+    List<AppointmentMember> deleteByAppointmentIdAndMemberId(Long appointmentId, Long memberId);
+
 }

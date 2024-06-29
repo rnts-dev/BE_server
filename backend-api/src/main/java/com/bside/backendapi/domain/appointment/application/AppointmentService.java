@@ -2,6 +2,8 @@ package com.bside.backendapi.domain.appointment.application;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
+import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
+import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointment.error.AppointmentMissMatchException;
 import com.bside.backendapi.domain.appointment.error.AppointmentNotFoundException;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
@@ -9,7 +11,6 @@ import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
-import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +28,18 @@ public class AppointmentService {
     private final MemberRepository memberRepository;
     private final AppointmentRepository appointmentRepository;
     private final AppointmentMemberRepository appointmentMemberRepository;
+    private final CustomAppointmentTypeRepository customAppointmentTypeRepository;
 
-    public Long create(final Appointment appointment, final Long memberId){
-        Appointment savedAppointment = appointmentRepository.save(appointment.create(memberId));
+    public Long create(final Appointment appointment,final String customTypeName, final Long memberId){
+        CustomAppointmentType customAppointmentType =
+                customAppointmentTypeRepository.findByMemberIdAndTypeName(memberId, customTypeName).orElse(null);
+
+        Appointment savedAppointment =
+                appointmentRepository.save(appointment.create(memberId, appointment.getAppointmentType(), customAppointmentType));
+
         Member member = getMemberEntity(memberId);
 
-        appointmentMemberRepository.save(buildAppointmentMember(appointment, member));
-
+        appointmentMemberRepository.save(buildAppointmentMember(savedAppointment, member));
         return savedAppointment.getId();
     }
 
@@ -57,6 +63,10 @@ public class AppointmentService {
         Member invitedMember = getMemberEntity(memberId);
 
         appointmentMemberRepository.save(buildAppointmentMember(appointment, invitedMember));
+    }
+
+    public void cancel(final Long appointmentId, final Long memberId) {
+        appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, memberId);
     }
 
     // build appointment member

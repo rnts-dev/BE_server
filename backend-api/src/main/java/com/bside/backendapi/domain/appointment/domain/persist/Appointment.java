@@ -34,8 +34,12 @@ public class Appointment extends BaseEntity {
     private Long creatorId;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "appointment_type", nullable = false)
+    @Column(name = "appointment_type")
     private AppointmentType appointmentType;
+
+    @ManyToOne
+    @JoinColumn(name = "custom_type_id")
+    private CustomAppointmentType customAppointmentType;
 
     @Column(name = "appointment_time", nullable = false)
     private LocalDateTime appointmentTime;
@@ -50,19 +54,20 @@ public class Appointment extends BaseEntity {
     @Column(name = "is_first")
     private boolean isFirst = false;
 
-    @OneToMany(mappedBy = "appointment")
-    private List<AppointmentMember> members;
+//    @OneToMany(mappedBy = "appointment")
+//    private List<AppointmentMember> members;
 
     @Column(name = "penalty_id")
     private Long penaltyId;
 
     @Builder
-    private Appointment(Long id, Title title, Long creatorId, AppointmentType appointmentType, LocalDateTime appointmentTime,
+    private Appointment(Long id, Title title, Long creatorId, AppointmentType appointmentType, CustomAppointmentType customAppointmentType, LocalDateTime appointmentTime,
                         Location location, boolean isDeleted, boolean isFirst) {
         this.id = id;
         this.title = title;
         this.creatorId = creatorId;
         this.appointmentType = appointmentType;
+        this.customAppointmentType = customAppointmentType;
         this.appointmentTime = appointmentTime;
         this.location = location;
         this.isDeleted = false;
@@ -70,8 +75,10 @@ public class Appointment extends BaseEntity {
     }
 
     // 비즈니스 로직 추가
-    public Appointment create(final Long creatorId) {
+    public Appointment create(final Long creatorId, final AppointmentType appointmentType, final CustomAppointmentType customAppointmentType) {
         this.creatorId = creatorId;
+        this.appointmentType = appointmentType;
+        this.customAppointmentType = customAppointmentType;
         return this;
     }
 
