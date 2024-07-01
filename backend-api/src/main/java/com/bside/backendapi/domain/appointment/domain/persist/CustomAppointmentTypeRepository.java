@@ -10,4 +10,6 @@ public interface CustomAppointmentTypeRepository extends JpaRepository<CustomApp
 
     Optional<CustomAppointmentType> findByMemberIdAndTypeName(Long memberId, String typeName);
 
+    Optional<CustomAppointmentType> findAllByMemberId(Long memberId);
+
 }

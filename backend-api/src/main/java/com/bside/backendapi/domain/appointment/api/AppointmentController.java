@@ -33,14 +33,7 @@ public class AppointmentController {
     @Operation(summary = "약속 생성", description = ".")
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentCreateRequest appointmentCreateRequest){
-        // 사용자 정의 약속 유형 DB 저장
-        String customTypeName = appointmentCreateRequest.getCustomAppointmentType().getTypeName();
-
-        if (customTypeName != null && !customTypeName.isEmpty()) {
-             customAppointmentTypeService.createCustomAppointmentType(customTypeName, this.getPrincipal().getId());
-        }
-
-        Long appointmentId = appointmentService.create(appointmentCreateRequest.toEntity(), customTypeName, this.getPrincipal().getId());
+        Long appointmentId = appointmentService.create(appointmentCreateRequest.toEntity(), this.getPrincipal().getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new AppointmentResponse(appointmentId));
     }
 

@@ -30,12 +30,19 @@ public class AppointmentService {
     private final AppointmentMemberRepository appointmentMemberRepository;
     private final CustomAppointmentTypeRepository customAppointmentTypeRepository;
 
-    public Long create(final Appointment appointment,final String customTypeName, final Long memberId){
-        CustomAppointmentType customAppointmentType =
-                customAppointmentTypeRepository.findByMemberIdAndTypeName(memberId, customTypeName).orElse(null);
+    public Long create(final Appointment appointment, final Long memberId){
+        CustomAppointmentType customAppointmentType = null;
 
-        Appointment savedAppointment =
-                appointmentRepository.save(appointment.create(memberId, appointment.getAppointmentType(), customAppointmentType));
+        if (appointment.getCustomAppointmentType() != null) {
+            String customTypeName = appointment.getCustomAppointmentType().getTypeName();
+            customAppointmentType = customAppointmentTypeRepository.findByMemberIdAndTypeName(memberId, customTypeName)
+                    .orElse(null);
+        }
+
+        Appointment savedAppointment = appointmentRepository.save(appointment.create(
+                memberId,
+                appointment.getAppointmentType(),
+                customAppointmentType));
 
         Member member = getMemberEntity(memberId);
 

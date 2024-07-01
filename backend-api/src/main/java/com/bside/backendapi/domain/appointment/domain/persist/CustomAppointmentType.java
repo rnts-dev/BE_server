@@ -23,10 +23,19 @@ public class CustomAppointmentType {
     @Column(name = "type_name")
     private String typeName;
 
+    @Column(name = "image")
+    private String image;
+
     @Builder
-    private CustomAppointmentType(Long id, Member member, String typeName) {
+    private CustomAppointmentType(Long id, Member member, String typeName, String image) {
         this.id = id;
         this.member = member;
         this.typeName = typeName;
+        this.image = image;
+    }
+
+    // Member 추가
+    public void addMember(final Member member) {
+        this.member = member;
     }
 }
