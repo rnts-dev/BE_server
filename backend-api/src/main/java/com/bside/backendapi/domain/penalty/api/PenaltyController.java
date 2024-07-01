@@ -5,9 +5,11 @@ import com.bside.backendapi.domain.penalty.application.PenaltyService;
 import com.bside.backendapi.domain.penalty.dto.request.PenaltyCreateRequest;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
+import com.bside.backendapi.global.security.principal.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,9 @@ public class PenaltyController {
     @PostMapping("penalty/{appointmentId}")
     public ResponseEntity<PenaltyResponse> createPenalty(@RequestBody PenaltyCreateRequest request,
                                                             @PathVariable Long appointmentId){
-        Member temptMember;
-        Long tempMemberId = 1L;
-        Long penaltyId = penaltyService.create(request.toEntity(), tempMemberId, appointmentId);
+
+        Long memberId = this.getPrincipal().getId();
+        Long penaltyId = penaltyService.create(request.toEntity(), memberId, appointmentId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new PenaltyResponse(penaltyId, true));
     }
@@ -44,9 +46,9 @@ public class PenaltyController {
     @PostMapping("penalty/receiveed/{penaltyId}")
     public ResponseEntity<PenaltyResponse> addReceivedMember(@PathVariable Long penaltyId){
 
-        Long tempMemberId = 1L; //임시 현재 사용자
+        Long memberId = this.getPrincipal().getId();
 
-        Long updatedPenaltyId = penaltyService.addReceiver(penaltyId, tempMemberId);
+        Long updatedPenaltyId = penaltyService.addReceiver(penaltyId, memberId);
 
         return ResponseEntity.ok(new PenaltyResponse(penaltyId, true));
 
@@ -56,9 +58,10 @@ public class PenaltyController {
     //내가 생성한 패널티 조회
     @GetMapping("penalties/my-created")
     public ResponseEntity<List<PenaltyGetResponse>> getMyCreatedPenalties(){
-        Long tempMemberId = 1L;
 
-        List<PenaltyGetResponse> penaltyGetResponses = penaltyService.MyCreatedPenalties(tempMemberId);
+        Long memberId = this.getPrincipal().getId();
+
+        List<PenaltyGetResponse> penaltyGetResponses = penaltyService.MyCreatedPenalties(memberId);
 
         return ResponseEntity.ok(penaltyGetResponses);
     }
@@ -67,13 +70,16 @@ public class PenaltyController {
     // 내가 받은 패널티 조회
     @GetMapping("penalies")
     public ResponseEntity<List<PenaltyGetResponse>> getMyPenaltiest(){
-        Long tempMemberId = 1L;
 
-        List<PenaltyGetResponse> penaltyGetResponses = penaltyService.myPenalties(tempMemberId);
+        Long memberId = this.getPrincipal().getId();
+
+        List<PenaltyGetResponse> penaltyGetResponses = penaltyService.myPenalties(memberId);
 
         return ResponseEntity.ok(penaltyGetResponses);
     }
 
-
+    private CustomUserDetails getPrincipal() {
+        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
 }
