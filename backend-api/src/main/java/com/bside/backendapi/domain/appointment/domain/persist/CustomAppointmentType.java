@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 public class CustomAppointmentType {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "custom_type_id")
+    @Column(name = "custom_appointment_type_id")
     private Long id;
 
     @ManyToOne @JsonProperty("member")

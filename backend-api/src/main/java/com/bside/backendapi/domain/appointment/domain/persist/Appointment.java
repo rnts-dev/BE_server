@@ -17,7 +17,6 @@ import java.util.List;
 
 @Getter
 @Entity
-@SQLRestriction("is_deleted = false")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Appointment extends BaseEntity {
 
@@ -38,7 +37,7 @@ public class Appointment extends BaseEntity {
     private AppointmentType appointmentType;
 
     @ManyToOne
-    @JoinColumn(name = "custom_type_id")
+    @JoinColumn(name = "custom_appointment_type_id")
     private CustomAppointmentType customAppointmentType;
 
     @Column(name = "appointment_time", nullable = false)
@@ -48,21 +47,15 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false)
     private Location location;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted = false;
-
     @Column(name = "is_first")
     private boolean isFirst = false;
-
-//    @OneToMany(mappedBy = "appointment")
-//    private List<AppointmentMember> members;
 
     @Column(name = "penalty_id")
     private Long penaltyId;
 
     @Builder
     private Appointment(Long id, Title title, Long creatorId, AppointmentType appointmentType, CustomAppointmentType customAppointmentType, LocalDateTime appointmentTime,
-                        Location location, boolean isDeleted, boolean isFirst) {
+                        Location location, boolean isFirst) {
         this.id = id;
         this.title = title;
         this.creatorId = creatorId;
@@ -70,7 +63,6 @@ public class Appointment extends BaseEntity {
         this.customAppointmentType = customAppointmentType;
         this.appointmentTime = appointmentTime;
         this.location = location;
-        this.isDeleted = false;
         this.isFirst = false;
     }
 
@@ -92,10 +84,6 @@ public class Appointment extends BaseEntity {
         this.appointmentType = updateAppointment.appointmentType;
         this.appointmentTime = updateAppointment.appointmentTime;
         this.location = updateAppointment.location;
-    }
-
-    public void delete() {
-        this.isDeleted = true;
     }
 }
 

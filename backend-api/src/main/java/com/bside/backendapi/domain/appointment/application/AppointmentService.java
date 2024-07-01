@@ -6,6 +6,7 @@ import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentT
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointment.error.AppointmentMissMatchException;
 import com.bside.backendapi.domain.appointment.error.AppointmentNotFoundException;
+import com.bside.backendapi.domain.appointment.error.CustomAppointmentTypeNotFoundException;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
@@ -33,10 +34,10 @@ public class AppointmentService {
     public Long create(final Appointment appointment, final Long memberId){
         CustomAppointmentType customAppointmentType = null;
 
-        if (appointment.getCustomAppointmentType() != null) {
+        if (appointment.getCustomAppointmentType().getTypeName() != null) {
             String customTypeName = appointment.getCustomAppointmentType().getTypeName();
             customAppointmentType = customAppointmentTypeRepository.findByMemberIdAndTypeName(memberId, customTypeName)
-                    .orElse(null);
+                    .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
         }
 
         Appointment savedAppointment = appointmentRepository.save(appointment.create(
@@ -62,7 +63,8 @@ public class AppointmentService {
             throw new AppointmentMissMatchException(ErrorCode.APPOINTMENT_MISS_MATCH);
         }
 
-        appointment.delete();
+        appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, memberId);
+        appointmentRepository.delete(appointment);
     }
 
     public void invite(final Long appointmentId, final Long memberId) {

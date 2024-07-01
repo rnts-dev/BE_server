@@ -37,6 +37,13 @@ public class CustomAppointmentTypeController {
         return ResponseEntity.ok().body(customAppointmentTypeService.getCustomAppointmentType(this.getPrincipal().getId()));
     }
 
+    // delete
+    @DeleteMapping("/customAppointmentType/{customAppointmentTypeId}")
+    public ResponseEntity<Void> delete(@PathVariable Long customAppointmentTypeId) {
+        customAppointmentTypeService.delete(customAppointmentTypeId);
+        return ResponseEntity.noContent().build();
+    }
+
     public CustomUserDetails getPrincipal() {
         return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

@@ -26,6 +26,9 @@ public enum ErrorCode {
     // APPOINTMENT
     APPOINTMENT_NOT_FOUND(400, "A001", "약속이 없습니다."),
     APPOINTMENT_MISS_MATCH(400, "A002", "일치하는 약속이 없습니다."),
+    APPOINTMENT_EXIST(400, "A003", "해당 유형을 사용하는 약속이 있습니다."),
+    CUSTOM_TYPE_NOT_FOUND(400, "A004", "사용자가 등록한 약속 유형이 없습니다."),
+
     // PENALTY
     PENALTY_NOT_FOUND(400,"P001","해당 패널티를 찾을수 없습니다");
 

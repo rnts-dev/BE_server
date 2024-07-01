@@ -1,9 +1,11 @@
 package com.bside.backendapi.domain.appointment.application;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
+import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeViewResponse;
+import com.bside.backendapi.domain.appointment.error.AppointmentExistException;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class CustomAppointmentTypeService {
 
     private final MemberRepository memberRepository;
+    private final AppointmentRepository appointmentRepository;
     private final CustomAppointmentTypeRepository customAppointmentTypeRepository;
 
     public Long createCustomAppointmentType(final CustomAppointmentType customAppointmentType, final Long memberId) {
@@ -39,6 +43,15 @@ public class CustomAppointmentTypeService {
                 .stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
+    }
+
+    // delete
+    public void delete(final Long customAppointmentTypeId) {
+        Optional<Appointment> appointment = appointmentRepository.findByCustomAppointmentTypeId(customAppointmentTypeId);
+
+        if (appointment.isPresent()) throw new AppointmentExistException(ErrorCode.APPOINTMENT_EXIST);
+
+        customAppointmentTypeRepository.deleteById(customAppointmentTypeId);
     }
 
     // get member

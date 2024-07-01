@@ -1,10 +1,12 @@
 package com.bside.backendapi.domain.appointment.api;
 
 import com.bside.backendapi.domain.appointment.application.AppointmentService;
-import com.bside.backendapi.domain.appointment.application.CustomAppointmentTypeService;
-import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
-import com.bside.backendapi.domain.appointment.dto.*;
 import com.bside.backendapi.domain.appointment.application.AppointmentViewService;
+import com.bside.backendapi.domain.appointment.application.CustomAppointmentTypeService;
+import com.bside.backendapi.domain.appointment.dto.AppointmentCreateRequest;
+import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
+import com.bside.backendapi.domain.appointment.dto.AppointmentUpdateRequest;
+import com.bside.backendapi.domain.appointment.dto.AppointmentViewResponse;
 import com.bside.backendapi.global.security.principal.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +29,6 @@ public class AppointmentController {
 
     private final AppointmentService appointmentService;
     private final AppointmentViewService appointmentViewService;
-    private final CustomAppointmentTypeService customAppointmentTypeService;
 
     // create
     @Operation(summary = "약속 생성", description = ".")
