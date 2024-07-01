@@ -9,6 +9,6 @@ public interface AppointmentMemberRepository extends JpaRepository<AppointmentMe
 
     List<AppointmentMember> findAllByMemberId(Long memberId);
 
-    List<AppointmentMember> deleteByAppointmentIdAndMemberId(Long appointmentId, Long memberId);
+    void deleteByAppointmentIdAndMemberId(Long appointmentId, Long memberId);
 
 }
