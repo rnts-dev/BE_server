@@ -47,7 +47,6 @@ public class PenaltyService {
     //약속에서 패널티 조회
     public PenaltyGetResponse findByAppointment(final Long appointmentId){
 
-        //이거랑 penaltyRepository에서 appointment로 penalty찾는거 중 어떤거? -> 연관간계 안써서 안되나?
         Appointment findAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
                 () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
@@ -95,17 +94,35 @@ public class PenaltyService {
         return penaltyResponses;
     }
 
+
     //내가 받은 패널티 조회
     public List<PenaltyGetResponse> myPenalties(final Long memberId){
-        List<Penalty> penalties = receivedPenaltyRepository.findByMemberId(memberId);
-        if (penalties == null || penalties.isEmpty()){
+
+        //memberid로 receivedPenalties(penaltyid + memberid) 가져오기
+        List<ReceivedPenalty> receivedPenalties = receivedPenaltyRepository.findByMemberId(memberId);
+        if (receivedPenalties == null || receivedPenalties.isEmpty()){
             throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
         }
+
+        //receivedPenalties에서 penaltyid 추출
+        List<Long> penaltyIds = receivedPenalties.stream()
+                .map(ReceivedPenalty::getPenaltyId)
+                .collect(Collectors.toList());
+
+        //추출한 penaltyid로 penalty정보 추출
+        List<Penalty> penalties = penaltyRepository.findAllById(penaltyIds);
+        if (penalties.isEmpty()) {
+            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+        }
+
+        //penaltyResponses에 담아서 리턴
         List<PenaltyGetResponse> penaltyResponses = penalties.stream()
                 .map(PenaltyGetResponse::of)
                 .collect(Collectors.toList());
 
         return penaltyResponses;
     }
+
+
 
 }
