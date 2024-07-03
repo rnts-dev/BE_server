@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Password {
     @NotBlank(message = "비밀번호를 입력하세요.")
     @Length(min = 9)
     @Column(nullable = false)
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,12}", message = "비밀번호는 9~12자 영문(대소문자), 숫자, 특수문자를 사용하세요.")
     private String password;
 
     public static Password from(final String password) {
