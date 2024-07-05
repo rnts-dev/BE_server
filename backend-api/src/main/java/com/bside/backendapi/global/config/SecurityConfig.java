@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .authenticationProvider(customAuthenticationProvider())
 
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(PUBLIC, "/api/v1/**").permitAll()
+                        .requestMatchers(PUBLIC, "/api/v1/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
 
                 .sessionManagement(sessionManagement
