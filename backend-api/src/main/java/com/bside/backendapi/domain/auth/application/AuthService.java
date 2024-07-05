@@ -36,8 +36,8 @@ public class AuthService {
         CustomOAuth2User customUserDetails = memberRepository.findUserDetailsByLoginId(loginId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        UsernamePasswordAuthenticationToken token
-                = new UsernamePasswordAuthenticationToken(customUserDetails, userPassword);
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(customUserDetails, userPassword);
 
         // 2. 실제 인증 (사용자 비밀번호 체크) : authenticate() 가 실행될 때, CustomOAuth2UserService 에서 만든 loadUserByUsername() 실행
         Authentication authentication = builder.getObject().authenticate(token);

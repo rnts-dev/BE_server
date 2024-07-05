@@ -32,6 +32,12 @@ public class AuthController {
                 .body(AuthResponse.from(token.getAccessToken(), true));
     }
 
+    @PostMapping("/public/auth/reissue")
+    public ResponseEntity<AuthResponse> reissue(@CookieValue(name = "refreshToken") String refreshToken) {
+        log.debug("token : {}", refreshToken);
+        return ResponseEntity.ok(AuthResponse.from(authService.reissue(refreshToken), true));
+    }
+
     @DeleteMapping("/auth/logout")
     public ResponseEntity<AuthResponse> logout(HttpServletResponse httpServletResponse) {
         Cookie myCookie = new Cookie("refreshToken", null);

@@ -64,8 +64,8 @@ public class SecurityConfig {
                         .requestMatchers(PUBLIC, "/api/v1/**").permitAll()
                         .anyRequest().authenticated())
 
-                .sessionManagement(sessionManagement
-                        -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 
