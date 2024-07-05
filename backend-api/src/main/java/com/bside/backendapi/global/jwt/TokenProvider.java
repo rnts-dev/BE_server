@@ -3,7 +3,7 @@ package com.bside.backendapi.global.jwt;
 import com.bside.backendapi.global.jwt.dto.TokenDTO;
 import com.bside.backendapi.global.jwt.vo.AccessToken;
 import com.bside.backendapi.global.jwt.vo.RefreshToken;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
 import com.bside.backendapi.global.security.principal.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -33,6 +34,7 @@ public class TokenProvider implements InitializingBean {
     private final long accessTokenValidityInMilliseconds;
     private final long refreshTokenValidityInMilliseconds;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     private SecretKey key;
 
@@ -40,11 +42,12 @@ public class TokenProvider implements InitializingBean {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.accessToken-validity-in-seconds}") long accessTokenValidityInMilliseconds,
             @Value("${jwt.refreshToken-validity-in-seconds}") long refreshTokenValidityInMilliseconds,
-            CustomUserDetailsService customUserDetailsService) {
+            CustomUserDetailsService customUserDetailsService, CustomOAuth2UserService customOAuth2UserService) {
         this.secret = secret;
         this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds * 1000;
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds * 1000;
         this.customUserDetailsService = customUserDetailsService;
+        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Override
@@ -58,8 +61,6 @@ public class TokenProvider implements InitializingBean {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        log.info("authorities : {}", authorities);
-
         long now = (new Date()).getTime();
 
         String accessToken = Jwts.builder()
@@ -67,15 +68,15 @@ public class TokenProvider implements InitializingBean {
                 .claim(AUTHORITIES_KEY, authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(now + accessTokenValidityInMilliseconds))
-                .signWith(this.key)
+                .signWith(this.key, Jwts.SIG.HS512)
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .claim(AUTHORITIES_KEY, authorities)
                 .claim("id", memberId.toString())
+                .claim(AUTHORITIES_KEY, authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(now + refreshTokenValidityInMilliseconds))
-                .signWith(this.key)
+                .signWith(this.key, Jwts.SIG.HS512)
                 .compact();
 
         AccessToken newAccessToken = AccessToken.from(accessToken);
@@ -98,9 +99,10 @@ public class TokenProvider implements InitializingBean {
 
         String id = String.valueOf(claims.get("id"));
 
-        CustomUserDetails principal = customUserDetailsService.loadUserByUsername(id);
+//        UserDetails principal = customUserDetailsService.loadUserByUsername(id);
+        User principal = new User(id, "", authorities);
 
-        return new UsernamePasswordAuthenticationToken(principal, "password", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
     public boolean validateToken(String token) {

@@ -4,7 +4,7 @@ import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.dto.MemberDetailsResponse;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ public class MemberReadService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public MemberDetailsResponse getDetailBy(final CustomUserDetails userDetails) {
+    public MemberDetailsResponse getDetailBy(final CustomOAuth2User userDetails) {
 
         MemberDetailsResponse memberDetailsResponse = memberRepository.findById(userDetails.getId())
                 .map(MemberDetailsResponse::of)

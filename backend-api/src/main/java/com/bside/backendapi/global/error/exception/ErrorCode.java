@@ -12,7 +12,7 @@ public enum ErrorCode {
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),
     USER_NOT_FOUND(400, "M002", "회원이 아닙니다."),
 
-    DUPLICATED_EMAIL(400, "M003", "중복된 이메일 입니다."),
+    DUPLICATED_ID(400, "M003", "중복된 아이디 입니다."),
     DUPLICATED_NICKNAME(400, "M004", "중복된 닉네임 입니다."),
 
 

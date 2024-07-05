@@ -20,7 +20,7 @@ import java.util.Collections;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class CustomUserDetails implements UserDetails, Serializable {
+public class CustomUserDetails implements UserDetails {
 
     @Getter
     private Long id;
