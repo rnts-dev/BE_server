@@ -1,6 +1,5 @@
 package com.bside.backendapi.domain.member.domain.persist;
 
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.member.domain.vo.*;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -14,7 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -33,6 +31,10 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", nullable = false, updatable = false)
     private Long id;
+
+    @Embedded
+    @Column(name = "login_id", nullable = false, updatable = false)
+    private LoginId loginId;
 
     @Embedded
     private Email email;
@@ -62,13 +64,17 @@ public class Member extends BaseEntity {
     @Column(name = "activated")
     private Boolean activated = true;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<AppointmentMember> appointmentMembers;
+    // google, kakao, ..
+    private String provider;
+
+    // 로그인한 사용자의 고유 ID
+    private String providerId;
 
     @Builder
-    private Member(Long id, Email email, Password password, Name name, Nickname nickname,
-                   LocalDate birth, String profileUrl, Tendency tendency, RoleType role) {
+    private Member(Long id, LoginId loginId, Email email, Password password, Name name, Nickname nickname, LocalDate birth,
+                   String profileUrl, Tendency tendency, RoleType role, String provider, String providerId) {
         this.id = id;
+        this.loginId = loginId;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -78,6 +84,8 @@ public class Member extends BaseEntity {
         this.tendency = tendency;
         this.role = role;
         this.activated = true;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     // 비즈니스 로직 추가

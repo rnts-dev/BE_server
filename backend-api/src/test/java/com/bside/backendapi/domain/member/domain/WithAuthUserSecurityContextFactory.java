@@ -2,7 +2,7 @@ package com.bside.backendapi.domain.member.domain;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.vo.*;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.security.principal.CustomOAuth2User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -28,7 +28,7 @@ public class WithAuthUserSecurityContextFactory implements WithSecurityContextFa
 
         List<GrantedAuthority> role = AuthorityUtils.createAuthorityList(RoleType.USER.name());
 
-        CustomUserDetails userDetails = CustomUserDetails.of(member);
+        CustomOAuth2User userDetails = CustomOAuth2User.of(member);
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userDetails, annotation.password(), role));

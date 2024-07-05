@@ -2,7 +2,7 @@ package com.bside.backendapi.domain.member.application;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
 import com.bside.backendapi.domain.member.error.DuplicatedEmailException;
@@ -26,7 +26,7 @@ public class MemberService {
 
     // join
     public MemberResponse join(final Member member) {
-        existedEmail(member.getEmail());
+        existedLoginId(member.getLoginId());
         existedNickname(member.getNickname());
 
         Member savedMember = memberRepository.save(member.encode(passwordEncoder));
@@ -52,10 +52,10 @@ public class MemberService {
                 .delete();
     }
 
-    // duplicate check email
-    private void existedEmail(final Email email) {
-        if (memberRepository.existsByEmail(email)) {
-            throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
+    // duplicate check ID
+    private void existedLoginId(final LoginId loginId) {
+        if (memberRepository.existsByLoginId(loginId)) {
+            throw new DuplicatedEmailException(ErrorCode.DUPLICATED_ID);
         }
     }
 

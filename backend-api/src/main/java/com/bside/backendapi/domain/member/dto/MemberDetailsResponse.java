@@ -1,10 +1,7 @@
 package com.bside.backendapi.domain.member.dto;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.vo.Email;
-import com.bside.backendapi.domain.member.domain.vo.Name;
-import com.bside.backendapi.domain.member.domain.vo.Nickname;
-import com.bside.backendapi.domain.member.domain.vo.Tendency;
+import com.bside.backendapi.domain.member.domain.vo.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +15,8 @@ import java.time.LocalDate;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberDetailsResponse implements Serializable {
 
-    private Long memberId;
+    private Long id;
+    private LoginId loginId;
     private Email email;
     private Name name;
     private Nickname nickname;
@@ -32,6 +30,7 @@ public class MemberDetailsResponse implements Serializable {
 
         return new MemberDetailsResponse(
                 member.getId(),
+                member.getLoginId(),
                 member.getEmail(),
                 member.getName(),
                 member.getNickname(),

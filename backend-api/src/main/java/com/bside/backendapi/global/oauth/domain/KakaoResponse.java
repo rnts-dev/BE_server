@@ -1,7 +1,12 @@
 package com.bside.backendapi.global.oauth.domain;
 
+import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.Nickname;
+import lombok.AllArgsConstructor;
+
 import java.util.Map;
 
+@AllArgsConstructor
 public class KakaoResponse {
 
     public static String providerId;
@@ -14,12 +19,20 @@ public class KakaoResponse {
         profile = (Map<String, Object>) account.get("profile");
     }
 
+    public String getProvider() {
+        return "kakao";
+    }
+
     public String getProviderId() {
         return providerId;
     }
 
-    public String getName() {
-        return String.valueOf(profile.get("nickname"));
+    public Email getEmail() {
+        return Email.from(account.get("email").toString());
+    }
+
+    public Nickname getName() {
+        return Nickname.from(profile.get("nickname").toString());
     }
 
     public Map<String, Object> getProfile() {

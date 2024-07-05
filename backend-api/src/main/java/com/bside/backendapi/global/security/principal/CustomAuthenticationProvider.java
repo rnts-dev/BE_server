@@ -1,5 +1,6 @@
 package com.bside.backendapi.global.security.principal;
 
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,7 +10,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        CustomOAuth2User principal = (CustomOAuth2User) authentication.getPrincipal();
         return new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
     }
 

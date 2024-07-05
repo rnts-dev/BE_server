@@ -2,12 +2,11 @@ package com.bside.backendapi.domain.appointment.api;
 
 import com.bside.backendapi.domain.appointment.application.AppointmentService;
 import com.bside.backendapi.domain.appointment.application.AppointmentViewService;
-import com.bside.backendapi.domain.appointment.application.CustomAppointmentTypeService;
 import com.bside.backendapi.domain.appointment.dto.AppointmentCreateRequest;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.domain.appointment.dto.AppointmentUpdateRequest;
 import com.bside.backendapi.domain.appointment.dto.AppointmentViewResponse;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -88,7 +87,7 @@ public class AppointmentController {
         return ResponseEntity.noContent().build();
     }
 
-    private CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private CustomOAuth2User getPrincipal() {
+        return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

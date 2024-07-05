@@ -3,7 +3,7 @@ package com.bside.backendapi.domain.member.api;
 import com.bside.backendapi.domain.member.application.MemberReadService;
 import com.bside.backendapi.domain.member.application.MemberService;
 import com.bside.backendapi.domain.member.dto.*;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,8 +55,8 @@ public class MemberController {
     }
 
     // 현재 인증된 사용자의 정보 가져오기
-    public CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public CustomOAuth2User getPrincipal() {
+        return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }

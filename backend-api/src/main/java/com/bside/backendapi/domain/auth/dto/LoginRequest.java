@@ -1,6 +1,6 @@
 package com.bside.backendapi.domain.auth.dto;
 
-import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Password;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
 
     @Valid
-    @NotNull(message = "Email을 입력하세요.")
-    private Email email;
+    @NotNull(message = "ID를 입력하세요.")
+    private LoginId loginId;
 
     @Valid
     @NotNull(message = "Password를 입력하세요.")
     private Password password;
 
-    public static LoginRequest of(final Email email, final Password password) {
-        return new LoginRequest(email, password);
+    public static LoginRequest of(final LoginId loginId, final Password password) {
+        return new LoginRequest(loginId, password);
     }
 }

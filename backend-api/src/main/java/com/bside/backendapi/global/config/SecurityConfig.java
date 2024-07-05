@@ -4,6 +4,8 @@ import com.bside.backendapi.global.jwt.JwtAccessDeniedHandler;
 import com.bside.backendapi.global.jwt.JwtAuthenticationEntryPoint;
 import com.bside.backendapi.global.jwt.JwtFilter;
 import com.bside.backendapi.global.jwt.TokenProvider;
+import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
+import com.bside.backendapi.global.oauth.handler.CustomSuccessHandler;
 import com.bside.backendapi.global.security.principal.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,7 @@ public class SecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     private static final String PUBLIC = "/api/v1/public/**";
 
@@ -67,6 +70,19 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 
                 .formLogin(AbstractHttpConfigurer::disable)
+
+                // OAuth 로그인
+                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
+//                        .loginPage("") // 권한 접근 실패 시 이동할 페이지
+//                        .defaultSuccessUrl("") // 로그인 성공 시 이동할 페이지
+//                        .failureUrl("") // 로그인 실패 시 이동할 페이지
+
+                        // userInfoEndpoint : 로그인 성공 후 사용자 정보 가져올 때의 설정
+                        // userService : 소셜 로그인 성공 시 진행될 UserService 구현체 등록
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService))
+                                .successHandler(new CustomSuccessHandler(tokenProvider))
+                )
 
                 .build();
     }

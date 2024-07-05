@@ -4,7 +4,7 @@ import com.bside.backendapi.domain.appointment.application.CustomAppointmentType
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeCreateRequest;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeResponse;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeViewResponse;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,7 +44,7 @@ public class CustomAppointmentTypeController {
         return ResponseEntity.noContent().build();
     }
 
-    public CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public CustomOAuth2User getPrincipal() {
+        return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
