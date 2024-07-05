@@ -1,0 +1,46 @@
+# docker-compose-nginx2.yml
+
+version: '3'
+services:
+  spring-app:
+    container_name: rnts-api
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    depends_on:
+      - mysql-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/${DB_DATABASE}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - network
+
+  mysql-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - network
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.21.3  # 다른 버전의 Nginx 이미지를 지정합니다.
+    volumes:
+      - ./nginx2.conf:/etc/nginx/nginx.conf:ro  # 로컬에 있는 nginx2.conf 파일을 Nginx 컨테이너에 마운트
+    ports:
+      - "8080:80"  # 호스트의 포트 8080을 컨테이너의 80 포트로 매핑
+    depends_on:
+      - spring-app  # spring-app 컨테이너가 준비되면 nginx2 컨테이너 시작
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
