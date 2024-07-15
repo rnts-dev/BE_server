@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.member.domain.persist;
 
+import com.bside.backendapi.domain.member.domain.vo.Email;
 import com.bside.backendapi.domain.member.domain.vo.LoginId;
-import com.bside.backendapi.domain.member.domain.vo.Name;
 import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -35,7 +35,8 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 query.select(Projections.constructor(CustomOAuth2User.class,
                                 member.id.as("id"),
                                 member.loginId,
-                                member.role))
+                                member.role,
+                                member))
                         .from(member)
                         .where(member.loginId.eq(loginId))
                         .fetchOne()
@@ -43,16 +44,29 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     }
 
     @Override
-    public Optional<Member> findByName(String name) {
+    public Optional<Member> findBySocialId(String socialId) {
         return Optional.ofNullable(
                 query.select(Projections.constructor(Member.class,
                                 member.id.as("id"),
-                                member.loginId,
+                                member.email,
                                 member.nickname))
                         .from(member)
-                        .where(member.name.eq(Name.from(name)))
+                        .where(member.socialId.eq(socialId))
                         .fetchOne()
         );
     }
 
+    @Override
+    public Optional<CustomOAuth2User> findByEmail(Email email) {
+        return Optional.ofNullable(
+                query.select(Projections.constructor(CustomOAuth2User.class,
+                                member.id.as("id"),
+                                member.loginId,
+                                member.role,
+                                member))
+                        .from(member)
+                        .where(member.email.eq(email))
+                        .fetchOne()
+        );
+    }
 }

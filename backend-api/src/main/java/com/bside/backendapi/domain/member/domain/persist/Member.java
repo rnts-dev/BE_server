@@ -33,7 +33,7 @@ public class Member extends BaseEntity {
     private Long id;
 
     @Embedded
-    @Column(name = "login_id", nullable = false, updatable = false)
+    @Column(name = "login_id")
     private LoginId loginId;
 
     @Embedded
@@ -48,7 +48,7 @@ public class Member extends BaseEntity {
     @Embedded
     private Nickname nickname;
 
-    @Column(nullable = false)
+    @Column
     private LocalDate birth;
 
     @Column(name = "profile_url")
@@ -64,15 +64,15 @@ public class Member extends BaseEntity {
     @Column(name = "activated")
     private Boolean activated = true;
 
-    // google, kakao, ..
-    private String provider;
+    // KAKAO, NAVER, GOOGLE
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
 
-    // 로그인한 사용자의 고유 ID
-    private String providerId;
+    private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
 
     @Builder
     private Member(Long id, LoginId loginId, Email email, Password password, Name name, Nickname nickname, LocalDate birth,
-                   String profileUrl, Tendency tendency, RoleType role, String provider, String providerId) {
+                   String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId) {
         this.id = id;
         this.loginId = loginId;
         this.email = email;
@@ -84,8 +84,8 @@ public class Member extends BaseEntity {
         this.tendency = tendency;
         this.role = role;
         this.activated = true;
-        this.provider = provider;
-        this.providerId = providerId;
+        this.socialType = socialType;
+        this.socialId = socialId;
     }
 
     // 비즈니스 로직 추가
@@ -99,6 +99,10 @@ public class Member extends BaseEntity {
         this.nickname = member.getNickname();
         this.name = member.getName();
         this.profileUrl = member.getProfileUrl();
+    }
+
+    public void updatePassword(final Member member, final PasswordEncoder passwordEncoder) {
+        this.password = Password.encode(member.getPassword().password(), passwordEncoder);
     }
 
     public void setTendency(final Member member) {

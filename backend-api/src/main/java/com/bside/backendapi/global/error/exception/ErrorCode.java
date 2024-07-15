@@ -7,15 +7,14 @@ public enum ErrorCode {
 
     // Common
     METHOD_NOT_ALLOWED(405, "C001", "잘못된 요청입니다."),
+    ACCESS_DENIED(403, "C002", "해당 자원에 대한 접근 권한이 없습니다."),
 
     // Member
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),
     USER_NOT_FOUND(400, "M002", "회원이 아닙니다."),
-
-    DUPLICATED_ID(400, "M003", "중복된 아이디 입니다."),
+    DUPLICATED_EMAIL(400, "M003", "중복된 이메일 입니다."),
     DUPLICATED_NICKNAME(400, "M004", "중복된 닉네임 입니다."),
-
-
+    DUPLICATED_PASSWORD(400, "M005", "기존 비밀번호와 동일합니다."),
 
 
     // JWT

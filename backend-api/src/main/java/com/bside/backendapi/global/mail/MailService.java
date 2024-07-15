@@ -4,11 +4,13 @@ import com.bside.backendapi.global.redis.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -53,13 +55,18 @@ public class MailService {
         // 인증코드 redis에 저장
         redisService.setValues(AUTH_CODE_PREFIX + to, authCode);
 
+        log.info("인증코드 메일 전송 완료");
         return authCode;
     }
 
     // 인증코드 확인
     public boolean verifiedCode(final String mail, final String authCode) {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + mail);
-
+        log.info("redis authCode ----------- {}", redisAuthCode);
+        log.info("authCode ----------- {}", authCode);
+        log.info("{}", redisService.checkExistsValue(redisAuthCode));
+        log.info("{}", redisAuthCode.equals(authCode));
+        log.info("{}", redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode));
         return redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
     }
 }

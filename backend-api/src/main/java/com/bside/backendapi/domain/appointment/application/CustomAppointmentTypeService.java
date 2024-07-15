@@ -6,7 +6,6 @@ import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentT
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeViewResponse;
 import com.bside.backendapi.domain.appointment.error.AppointmentExistException;
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;

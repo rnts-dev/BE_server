@@ -3,7 +3,7 @@ package com.bside.backendapi.global.mail;
 import lombok.Data;
 
 @Data
-public class MailDto {
+public class MailDTO {
 
     private String mail;
     private String authCode;

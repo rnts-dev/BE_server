@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.auth.dto;
+package com.bside.backendapi.domain.member.dto;
 
 import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Password;

@@ -1,11 +1,10 @@
 package com.bside.backendapi.domain.penalty.api;
 
-import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.penalty.application.PenaltyService;
 import com.bside.backendapi.domain.penalty.dto.request.PenaltyCreateRequest;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
-import com.bside.backendapi.global.security.principal.CustomUserDetails;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,8 +77,8 @@ public class PenaltyController {
         return ResponseEntity.ok(penaltyGetResponses);
     }
 
-    private CustomUserDetails getPrincipal() {
-        return (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private CustomOAuth2User getPrincipal() {
+        return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 }
