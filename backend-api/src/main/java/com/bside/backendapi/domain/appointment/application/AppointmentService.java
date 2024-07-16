@@ -78,7 +78,6 @@ public class AppointmentService {
         appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, memberId);
     }
 
-    // build appointment member
     public AppointmentMember buildAppointmentMember(final Appointment appointment, final Member member) {
         return AppointmentMember.builder()
                 .appointment(appointment)
@@ -86,13 +85,11 @@ public class AppointmentService {
                 .build();
     }
 
-    // get appoointment
     public Appointment getAppointmentEntity(final Long appointmentId) {
         return appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND));
     }
 
-    // get member
     public Member getMemberEntity(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));

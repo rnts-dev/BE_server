@@ -17,20 +17,20 @@ public class MemberUpdatePasswordRequest {
     @JsonProperty("email")
     private Email email;
 
-    @JsonProperty("password")
-    private Password password;
+    @JsonProperty("newPassword")
+    private Password newPassword;
 
-    @JsonProperty("checkPassword")
-    private Password checkPassword;
+    @JsonProperty("confirmPassword")
+    private Password confirmPassword;
 
-    public static MemberUpdatePasswordRequest of(final Email email, final Password password, final Password checkPassword) {
-        return new MemberUpdatePasswordRequest(email, password, checkPassword);
+    public static MemberUpdatePasswordRequest of(final Email email, final Password newPassword, final Password confirmPassword) {
+        return new MemberUpdatePasswordRequest(email, newPassword, confirmPassword);
     }
 
     public Member toEntity() {
         return Member.builder()
                 .email(email)
-                .password(password)
+                .password(newPassword)
                 .build();
     }
 }

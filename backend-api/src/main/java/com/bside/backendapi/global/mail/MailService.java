@@ -62,11 +62,6 @@ public class MailService {
     // 인증코드 확인
     public boolean verifiedCode(final String mail, final String authCode) {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + mail);
-        log.info("redis authCode ----------- {}", redisAuthCode);
-        log.info("authCode ----------- {}", authCode);
-        log.info("{}", redisService.checkExistsValue(redisAuthCode));
-        log.info("{}", redisAuthCode.equals(authCode));
-        log.info("{}", redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode));
         return redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
     }
 }
