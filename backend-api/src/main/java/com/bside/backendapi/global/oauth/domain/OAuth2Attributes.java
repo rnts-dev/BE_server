@@ -37,11 +37,9 @@ public class OAuth2Attributes {
                 .build();
     }
 
-    public Member toEntity(OAuth2UserInfo oAuth2UserInfo) {
-        // OAuth의 로그인 id : socialtype_socialId
-        String OAuthId = SocialType.KAKAO.name() + "_" + oAuth2UserInfo.getId();
+    public Member toEntity(String OAuthLoginId, OAuth2UserInfo oAuth2UserInfo) {
         return Member.builder()
-                .loginId(LoginId.from(OAuthId))
+                .loginId(LoginId.from(OAuthLoginId))
                 .email(Email.from(oAuth2UserInfo.getEmail()))
                 .nickname(Nickname.from(oAuth2UserInfo.getNickname()))
                 .profileUrl(oAuth2UserInfo.getProfileUrl())
