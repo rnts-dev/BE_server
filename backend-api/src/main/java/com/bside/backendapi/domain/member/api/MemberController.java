@@ -58,5 +58,4 @@ public class MemberController {
     public CustomOAuth2User getPrincipal() {
         return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-
 }

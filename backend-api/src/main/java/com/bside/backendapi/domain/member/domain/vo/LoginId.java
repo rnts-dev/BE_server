@@ -1,9 +1,7 @@
 package com.bside.backendapi.domain.member.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -15,8 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginId implements Serializable {
-    @NotBlank(message = "아이디를 입력하세요.")
-    @Column(nullable = false)
+
     private String loginId;
 
     public static LoginId from(final String loginId) {

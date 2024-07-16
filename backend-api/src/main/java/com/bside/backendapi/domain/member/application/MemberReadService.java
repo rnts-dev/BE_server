@@ -6,9 +6,11 @@ import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberReadService {
@@ -21,6 +23,8 @@ public class MemberReadService {
         MemberDetailsResponse memberDetailsResponse = memberRepository.findById(userDetails.getId())
                 .map(MemberDetailsResponse::of)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("MemberReadService ----- member : {}", memberDetailsResponse.getLoginId().loginId());
 
         return saveCache(memberDetailsResponse);
     }

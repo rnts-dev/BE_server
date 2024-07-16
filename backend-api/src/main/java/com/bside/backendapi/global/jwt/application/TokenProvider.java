@@ -1,9 +1,10 @@
-package com.bside.backendapi.global.jwt;
+package com.bside.backendapi.global.jwt.application;
 
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.global.jwt.dto.TokenDTO;
 import com.bside.backendapi.global.jwt.vo.AccessToken;
 import com.bside.backendapi.global.jwt.vo.RefreshToken;
-import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import com.bside.backendapi.global.security.principal.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -15,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -29,82 +29,61 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "role";
-
-    private final String secret;
-    private final long accessTokenValidityInMilliseconds;
-    private final long refreshTokenValidityInMilliseconds;
+    private final String secretKey;
+    private final Long accessTokenExpiration;
+    private final Long refreshTokenExpiration;
     private final CustomUserDetailsService customUserDetailsService;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     private SecretKey key;
 
-    public TokenProvider(
-            @Value("${jwt.secret}") String secret,
-            @Value("${jwt.accessToken-validity-in-seconds}") long accessTokenValidityInMilliseconds,
-            @Value("${jwt.refreshToken-validity-in-seconds}") long refreshTokenValidityInMilliseconds,
-            CustomUserDetailsService customUserDetailsService, CustomOAuth2UserService customOAuth2UserService) {
-        this.secret = secret;
-        this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds * 1000;
-        this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds * 1000;
+    public TokenProvider(@Value("${jwt.secretKey}") String secretKey,
+                         @Value("${jwt.access.expiration}") Long accessTokenExpiration,
+                         @Value("${jwt.refresh.expiration}") Long refreshTokenExpiration,
+                         CustomUserDetailsService customUserDetailsService) {
+        this.secretKey = secretKey;
+        this.accessTokenExpiration = accessTokenExpiration;
+        this.refreshTokenExpiration = refreshTokenExpiration;
         this.customUserDetailsService = customUserDetailsService;
-        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDTO createToken(Long memberId, Authentication authentication) {
+    public TokenDTO createToken(LoginId loginId, Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
-
-        String accessToken = Jwts.builder()
-                .claim("id", memberId.toString())
-                .claim(AUTHORITIES_KEY, authorities)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(now + accessTokenValidityInMilliseconds))
-                .signWith(this.key, Jwts.SIG.HS512)
-                .compact();
-
-        String refreshToken = Jwts.builder()
-                .claim("id", memberId.toString())
-                .claim(AUTHORITIES_KEY, authorities)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(now + refreshTokenValidityInMilliseconds))
-                .signWith(this.key, Jwts.SIG.HS512)
-                .compact();
+        String accessToken = generateToken(loginId, authorities, accessTokenExpiration);
+        String refreshToken = generateToken(loginId, authorities, refreshTokenExpiration);
 
         AccessToken newAccessToken = AccessToken.from(accessToken);
-        RefreshToken newRefreshToken = RefreshToken.from(refreshToken);
+        RefreshToken newRefreshToken = RefreshToken.from(refreshToken, loginId);
 
         return TokenDTO.of(newAccessToken, newRefreshToken);
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith(this.key)
+        Claims claims = Jwts
+                .parser()
+                .verifyWith(key)
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseSignedClaims(token).getPayload();
 
         List<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        String id = String.valueOf(claims.get("id"));
+        String loginId = String.valueOf(claims.get("id"));
 
-//        UserDetails principal = customUserDetailsService.loadUserByUsername(id);
-        User principal = new User(id, "", authorities);
+        CustomOAuth2User principal = (CustomOAuth2User) customUserDetailsService.loadUserByUsername(loginId);
 
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), authorities);
     }
-
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -122,7 +101,18 @@ public class TokenProvider implements InitializingBean {
         } catch (IllegalArgumentException e) {
             log.error("JWT 토큰이 잘못되었습니다.");
         }
-
         return false;
     }
+
+    public String generateToken(LoginId loginId, String authorities, Long expiration) {
+        long expirationTime = (new Date()).getTime() + expiration;
+        return Jwts.builder()
+                .claim("id", loginId.loginId())
+                .claim(AUTHORITIES_KEY, authorities)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(expirationTime))
+                .signWith(this.key, Jwts.SIG.HS512)
+                .compact();
+    }
+
 }

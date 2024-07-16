@@ -1,15 +1,21 @@
 package com.bside.backendapi.global.config;
 
-import com.bside.backendapi.global.jwt.JwtAccessDeniedHandler;
-import com.bside.backendapi.global.jwt.JwtAuthenticationEntryPoint;
-import com.bside.backendapi.global.jwt.JwtFilter;
-import com.bside.backendapi.global.jwt.TokenProvider;
+import com.bside.backendapi.global.jwt.application.TokenProvider;
+import com.bside.backendapi.global.jwt.filter.JwtAuthenticationEntryPoint;
+import com.bside.backendapi.global.jwt.filter.JwtAuthenticationProcessingFilter;
+import com.bside.backendapi.global.jwt.handler.CustomAccessDeniedHandler;
 import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
-import com.bside.backendapi.global.oauth.handler.CustomSuccessHandler;
-import com.bside.backendapi.global.security.principal.CustomAuthenticationProvider;
+import com.bside.backendapi.global.oauth.handler.CustomLoginSuccessHandler;
+import com.bside.backendapi.global.oauth.handler.LoginFailureHandler;
+import com.bside.backendapi.global.security.filter.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,23 +28,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final TokenProvider tokenProvider;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthenticationConfiguration authenticationConfiguration;
+
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
+
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final TokenProvider tokenProvider;
 
     private static final String PUBLIC = "/api/v1/public/**";
-
-    // 토큰 생성시 인증 부여할 AuthenticationProvider 구현체
-    @Bean
-    public CustomAuthenticationProvider customAuthenticationProvider() {
-        return new CustomAuthenticationProvider();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,7 +53,28 @@ public class SecurityConfig {
     }
 
     @Bean
+    public LoginFailureHandler loginFailureHandler() {
+        return new LoginFailureHandler();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration,
+                                                       AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // ../auth/login 요청시 실행 (컨트롤러, 서비스 필요 X)
+        // 헤더에 "Authorization" : "access token" 전달
+        CustomAuthenticationFilter customAuthenticationFilter =
+                new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration, authenticationManagerBuilder));
+        customAuthenticationFilter.setFilterProcessesUrl("/api/v1/public/auth/login");
+        customAuthenticationFilter.setPostOnly(true); // 항상 POST 처리
+        customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler);
+        customAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
 
@@ -54,23 +82,26 @@ public class SecurityConfig {
 
                 .httpBasic(AbstractHttpConfigurer::disable)
 
-                .exceptionHandling(handlingConfigurer -> handlingConfigurer
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                        .accessDeniedHandler(jwtAccessDeniedHandler))
-
-                .authenticationProvider(customAuthenticationProvider())
-
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(PUBLIC, "/api/v1/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
+                        .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
+                        .requestMatchers(PUBLIC).permitAll()
+                        .requestMatchers("/api/v1/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/error").permitAll() // '/error' 경로에 대한 접근 허용
+
                         .anyRequest().authenticated())
 
-                .sessionManagement(sessionManagement
-                        -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(handlingConfigurer -> handlingConfigurer
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 인증되지 않은 사용자가 리소스에 접근할 때
+                        .accessDeniedHandler(customAccessDeniedHandler)) // 인증된 사용자가 접근 권한이 없는 리소스에 접근할 때
 
-                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .formLogin(AbstractHttpConfigurer::disable)
+                .addFilter(customAuthenticationFilter)
 
+                .addFilterBefore(new JwtAuthenticationProcessingFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 // OAuth 로그인
                 .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
 //                        .loginPage("") // 권한 접근 실패 시 이동할 페이지
@@ -81,9 +112,8 @@ public class SecurityConfig {
                         // userService : 소셜 로그인 성공 시 진행될 UserService 구현체 등록
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
-                                .successHandler(new CustomSuccessHandler(tokenProvider))
+                                .successHandler(customLoginSuccessHandler)
                 )
-
                 .build();
     }
 
@@ -93,7 +123,7 @@ public class SecurityConfig {
         configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
         // localhost:8080 백엔드, localhost:3000 프론트엔드
         configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트 앤드 IP만 허용 react)
-        configuration.setAllowCredentials(true); // 클라이언트에서 쿠키 요청 허용
+        configuration.setAllowCredentials(false); // 클라이언트에서 쿠키 요청 허용
         configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트 였다. 지금은 아닙니다.
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // /login, /board, /product/

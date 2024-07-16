@@ -2,7 +2,7 @@ package com.bside.backendapi.domain.member.application;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
+import com.bside.backendapi.domain.member.domain.vo.Email;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
 import com.bside.backendapi.domain.member.error.DuplicatedEmailException;
@@ -26,7 +26,7 @@ public class MemberService {
 
     // join
     public MemberResponse join(final Member member) {
-        existedLoginId(member.getLoginId());
+        existedEmail(member.getEmail());
         existedNickname(member.getNickname());
 
         Member savedMember = memberRepository.save(member.encode(passwordEncoder));
@@ -37,12 +37,6 @@ public class MemberService {
     public void update(final Member updateMember, final Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-
-        // 닉네임 중복 불가능
-        if (member.getNickname() != updateMember.getNickname()) {
-            existedNickname(updateMember.getNickname());
-        }
-
         member.update(updateMember, passwordEncoder);
     }
 
@@ -52,10 +46,10 @@ public class MemberService {
                 .delete();
     }
 
-    // duplicate check ID
-    private void existedLoginId(final LoginId loginId) {
-        if (memberRepository.existsByLoginId(loginId)) {
-            throw new DuplicatedEmailException(ErrorCode.DUPLICATED_ID);
+    // duplicate check email
+    private void existedEmail(final Email email) {
+        if (memberRepository.existsByEmail(email)) {
+            throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
         }
     }
 

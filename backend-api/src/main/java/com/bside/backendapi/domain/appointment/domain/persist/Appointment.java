@@ -3,17 +3,14 @@ package com.bside.backendapi.domain.appointment.domain.persist;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
 import com.bside.backendapi.domain.appointment.domain.vo.Title;
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity

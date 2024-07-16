@@ -7,10 +7,10 @@ import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import java.util.Optional;
 
 public interface MemberCustomRepository {
-    Optional<CustomOAuth2User> findByIdWithDetails(final Long memberId);
 
     Optional<CustomOAuth2User> findUserDetailsByLoginId(final LoginId loginId);
 
-    Optional<Member> findByName(final String name);
+    Optional<Member> findBySocialId(final String socialId);
 
+    Optional<CustomOAuth2User> findByEmail(final Email email);
 }

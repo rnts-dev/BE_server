@@ -1,7 +1,6 @@
 package com.bside.backendapi.domain.appointment.dto;
 
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.domain.vo.Location;
 import com.bside.backendapi.domain.appointment.domain.vo.Title;
@@ -11,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

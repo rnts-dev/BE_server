@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointmentMember.domain.repository;
 
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

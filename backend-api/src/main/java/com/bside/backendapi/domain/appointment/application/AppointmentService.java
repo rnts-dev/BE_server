@@ -8,9 +8,9 @@ import com.bside.backendapi.domain.appointment.error.AppointmentMissMatchExcepti
 import com.bside.backendapi.domain.appointment.error.AppointmentNotFoundException;
 import com.bside.backendapi.domain.appointment.error.CustomAppointmentTypeNotFoundException;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
+import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
