@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.member.domain.persist;
 
 import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberCus
 
     Optional<Member> findMemberByEmail(final Email email);
 
+    Optional<Member> findByLoginId(final LoginId loginId);
 }

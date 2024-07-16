@@ -29,7 +29,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Value("${jwt.header}")
     private String HEADER;
-//    private String HEADER_REFRESH = "Authorization_refresh";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -37,18 +36,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         CustomOAuth2User user = (CustomOAuth2User) authentication.getPrincipal();
 
         // JWT 생성
-//        TokenDTO token = tokenProvider.createToken(user.getId(), authentication);
         TokenDTO token = tokenProvider.createToken(user.getLoginId(), authentication);
-
-        log.info("CustomLoginSuccessHandler --------- ID : {}", user.getLoginId().loginId());
-        log.info("CustomLoginSuccessHandler --------- PW : {}", user.getPassword());
-        log.info("CustomLoginSuccessHandler --------- TOKEN : {}", token.getAccessToken().accessToken());
 
         // Response Header로 전달
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
         response.setHeader(HEADER, token.getAccessToken().accessToken());
-//        response.setHeader(HEADER_REFRESH, token.getRefreshToken().refreshToken());
 
         // Http 응답에 JSON 데이터 작성
         Map<String, String> responseMap = new HashMap<>();
