@@ -24,8 +24,6 @@ public class MemberReadService {
                 .map(MemberDetailsResponse::of)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        log.info("MemberReadService ----- member : {}", memberDetailsResponse.getLoginId().loginId());
-
         return saveCache(memberDetailsResponse);
     }
 

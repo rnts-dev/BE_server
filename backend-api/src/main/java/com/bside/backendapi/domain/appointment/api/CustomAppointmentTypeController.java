@@ -5,6 +5,8 @@ import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeCreateRe
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeResponse;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeViewResponse;
 import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
+@Tag(name = "CustomAppointmentType", description = "사용자 정의 약속 유형에 대한 API")
 public class CustomAppointmentTypeController {
 
     private final CustomAppointmentTypeService customAppointmentTypeService;
 
-    // create
+    @Operation(summary = "사용자 정의 약속 유형 생성", description = "약속 유형(typeName)과 이미지(image)를 이용하여 사용자 정의 약속 유형을 생성합니다.")
     @PostMapping("/customAppointmentType")
     public ResponseEntity<CustomAppointmentTypeResponse> create(
             @Valid @RequestBody CustomAppointmentTypeCreateRequest customAppointmentTypeCreateRequest) {
@@ -31,13 +34,13 @@ public class CustomAppointmentTypeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new CustomAppointmentTypeResponse(customAppointmentTypeId));
     }
 
-    // get Custom Appointment Type
+    @Operation(summary = "사용자 정의 약속 유형 조회", description = "사용자가 정의한 약속 유형을 List로 반환합니다.")
     @GetMapping("/customAppointmentType/getCustomAppointmentType")
     public ResponseEntity<List<CustomAppointmentTypeViewResponse>> getCustomAppointmentType() {
         return ResponseEntity.ok().body(customAppointmentTypeService.getCustomAppointmentType(this.getPrincipal().getId()));
     }
 
-    // delete
+    @Operation(summary = "사용자 정의 약속 유형 삭제", description = "해당 약속 유형을 삭제합니다.")
     @DeleteMapping("/customAppointmentType/{customAppointmentTypeId}")
     public ResponseEntity<Void> delete(@PathVariable Long customAppointmentTypeId) {
         customAppointmentTypeService.delete(customAppointmentTypeId);

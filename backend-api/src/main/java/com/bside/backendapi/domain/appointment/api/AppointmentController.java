@@ -29,36 +29,32 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final AppointmentViewService appointmentViewService;
 
-    // create
-    @Operation(summary = "약속 생성", description = ".")
+    @Operation(summary = "약속 생성", description = "제목과 약속 정보를 이용하여 새로운 약속을 생성합니다.")
     @PostMapping("/appointments")
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentCreateRequest appointmentCreateRequest){
         Long appointmentId = appointmentService.create(appointmentCreateRequest.toEntity(), this.getPrincipal().getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new AppointmentResponse(appointmentId));
     }
 
-    // get all appointments
-    @Operation(summary = "내 약속 모두 조회", description = ".")
+    @Operation(summary = "내 약속 모두 조회", description = "사용자가 포함된 모든 약속을 불러옵니다.")
     @GetMapping("/appointments/getAllAppointments")
     public ResponseEntity<List<AppointmentViewResponse>> getAllAppointments() {
         return ResponseEntity.ok().body(appointmentViewService.getAllAppointments(this.getPrincipal().getId()));
     }
 
-    // get past appointments
-    @Operation(summary = "지난 약속 조회", description = ".")
+    @Operation(summary = "지난 약속 조회", description = "현재 시각 기준으로 지난 약속을 불러옵니다.")
     @GetMapping("/appointments/getPastAppointments")
     public ResponseEntity<List<AppointmentViewResponse>> getPastAppointments() {
         return ResponseEntity.ok().body(appointmentViewService.getPastAppointments(this.getPrincipal().getId()));
     }
 
-    // get rest appointments
-    @Operation(summary = "지난 약속 조회", description = ".")
+    @Operation(summary = "남은 약속 조회", description = "현재 시각 기준으로 남은 약속을 불러옵니다.")
     @GetMapping("/appointments/getRestAppointments")
     public ResponseEntity<List<AppointmentViewResponse>> getRestAppointments() {
         return ResponseEntity.ok().body(appointmentViewService.getRestAppointments(this.getPrincipal().getId()));
     }
 
-    // update
+    @Operation(summary = "약속 정보 수정", description = "해당 약속에 대한 정보를 수정할 수 있습니다.")
     @PatchMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> update(@Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest,
                                        @PathVariable Long appointmentId) {
@@ -66,14 +62,14 @@ public class AppointmentController {
         return ResponseEntity.ok().build();
     }
 
-    // delete
+    @Operation(summary = "약속 삭제", description = "해당 약속에서 제외됩니다.")
     @DeleteMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> delete(@PathVariable Long appointmentId) {
         appointmentService.delete(appointmentId, this.getPrincipal().getId());
         return ResponseEntity.noContent().build();
     }
 
-    // accept invitation
+    @Operation(summary = "약속 초대 수락", description = "약속 초대를 수락할 경우 해당 약속에 사용자가 추가됩니다.")
     @PostMapping("/appointments/invite/{appointmentId}")
     public ResponseEntity<Void> invite(@PathVariable Long appointmentId) {
         appointmentService.invite(appointmentId, this.getPrincipal().getId());

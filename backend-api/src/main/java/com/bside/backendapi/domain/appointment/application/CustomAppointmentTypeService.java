@@ -36,7 +36,6 @@ public class CustomAppointmentTypeService {
         return savedCustomAppointmentType.getId();
     }
 
-    // get CustomAppointmentType
     public List<CustomAppointmentTypeViewResponse> getCustomAppointmentType(final Long memberId) {
         return customAppointmentTypeRepository.findAllByMemberId(memberId)
                 .stream()
@@ -44,7 +43,6 @@ public class CustomAppointmentTypeService {
                 .collect(Collectors.toList());
     }
 
-    // delete
     public void delete(final Long customAppointmentTypeId) {
         Optional<Appointment> appointment = appointmentRepository.findByCustomAppointmentTypeId(customAppointmentTypeId);
 
@@ -53,7 +51,6 @@ public class CustomAppointmentTypeService {
         customAppointmentTypeRepository.deleteById(customAppointmentTypeId);
     }
 
-    // get member
     public Member getMemberEntity(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
