@@ -4,7 +4,7 @@ import com.bside.backendapi.domain.member.application.MemberReadService;
 import com.bside.backendapi.domain.member.application.MemberSearchService;
 import com.bside.backendapi.domain.member.application.MemberService;
 import com.bside.backendapi.domain.member.dto.*;
-import com.bside.backendapi.global.mail.MailDTO;
+import com.bside.backendapi.global.mail.VerifiedRequest;
 import com.bside.backendapi.global.mail.MailService;
 import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,9 +64,9 @@ public class MemberController {
 
     @Operation(summary = "아이디 찾기", description = "인증코드와 이메일로 회원 검증 후 해당 메일을 가진 회원의 ID를 표시하게 됩니다.")
     @PostMapping("/public/searchId")
-    public ResponseEntity<String> searchId(@Valid @RequestBody MailDTO mailDTO) {
-        boolean isVerified = mailService.verifiedCode(mailDTO.getMail(), mailDTO.getAuthCode());
-        String result = memberSearchService.searchId(isVerified, mailDTO.getMail());
+    public ResponseEntity<String> searchId(@Valid @RequestBody VerifiedRequest verifiedRequest) {
+        boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail(), verifiedRequest.getAuthCode());
+        String result = memberSearchService.searchId(isVerified, verifiedRequest.getMail());
         return ResponseEntity.ok().body(result);
     }
 

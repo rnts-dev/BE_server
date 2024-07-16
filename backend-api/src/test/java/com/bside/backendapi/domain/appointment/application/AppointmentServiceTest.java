@@ -32,7 +32,7 @@ public class AppointmentServiceTest {
     void init() {
         MemberResponse joinResponse = memberService.join(GivenMember.toEntity());
 
-        member = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
+        member = memberRepository.findById(joinResponse.getId()).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND)
         );
 
