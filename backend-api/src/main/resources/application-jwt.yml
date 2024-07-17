@@ -3,7 +3,7 @@ jwt:
   secretKey: 4f7787f5a1345790f26034f7e63d56f8b79fba28ed6b9f0dc669f706dddf39ac746dbebed662530e9bb51c3ba1b5381b0f0373b47241a7cb472fc19f9f3d0902
 
   access:
-    expiration : 3600000 # 1시간
+    expiration : 360000 # 1시간
 
   refresh:
     expiration: 1209600000 # 2주 (1000(ms -> s) * 60 * 60 * 24 * 14일)

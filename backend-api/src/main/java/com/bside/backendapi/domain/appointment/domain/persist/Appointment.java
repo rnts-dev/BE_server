@@ -26,9 +26,6 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false)
     private Title title;
 
-    @Column(name = "creator_id", nullable = false)
-    private Long creatorId;
-
     @Enumerated(value = EnumType.STRING)
     @Column(name = "appointment_type")
     private AppointmentType appointmentType;
@@ -51,11 +48,10 @@ public class Appointment extends BaseEntity {
     private Long penaltyId;
 
     @Builder
-    private Appointment(Long id, Title title, Long creatorId, AppointmentType appointmentType, CustomAppointmentType customAppointmentType, LocalDateTime appointmentTime,
+    private Appointment(Long id, Title title, AppointmentType appointmentType, CustomAppointmentType customAppointmentType, LocalDateTime appointmentTime,
                         Location location, boolean isFirst) {
         this.id = id;
         this.title = title;
-        this.creatorId = creatorId;
         this.appointmentType = appointmentType;
         this.customAppointmentType = customAppointmentType;
         this.appointmentTime = appointmentTime;
@@ -63,9 +59,7 @@ public class Appointment extends BaseEntity {
         this.isFirst = false;
     }
 
-    // 비즈니스 로직 추가
-    public Appointment create(final Long creatorId, final AppointmentType appointmentType, final CustomAppointmentType customAppointmentType) {
-        this.creatorId = creatorId;
+    public Appointment create(final AppointmentType appointmentType, final CustomAppointmentType customAppointmentType) {
         this.appointmentType = appointmentType;
         this.customAppointmentType = customAppointmentType;
         return this;

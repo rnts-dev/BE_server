@@ -18,7 +18,6 @@ public class AppointmentViewResponse {
 
     private Long id;
     private Title title;
-    private Long creatorId;
     private AppointmentType appointmentType;
     private String typeName;
     private LocalDateTime appointmentTime;
@@ -29,7 +28,6 @@ public class AppointmentViewResponse {
             return new AppointmentViewResponse(
                     appointment.getId(),
                     appointment.getTitle(),
-                    appointment.getCreatorId(),
                     appointment.getAppointmentType(),
                     null,
                     appointment.getAppointmentTime(),
@@ -38,7 +36,6 @@ public class AppointmentViewResponse {
             return new AppointmentViewResponse(
                     appointment.getId(),
                     appointment.getTitle(),
-                    appointment.getCreatorId(),
                     null,
                     appointment.getCustomAppointmentType().getTypeName(),
                     appointment.getAppointmentTime(),
