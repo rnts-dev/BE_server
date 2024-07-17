@@ -6,6 +6,7 @@ import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentT
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeViewResponse;
 import com.bside.backendapi.domain.appointment.error.AppointmentExistException;
+import com.bside.backendapi.domain.appointment.error.DuplicatedCustomAppointmentTypeException;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
@@ -29,6 +30,9 @@ public class CustomAppointmentTypeService {
 
     public Long createCustomAppointmentType(final CustomAppointmentType customAppointmentType, final Long memberId) {
         // 사용자, 약속 유형 매핑
+        if (customAppointmentTypeRepository.existsByTypeName(customAppointmentType.getTypeName()))
+            throw new DuplicatedCustomAppointmentTypeException(ErrorCode.DUPLICATED_CUSTOM_TYPE);
+
         customAppointmentType.addMember(getMemberEntity(memberId));
 
         CustomAppointmentType savedCustomAppointmentType = customAppointmentTypeRepository.save(customAppointmentType);
