@@ -62,7 +62,8 @@ public class AppointmentController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "약속 삭제", description = "해당 약속에서 제외됩니다.")
+    @Operation(summary = "약속 빠지기",
+            description = "해당 약속에서 사용자가 제외됩니다. 모든 사용자가 약속에서 빠질 경우, 자동으로 약속이 삭제됩니다.")
     @DeleteMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> delete(@PathVariable Long appointmentId) {
         appointmentService.delete(appointmentId, this.getPrincipal().getId());
@@ -74,13 +75,6 @@ public class AppointmentController {
     public ResponseEntity<Void> invite(@PathVariable Long appointmentId) {
         appointmentService.invite(appointmentId, this.getPrincipal().getId());
         return ResponseEntity.ok().build();
-    }
-
-    // cancel appointment
-    @DeleteMapping("/appointments/cancel/{appointmentId}")
-    public ResponseEntity<Void> cancel(@PathVariable Long appointmentId) {
-        appointmentService.cancel(appointmentId, this.getPrincipal().getId());
-        return ResponseEntity.noContent().build();
     }
 
     private CustomOAuth2User getPrincipal() {

@@ -4,7 +4,6 @@ import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
-import com.bside.backendapi.domain.appointment.error.AppointmentMissMatchException;
 import com.bside.backendapi.domain.appointment.error.AppointmentNotFoundException;
 import com.bside.backendapi.domain.appointment.error.CustomAppointmentTypeNotFoundException;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
@@ -18,9 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,14 +36,10 @@ public class AppointmentService {
                     .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
         }
 
-        Appointment savedAppointment = appointmentRepository.save(appointment.create(
-                memberId,
-                appointment.getAppointmentType(),
-                customAppointmentType));
+        Appointment savedAppointment =
+                appointmentRepository.save(appointment.create(appointment.getAppointmentType(), customAppointmentType));
 
-        Member member = getMemberEntity(memberId);
-
-        appointmentMemberRepository.save(buildAppointmentMember(savedAppointment, member));
+        appointmentMemberRepository.save(buildAppointmentMember(savedAppointment, getMemberEntity(memberId)));
         return savedAppointment.getId();
     }
 
@@ -57,14 +49,11 @@ public class AppointmentService {
     }
 
     public void delete(final Long appointmentId, final Long memberId) {
-        Appointment appointment = getAppointmentEntity(appointmentId);
-
-        if (!Objects.equals(appointment.getCreatorId(), memberId)) {
-            throw new AppointmentMissMatchException(ErrorCode.APPOINTMENT_MISS_MATCH);
-        }
-
         appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, memberId);
-        appointmentRepository.delete(appointment);
+
+        if (appointmentMemberRepository.findAllByAppointmentId(appointmentId).isEmpty()) {
+            appointmentRepository.delete(getAppointmentEntity(appointmentId));
+        }
     }
 
     public void invite(final Long appointmentId, final Long memberId) {
@@ -72,10 +61,6 @@ public class AppointmentService {
         Member invitedMember = getMemberEntity(memberId);
 
         appointmentMemberRepository.save(buildAppointmentMember(appointment, invitedMember));
-    }
-
-    public void cancel(final Long appointmentId, final Long memberId) {
-        appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, memberId);
     }
 
     public AppointmentMember buildAppointmentMember(final Appointment appointment, final Member member) {
