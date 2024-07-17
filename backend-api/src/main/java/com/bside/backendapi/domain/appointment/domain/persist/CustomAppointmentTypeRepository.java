@@ -9,6 +9,8 @@ import java.util.Optional;
 @Repository
 public interface CustomAppointmentTypeRepository extends JpaRepository<CustomAppointmentType, Long> {
 
+    boolean existsByTypeName(String typeName);
+
     Optional<CustomAppointmentType> findByMemberIdAndTypeName(Long memberId, String typeName);
 
     List<CustomAppointmentType> findAllByMemberId(Long memberId);
