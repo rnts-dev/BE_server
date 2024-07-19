@@ -22,6 +22,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
+        working-directory: backend-api
         run: ./gradlew build
 
       - name: Set up Docker Buildx
