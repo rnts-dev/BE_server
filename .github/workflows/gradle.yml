@@ -53,6 +53,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /tmp/keystore.p12
+          chmod 600 /tmp/keystore.p12
+
       - name: Decode SSH key
         id: decode-key
         run: |
@@ -73,6 +78,9 @@ jobs:
           
             # Pull the latest image
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rnts2:latest
+          
+            # Move the keystore file to the appropriate location
+            sudo cp /tmp/keystore.p12 /app/keystore.p12
           
             # Update docker-compose.yml with the latest version
             # Change the image name in the docker-compose file
