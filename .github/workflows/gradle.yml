@@ -20,6 +20,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Grant execute permission for gradlew
+        working-directory: backend-api
         run: chmod +x gradlew
 
       - name: Build with Gradle
