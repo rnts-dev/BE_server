@@ -3,9 +3,11 @@ package com.bside.backendapi.domain.member.application;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
 import com.bside.backendapi.domain.member.error.DuplicatedEmailException;
+import com.bside.backendapi.domain.member.error.DuplicatedLoginIdException;
 import com.bside.backendapi.domain.member.error.DuplicatedNicknameException;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
@@ -30,6 +32,12 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member.encode(passwordEncoder));
         return MemberResponse.of(savedMember);
+    }
+
+    public void existedLoginId(final LoginId loginId) {
+        if (memberRepository.existsByLoginId(loginId)) {
+            throw new DuplicatedLoginIdException(ErrorCode.DUPLICATED_LOGINID);
+        }
     }
 
     public void update(final Member updateMember, final Long memberId) {

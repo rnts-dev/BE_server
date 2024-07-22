@@ -35,6 +35,13 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.join(joinRequest.toEntity()));
     }
 
+    @Operation(summary = "아이디 중복 확인", description = "회원가입 시 아이디 중복 여부를 확인합니다.")
+    @PostMapping("/public/existedLoginId")
+    public ResponseEntity<Void> existedLoginId(@Valid @RequestBody LoginIdRequest loginIdRequest) {
+        memberService.existedLoginId(loginIdRequest.getLoginId());
+        return ResponseEntity.ok().build();
+    }
+
     @Operation(summary = "사용자 정보 조회", description = "사용자 정보를 조회합니다.")
     @GetMapping("/members/detail")
     public ResponseEntity<MemberDetailsResponse> getDetailById() {
