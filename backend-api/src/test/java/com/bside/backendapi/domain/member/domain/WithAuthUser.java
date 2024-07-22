@@ -9,8 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 @WithSecurityContext(factory = WithAuthUserSecurityContextFactory.class)
 public @interface WithAuthUser {
     long id() default 1L;
-    String email() default "abcde@naver.com";
-    String password() default "123456789";
-    String name() default "김거북";
-    String nickname() default "터틀킴";
+    String loginId() default "givenID";
+    String email() default "givenmail@naver.com";
+    String password() default "givenpw123!";
+    String name() default "테스트이름";
+    String nickname() default "givennick";
 }
