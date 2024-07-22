@@ -58,7 +58,7 @@ public class PenaltyServiceTest {
     @BeforeEach
     void init(){
         MemberResponse joinResponse = memberService.join(GivenMember.toEntity());
-        testMember = memberRepository.findById(joinResponse.getMemberId()).orElseThrow(
+        testMember = memberRepository.findById(joinResponse.getId()).orElseThrow(
                 () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND)
         );
 

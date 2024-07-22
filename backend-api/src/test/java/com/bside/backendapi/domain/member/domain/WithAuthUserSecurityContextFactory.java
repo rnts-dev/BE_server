@@ -2,7 +2,7 @@ package com.bside.backendapi.domain.member.domain;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.vo.*;
-import com.bside.backendapi.global.security.principal.CustomOAuth2User;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -18,6 +18,7 @@ public class WithAuthUserSecurityContextFactory implements WithSecurityContextFa
     public SecurityContext createSecurityContext(WithAuthUser annotation) {
         Member member = Member.builder()
                 .id(annotation.id())
+                .loginId(LoginId.from(annotation.loginId()))
                 .email(Email.from(annotation.email()))
                 .password(Password.from(annotation.password()))
                 .name(Name.from(annotation.name()))
@@ -28,10 +29,10 @@ public class WithAuthUserSecurityContextFactory implements WithSecurityContextFa
 
         List<GrantedAuthority> role = AuthorityUtils.createAuthorityList(RoleType.USER.name());
 
-        CustomOAuth2User userDetails = CustomOAuth2User.of(member);
+        CustomOAuth2User userDetails = new CustomOAuth2User(member);
 
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(userDetails, annotation.password(), role));
+                new UsernamePasswordAuthenticationToken(userDetails, member.getPassword(), role));
 
         return SecurityContextHolder.getContext();
     }
