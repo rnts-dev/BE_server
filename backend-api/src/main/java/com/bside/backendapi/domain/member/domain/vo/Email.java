@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -20,6 +21,10 @@ public class Email implements Serializable {
     @Column(nullable = false)
     private String email;
 
+    // 이메일 인증 여부
+    @Column(nullable = false)
+    private boolean status;
+
     public static Email from(final String email) {
         return new Email(email);
     }
@@ -27,6 +32,12 @@ public class Email implements Serializable {
     @JsonValue
     public String email() {
         return email;
+    }
+
+    @Builder
+    public Email(String email) {
+        this.email = email;
+        this.status = false;
     }
 
     @Override

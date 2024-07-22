@@ -14,6 +14,11 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class JoinRequest {
+
+    @Valid
+    @NotNull(message = "아이디는 필수입니다.")
+    private LoginId loginId;
+
     @Valid
     @NotNull(message = "이메일은 필수입니다.")
     private Email email;
@@ -36,6 +41,7 @@ public class JoinRequest {
 
     public Member toEntity() {
         return Member.builder()
+                .loginId(loginId)
                 .email(email)
                 .password(password)
                 .name(name)

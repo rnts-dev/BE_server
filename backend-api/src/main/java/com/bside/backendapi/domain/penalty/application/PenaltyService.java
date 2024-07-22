@@ -1,20 +1,16 @@
 package com.bside.backendapi.domain.penalty.application;
 
+
 import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
 import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-import com.bside.backendapi.domain.penalty.dto.PenaltyDTO;
-import com.bside.backendapi.domain.penalty.dto.ReceivedPenaltyDTO;
+import com.bside.backendapi.domain.appointment.error.AppointmentNotFound;
 import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
-import com.bside.backendapi.domain.penalty.domain.vo.PenaltyType;
-import com.bside.backendapi.domain.penalty.domain.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
-import com.bside.backendapi.domain.penalty.domain.ReceivedPenaltyRepository;
-import com.bside.backendapi.domain.member.entity.User;
-import com.bside.backendapi.domain.member.repository.UserRepository;
-import com.bside.backendapi.domain.memberAppointment.entity.UserAppt;
-import com.bside.backendapi.domain.memberAppointment.repository.UserApptRepository;
-import com.bside.backendapi.global.jwt.util.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
+import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenalty;
+import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenaltyRepository;
+import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
+import com.bside.backendapi.domain.penalty.error.PenaltyNotFoundExepception;
+import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,114 +18,111 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PenaltyService {
-
-    private final UserRepository userRepository;
-    private final UserApptRepository userApptRepository;
-    private final AppointmentRepository appointmentRepository;
     private final PenaltyRepository penaltyRepository;
+    private final AppointmentRepository appointmentRepository;
     private final ReceivedPenaltyRepository receivedPenaltyRepository;
-    private final JwtUtil jwtUtil;
 
-    public void createPenalty(long uaid, PenaltyType penaltyType, String content, int fine) throws Exception {
-        UserAppt userAppts = userApptRepository.findUserApptById(uaid);
-        User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();
-        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
+    //패널티 생성 서비스
+    public Long create(final Penalty penalty, final Long memberId, final  Long appointmentId){
 
-        Penalty penalty = penaltyRepository.findPenaltyByUser(user);
-        if (penalty != null) {
-            throw new Exception("이미 패널티가 존재합니다.");
-        } else {
-            penalty = Penalty.builder()
-                    .user(user)
-//                .appointment(appointment)
-                    .penaltyType(penaltyType)
-                    .content(content)
-                    .fine(fine)
-                    .build();
+        //패널티 사용자 추가 후 저장
+        Penalty savedPenalty = penaltyRepository.save(penalty.addPenaltyCreatorId(memberId));//set쓰지말고
+
+        //해당 appointment에 penaltyid 추가
+        Appointment updatedAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
+                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+        );
+        updatedAppointment.addPenalty(savedPenalty.getId());
+        appointmentRepository.save(updatedAppointment);
+
+        return savedPenalty.getId();
+    }
+
+
+    //약속에서 패널티 조회
+    public PenaltyGetResponse findByAppointment(final Long appointmentId){
+
+        Appointment findAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
+                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+        );
+        //조회성공 여부
+        Long penaltyId = findAppointment.getPenaltyId();
+        if (penaltyId == null){
+            return PenaltyGetResponse.empty();
         }
 
+        Penalty getPenalty = penaltyRepository.findById(penaltyId).orElseThrow(
+                () -> new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND)
+        );
 
-        // 패널티 타입에 따라 초기화
-        if (penaltyType == PenaltyType.FINE) {
-            penalty.toBuilder().content(null);
-        } else {
-            penalty.toBuilder().fine(0);
-        }
-
-        // 패널티 저장
-        penaltyRepository.save(penalty);
-
-        // 약속에 생성한 패널티 부여 후 저장
-        appointment.setPenalty(penalty);
-        appointmentRepository.save(appointment);
+        return PenaltyGetResponse.of(getPenalty);
     }
 
-    public PenaltyDTO getUserapptPenalty(long uaid) {
-        UserAppt userAppts = userApptRepository.findUserApptById(uaid);
-        User user = userRepository.findById(userAppts.getUser().getId()).orElseThrow();
-        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(userAppts.getId());
 
-        log.info("userAppts : {}", userAppts.getId());
-        log.info("user : {}", user.getId());
-        log.info("appointment : {}", appointment.getId());
-        log.info("패널티 조회 = {}", penaltyRepository.findPenaltyByUser(user).getContent());
+    //패널티 등록 서비스 (패널티 받는 사람 등록)
+    public Long addReceiver(final Long penaltyId, final Long memberId){
 
-        Penalty penalty = penaltyRepository.findPenaltyByUser(user);
-        return PenaltyDTO.toDTO(penalty);
-    }
-
-    public List<PenaltyDTO> getAllPenaltyies(HttpServletRequest httpServletRequest) {
-
-        String token = jwtUtil.extractTokenFromHeader(httpServletRequest);
-        log.info("appointment token {}", token);
-        String userIdString = jwtUtil.getUserId(token);
-        log.info("userIdString {}", userIdString);
-        Long userId = Long.parseLong(userIdString);        //현재 사용자
-        log.info("userid {}", userId);
-
-        List<Penalty> penalties = penaltyRepository.findAllByUserId(userId);
-        return penalties.stream()
-                .map(PenaltyDTO::toDTO)  // Penalty를 PenaltyDTO로 변환
-                .collect(Collectors.toList());
-    }
-
-    public List<ReceivedPenaltyDTO> getAllReceivedPenalties(HttpServletRequest httpServletRequest) {
-
-        String token = jwtUtil.extractTokenFromHeader(httpServletRequest);
-        log.info("appointment token {}", token);
-        String userIdString = jwtUtil.getUserId(token);
-        log.info("userIdString {}", userIdString);
-        Long userId = Long.parseLong(userIdString);        //현재 사용자
-        log.info("userid {}", userId);
-
-        List<ReceivedPenalty> receivedPenalties = receivedPenaltyRepository.findByUserId(userId);
-        return receivedPenalties.stream()
-                .map(ReceivedPenaltyDTO::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    public void createReceivedPenalty(long uaid) {
-        // uaid로 약속 조회 -> apptid로 패널티 조회 -> 받은 패널티 저장
-        UserAppt userAppt = userApptRepository.findUserApptById(uaid);
-        Appointment appointment = appointmentRepository.findAppointmentByUserApptsId(uaid);
-        Penalty penalty = penaltyRepository.findByAppointmentId(appointment.getId());
-
-        log.info("user appt : {}", userAppt.getId());
-        log.info("appointment : {}", appointment.getPlace());
-        // 지각인 유저 가져오기
-        User user = userRepository.findById(userAppt.getUser().getId()).orElseThrow();
-
-        log.info("저장하려는 패널티 : {}", penalty.getContent());
         ReceivedPenalty receivedPenalty = ReceivedPenalty.builder()
-                .penalty(penalty)
-                .user(user)
-//                .resTime() // 추가 필요
+                .penaltyId(penaltyId)
+                .memberId(memberId)
                 .build();
 
         receivedPenaltyRepository.save(receivedPenalty);
+
+        return penaltyId;
     }
+
+
+
+    //내가 생성한 패널티 조회
+    public List<PenaltyGetResponse> MyCreatedPenalties(final Long memberId){
+
+        List<Penalty> penalties = penaltyRepository.findByPenaltyCreatorId(memberId);
+
+        if (penalties == null || penalties.isEmpty()){
+            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+        }
+        List<PenaltyGetResponse> penaltyResponses = penalties.stream()
+                .map(PenaltyGetResponse::of)
+                .collect(Collectors.toList());
+
+        return penaltyResponses;
+    }
+
+
+    //내가 받은 패널티 조회
+    public List<PenaltyGetResponse> myPenalties(final Long memberId){
+
+        //memberid로 receivedPenalties(penaltyid + memberid) 가져오기
+        List<ReceivedPenalty> receivedPenalties = receivedPenaltyRepository.findByMemberId(memberId);
+        if (receivedPenalties == null || receivedPenalties.isEmpty()){
+            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+        }
+
+        //receivedPenalties에서 penaltyid 추출
+        List<Long> penaltyIds = receivedPenalties.stream()
+                .map(ReceivedPenalty::getPenaltyId)
+                .collect(Collectors.toList());
+
+        //추출한 penaltyid로 penalty정보 추출
+        List<Penalty> penalties = penaltyRepository.findAllById(penaltyIds);
+        if (penalties.isEmpty()) {
+            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+        }
+
+        //penaltyResponses에 담아서 리턴
+        List<PenaltyGetResponse> penaltyResponses = penalties.stream()
+                .map(PenaltyGetResponse::of)
+                .collect(Collectors.toList());
+
+        return penaltyResponses;
+    }
+
+
+
 }

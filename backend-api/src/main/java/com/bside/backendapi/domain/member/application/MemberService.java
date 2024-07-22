@@ -7,6 +7,7 @@ import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
 import com.bside.backendapi.domain.member.error.DuplicatedEmailException;
 import com.bside.backendapi.domain.member.error.DuplicatedNicknameException;
+import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // 계정 생성
     public MemberResponse join(final Member member) {
         existedEmail(member.getEmail());
         existedNickname(member.getNickname());
@@ -31,17 +32,34 @@ public class MemberService {
         return MemberResponse.of(savedMember);
     }
 
-    // 이메일 중복 체크
+    public void update(final Member updateMember, final Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+        member.update(updateMember, passwordEncoder);
+    }
+
+    public void delete(final Long memberId) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
+                .delete();
+    }
+
     private void existedEmail(final Email email) {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
         }
     }
 
-    // 닉네임 중복 체크
     private void existedNickname(final Nickname nickname) {
         if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
         }
+    }
+
+    public void updateTendency(final Member updateMember, final Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        member.setTendency(updateMember);
     }
 }
