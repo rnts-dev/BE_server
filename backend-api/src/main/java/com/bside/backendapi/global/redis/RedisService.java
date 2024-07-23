@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,11 @@ public class RedisService {
     public void setValues(String key, String data) {
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
         values.set(key, data);
+    }
+
+    public void setValues(String key, String data, Duration duration) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        values.set(key, data, duration);
     }
 
     @Transactional(readOnly = true)
