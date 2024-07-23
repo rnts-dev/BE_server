@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Random;
 
 @Slf4j
@@ -19,6 +20,8 @@ public class MailService {
     private final RedisService redisService;
     private static final String senderEmail = "seyoungkwon29@naver.com";
     private static final String AUTH_CODE_PREFIX = "AuthCode";
+    private static final Duration DURATION = Duration.ofMillis(60000 * 5L);
+
 
     private String createCode() {
         Random random = new Random();
@@ -49,19 +52,20 @@ public class MailService {
         String authCode = createCode();
         MimeMessage message = createMail(to, authCode);
 
-        // 이메일 발송
         javaMailSender.send(message);
+        redisService.setValues(AUTH_CODE_PREFIX + to, authCode, DURATION);
 
-        // 인증코드 redis에 저장
-        redisService.setValues(AUTH_CODE_PREFIX + to, authCode);
-
-        log.info("인증코드 메일 전송 완료");
         return authCode;
     }
 
     // 인증코드 확인
     public boolean verifiedCode(final String mail, final String authCode) {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + mail);
-        return redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
+
+        if (redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode)) {
+            redisService.deleteValues(redisAuthCode);
+            return true;
+        } else
+            return false;
     }
 }
