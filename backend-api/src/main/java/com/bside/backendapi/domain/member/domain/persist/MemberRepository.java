@@ -13,6 +13,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberCus
 
     boolean existsByNickname(final Nickname nickname);
 
+    boolean existsByLoginId(final LoginId loginId);
+
     Optional<Member> findMemberByEmail(final Email email);
 
     Optional<Member> findByLoginId(final LoginId loginId);

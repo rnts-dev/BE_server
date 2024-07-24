@@ -6,6 +6,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,10 @@ public class MailController {
     @PostMapping("/mail/verification")
     public ResponseEntity<String> verification(@Valid @RequestBody VerifiedRequest verifiedRequest) {
         boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail(), verifiedRequest.getAuthCode());
-        return ResponseEntity.ok().body(isVerified ? "인증이 완료되었습니다." : "인증 실패했습니다.");
+        if (isVerified) {
+            return ResponseEntity.ok("인증이 완료되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패했습니다.");
+        }
     }
 }
