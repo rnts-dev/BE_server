@@ -30,6 +30,7 @@ public class MemberService {
         existedEmail(member.getEmail());
         existedNickname(member.getNickname());
 
+        member.allAgreed();
         Member savedMember = memberRepository.save(member.encode(passwordEncoder));
         return MemberResponse.of(savedMember);
     }
