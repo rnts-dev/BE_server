@@ -6,10 +6,7 @@ import com.bside.backendapi.domain.member.domain.vo.Email;
 import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.error.DuplicatedEmailException;
-import com.bside.backendapi.domain.member.error.DuplicatedLoginIdException;
-import com.bside.backendapi.domain.member.error.DuplicatedNicknameException;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
+import com.bside.backendapi.domain.member.error.*;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,9 +49,15 @@ public class MemberService {
                 .delete();
     }
 
-    private void existedEmail(final Email email) {
+    public void existedEmail(final Email email) {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
+        }
+    }
+
+    public void mailNotFound(final Email email) {
+        if (!memberRepository.existsByEmail(email)) {
+            throw new EmailNotFoundException(ErrorCode.EMAIL_NOT_FOUND);
         }
     }
 
