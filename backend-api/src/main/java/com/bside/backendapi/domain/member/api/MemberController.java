@@ -78,7 +78,7 @@ public class MemberController {
     }
 
     @Operation(summary = "새 비밀번호 변경",
-            description = "인증코드 발송 시 사용된 메일(mail)과 새 비밀번호(newPassword), 비밀번호 확인(confirmPassword)를 통해로 새 비밀번호로 변경합니다.")
+            description = "인증코드 발송 시 사용된 메일(mail)과 새 비밀번호(newPassword), 비밀번호 확인(confirmPassword)를 통해 새 비밀번호로 변경합니다.")
     @PatchMapping("/public/updatePassword")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody MemberUpdatePasswordRequest memberUpdatePasswordRequest) {
         if (!memberUpdatePasswordRequest.getNewPassword().equals(memberUpdatePasswordRequest.getConfirmPassword()))
