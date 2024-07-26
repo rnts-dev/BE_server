@@ -70,9 +70,12 @@ public class Member extends BaseEntity {
 
     private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
 
+    @Embedded
+    private AgreeTerms agreeTerms;
+
     @Builder
     private Member(Long id, LoginId loginId, Email email, Password password, Name name, Nickname nickname, LocalDate birth,
-                   String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId) {
+                   String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId, AgreeTerms agreeTerms) {
         this.id = id;
         this.loginId = loginId;
         this.email = email;
@@ -86,6 +89,7 @@ public class Member extends BaseEntity {
         this.activated = true;
         this.socialType = socialType;
         this.socialId = socialId;
+        this.agreeTerms = agreeTerms;
     }
 
     // 비즈니스 로직 추가
@@ -107,6 +111,11 @@ public class Member extends BaseEntity {
 
     public void setTendency(final Member member) {
         this.tendency = member.getTendency();
+    }
+
+    public void allAgreed() {
+        this.agreeTerms = new AgreeTerms();
+        this.agreeTerms.setAllAgree();
     }
 
     public void delete() {
