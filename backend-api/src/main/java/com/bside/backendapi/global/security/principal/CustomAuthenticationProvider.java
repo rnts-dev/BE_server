@@ -35,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         CustomOAuth2User principal = (CustomOAuth2User) customUserDetailsService.loadUserByUsername(loginId.loginId());
 
         if (!passwordEncoder().matches(password.password(), principal.getPassword())) {
-            throw new MismatchPasswordException(ErrorCode.DISMATCH_PASSWORD);
+            throw new MismatchPasswordException(ErrorCode.MISMATCH_PASSWORD);
         }
         return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
     }
