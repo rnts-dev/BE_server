@@ -17,12 +17,12 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	asciidoctorExt
+//	asciidoctorExt
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
+//ext {
+//	set('snippetsDir', file("build/generated-snippets"))
+//}
 
 repositories {
 	mavenCentral()
@@ -80,49 +80,49 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// REST Docs
-	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+//	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+//	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
-tasks.named('testClasses') { // (1)
-	doFirst {
-		delete file('build/docs/asciidoc')
-	}
-}
+//tasks.named('testClasses') { // (1)
+//	doFirst {
+//		delete file('build/docs/asciidoc')
+//	}
+//}
 
 tasks.named('test') {
-	outputs.dir snippetsDir
+//	outputs.dir snippetsDir
 	useJUnitPlatform()
-	finalizedBy asciidoctor // (2)
+//	finalizedBy asciidoctor // (2)
 }
+//
+//tasks.named('asciidoctor') {
+//	dependsOn test
+//	configurations 'asciidoctorExt'
+//	inputs.dir snippetsDir
+//	finalizedBy copyDocument // (3)
+//	doFirst { // (4)
+//		delete file('src/main/resources/static/docs')
+//	}
+//}
 
-tasks.named('asciidoctor') {
-	dependsOn test
-	configurations 'asciidoctorExt'
-	inputs.dir snippetsDir
-	finalizedBy copyDocument // (3)
-	doFirst { // (4)
-		delete file('src/main/resources/static/docs')
-	}
-}
-
-task copyDocument(type: Copy) { // (5)
-	dependsOn asciidoctor
-	from file('build/docs/asciidoc')
-	into file('src/main/resources/static/docs')
-}
-
-bootJar {  // (6)
-	dependsOn asciidoctor
-	doFirst {
-		delete file('static/docs')
-	}
-	from("${asciidoctor.outputDir}") {
-		into 'static/docs'
-	}
-}
-
-// clean task 실행시 QClass 삭제
-clean {
-	delete file('src/main/generated') // 인텔리제이 Annotation processor 생성물 생성 위치
-}
+//task copyDocument(type: Copy) { // (5)
+//	dependsOn asciidoctor
+//	from file('build/docs/asciidoc')
+//	into file('src/main/resources/static/docs')
+//}
+//
+//bootJar {  // (6)
+//	dependsOn asciidoctor
+//	doFirst {
+//		delete file('static/docs')
+//	}
+//	from("${asciidoctor.outputDir}") {
+//		into 'static/docs'
+//	}
+//}
+//
+//// clean task 실행시 QClass 삭제
+//clean {
+//	delete file('src/main/generated') // 인텔리제이 Annotation processor 생성물 생성 위치
+//}
