@@ -11,7 +11,7 @@ RUN ./gradlew bootJar
 
 FROM eclipse-temurin:17-jre
 COPY --from=builder build/libs/*.jar app.jar
-#COPY src/main/resources/keystore.p12 /app/keystore.p12
+COPY src/main/resources/keystore.p12 /app/keystore.p12
 
 EXPOSE 8443
 
