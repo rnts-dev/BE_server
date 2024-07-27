@@ -90,11 +90,13 @@ dependencies {
 //	}
 //}
 
+
 tasks.named('test') {
 //	outputs.dir snippetsDir
 	useJUnitPlatform()
 //	finalizedBy asciidoctor // (2)
 }
+
 //
 //tasks.named('asciidoctor') {
 //	dependsOn test
@@ -105,6 +107,8 @@ tasks.named('test') {
 //		delete file('src/main/resources/static/docs')
 //	}
 //}
+
+
 
 //task copyDocument(type: Copy) { // (5)
 //	dependsOn asciidoctor
