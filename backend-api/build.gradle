@@ -17,12 +17,12 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	asciidoctorExt
+//	asciidoctorExt
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
+//ext {
+//	set('snippetsDir', file("build/generated-snippets"))
+//}
 
 repositories {
 	mavenCentral()
@@ -80,8 +80,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// REST Docs
-	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+//	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+//	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 //tasks.named('testClasses') { // (1)
@@ -89,12 +89,14 @@ dependencies {
 //		delete file('build/docs/asciidoc')
 //	}
 //}
-//
-//tasks.named('test') {
+
+
+tasks.named('test') {
 //	outputs.dir snippetsDir
-//	useJUnitPlatform()
+	useJUnitPlatform()
 //	finalizedBy asciidoctor // (2)
-//}
+}
+
 //
 //tasks.named('asciidoctor') {
 //	dependsOn test
@@ -105,7 +107,9 @@ dependencies {
 //		delete file('src/main/resources/static/docs')
 //	}
 //}
-//
+
+
+
 //task copyDocument(type: Copy) { // (5)
 //	dependsOn asciidoctor
 //	from file('build/docs/asciidoc')

@@ -8,6 +8,7 @@ public enum ErrorCode {
     // Common
     METHOD_NOT_ALLOWED(405, "C001", "잘못된 요청입니다."),
     ACCESS_DENIED(403, "C002", "해당 자원에 대한 접근 권한이 없습니다."),
+    INTERNAL_SERVER_ERROR(500, "C003", "서버 내부 오류 입니다."),
 
     // Member
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),
@@ -16,7 +17,7 @@ public enum ErrorCode {
     DUPLICATED_EMAIL(400, "M004", "이미 존재하는 이메일 입니다."),
     DUPLICATED_NICKNAME(400, "M005", "이미 존재하는 닉네임 입니다."),
     DUPLICATED_PASSWORD(400, "M006", "기존 비밀번호와 동일합니다."),
-    DISMATCH_PASSWORD(400, "M007", "비밀번호가 일치하지 않습니다."),
+    MISMATCH_PASSWORD(400, "M007", "비밀번호가 일치하지 않습니다."),
     EMAIL_NOT_FOUND(400, "M008", "이메일이 존재하지 않습니다."),
 
     // JWT
