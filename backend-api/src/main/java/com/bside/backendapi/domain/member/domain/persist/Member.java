@@ -43,13 +43,7 @@ public class Member extends BaseEntity {
     private Password password;
 
     @Embedded
-    private Name name;
-
-    @Embedded
     private Nickname nickname;
-
-    @Column
-    private LocalDate birth;
 
     @Column(name = "profile_url")
     private String profileUrl;
@@ -71,15 +65,13 @@ public class Member extends BaseEntity {
     private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
 
     @Builder
-    private Member(Long id, LoginId loginId, Email email, Password password, Name name, Nickname nickname, LocalDate birth,
+    private Member(Long id, LoginId loginId, Email email, Password password, Nickname nickname, LocalDate birth,
                    String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId) {
         this.id = id;
         this.loginId = loginId;
         this.email = email;
         this.password = password;
-        this.name = name;
         this.nickname = nickname;
-        this.birth = birth;
         this.profileUrl = profileUrl;
         this.tendency = tendency;
         this.role = role;
@@ -97,7 +89,6 @@ public class Member extends BaseEntity {
     public void update(final Member member, final PasswordEncoder passwordEncoder) {
         this.password = Password.encode(member.getPassword().password(), passwordEncoder);
         this.nickname = member.getNickname();
-        this.name = member.getName();
         this.profileUrl = member.getProfileUrl();
     }
 

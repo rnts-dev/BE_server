@@ -20,7 +20,7 @@ public class Nickname implements Serializable {
     @NotBlank(message = "닉네임을 입력하세요.")
     @Column(nullable = false)
     @Length(max = 16)
-    @Pattern(regexp = "^[a-zA-Z_-]+$")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣_-]+$")
     private String nickname;
 
     public static Nickname from(final String nickname) {

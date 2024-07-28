@@ -15,7 +15,7 @@ public enum ErrorCode {
     DUPLICATED_EMAIL(400, "M003", "중복된 이메일 입니다."),
     DUPLICATED_NICKNAME(400, "M004", "중복된 닉네임 입니다."),
     DUPLICATED_PASSWORD(400, "M005", "기존 비밀번호와 동일합니다."),
-    DISMATCH_PASSWORD(400, "M006", "비밀번호가 일치하지 않습니다."),
+    MISMATCH_PASSWORD(400, "M006", "비밀번호가 일치하지 않습니다."),
 
     // JWT
     TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
