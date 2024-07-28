@@ -3,11 +3,10 @@ package com.bside.backendapi.domain.member.application;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.error.DuplicatedEmailException;
-import com.bside.backendapi.domain.member.error.DuplicatedNicknameException;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
+import com.bside.backendapi.domain.member.error.*;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +27,15 @@ public class MemberService {
         existedEmail(member.getEmail());
         existedNickname(member.getNickname());
 
+        member.allAgreed();
         Member savedMember = memberRepository.save(member.encode(passwordEncoder));
         return MemberResponse.of(savedMember);
+    }
+
+    public void existedLoginId(final LoginId loginId) {
+        if (memberRepository.existsByLoginId(loginId)) {
+            throw new DuplicatedLoginIdException(ErrorCode.DUPLICATED_LOGINID);
+        }
     }
 
     public void update(final Member updateMember, final Long memberId) {
@@ -44,9 +50,15 @@ public class MemberService {
                 .delete();
     }
 
-    private void existedEmail(final Email email) {
+    public void existedEmail(final Email email) {
         if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
+        }
+    }
+
+    public void mailNotFound(final Email email) {
+        if (!memberRepository.existsByEmail(email)) {
+            throw new EmailNotFoundException(ErrorCode.EMAIL_NOT_FOUND);
         }
     }
 
