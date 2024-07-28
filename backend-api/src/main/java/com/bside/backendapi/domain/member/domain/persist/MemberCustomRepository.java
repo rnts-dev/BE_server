@@ -10,7 +10,5 @@ public interface MemberCustomRepository {
 
     Optional<CustomOAuth2User> findUserDetailsByLoginId(final LoginId loginId);
 
-    Optional<Member> findBySocialId(final String socialId);
-
     Optional<CustomOAuth2User> findByEmail(final Email email);
 }

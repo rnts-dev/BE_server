@@ -18,17 +18,6 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 
     private final JPAQueryFactory query;
 
-    public Optional<CustomOAuth2User> findByIdWithDetails(Long memberId) {
-        return Optional.ofNullable(
-                query.select(Projections.constructor(CustomOAuth2User.class,
-                                member.id.as("id"),
-                                member.loginId,
-                                member.role))
-                        .from(member)
-                        .where(member.id.eq(memberId))
-                        .fetchOne());
-    }
-
     @Override
     public Optional<CustomOAuth2User> findUserDetailsByLoginId(LoginId loginId) {
         return Optional.ofNullable(
@@ -39,19 +28,6 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                                 member))
                         .from(member)
                         .where(member.loginId.eq(loginId))
-                        .fetchOne()
-        );
-    }
-
-    @Override
-    public Optional<Member> findBySocialId(String socialId) {
-        return Optional.ofNullable(
-                query.select(Projections.constructor(Member.class,
-                                member.id.as("id"),
-                                member.email,
-                                member.nickname))
-                        .from(member)
-                        .where(member.socialId.eq(socialId))
                         .fetchOne()
         );
     }

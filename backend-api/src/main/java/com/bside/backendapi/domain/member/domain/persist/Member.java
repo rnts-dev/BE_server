@@ -12,7 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
@@ -43,13 +42,7 @@ public class Member extends BaseEntity {
     private Password password;
 
     @Embedded
-    private Name name;
-
-    @Embedded
     private Nickname nickname;
-
-    @Column
-    private LocalDate birth;
 
     @Column(name = "profile_url")
     private String profileUrl;
@@ -74,15 +67,14 @@ public class Member extends BaseEntity {
     private AgreeTerms agreeTerms;
 
     @Builder
-    private Member(Long id, LoginId loginId, Email email, Password password, Name name, Nickname nickname, LocalDate birth,
-                   String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId, AgreeTerms agreeTerms) {
+    private Member(Long id, LoginId loginId, Email email, Password password, Nickname nickname, LocalDate birth,
+                   String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId) {
+
         this.id = id;
         this.loginId = loginId;
         this.email = email;
         this.password = password;
-        this.name = name;
         this.nickname = nickname;
-        this.birth = birth;
         this.profileUrl = profileUrl;
         this.tendency = tendency;
         this.role = role;
@@ -101,7 +93,6 @@ public class Member extends BaseEntity {
     public void update(final Member member, final PasswordEncoder passwordEncoder) {
         this.password = Password.encode(member.getPassword().password(), passwordEncoder);
         this.nickname = member.getNickname();
-        this.name = member.getName();
         this.profileUrl = member.getProfileUrl();
     }
 
