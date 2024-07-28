@@ -3,8 +3,6 @@ package com.bside.backendapi.domain.member.util;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.vo.*;
 
-import java.time.LocalDate;
-
 public class GivenMember {
     public static final LoginId GIVEN_LOGINID = LoginId.from("givenID");
     public static final Email GIVEN_EMAIL = Email.from("givenmail@naver.com");
