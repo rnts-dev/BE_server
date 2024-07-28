@@ -7,7 +7,6 @@ import lombok.Getter;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 public class OAuth2Attributes {

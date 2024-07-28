@@ -21,21 +21,16 @@ public class MemberUpdateRequest {
     @JsonProperty("nickname")
     private Nickname nickname;
 
-    @JsonProperty("name")
-    private Name name;
-
     private String profileUrl;
 
-    public static MemberUpdateRequest of(final Password password, final Nickname nickname
-            , final Name name, final String profileUrl) {
-        return new MemberUpdateRequest(password, nickname, name, profileUrl);
+    public static MemberUpdateRequest of(final Password password, final Nickname nickname, final String profileUrl) {
+        return new MemberUpdateRequest(password, nickname, profileUrl);
     }
 
     public Member toEntity() {
         return Member.builder()
                 .password(password)
                 .nickname(nickname)
-                .name(name)
                 .profileUrl(profileUrl)
                 .build();
     }
