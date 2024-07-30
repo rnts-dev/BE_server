@@ -67,8 +67,8 @@ public class Member extends BaseEntity {
     private AgreeTerms agreeTerms;
 
     @Builder
-    private Member(Long id, LoginId loginId, Email email, Password password, Nickname nickname, LocalDate birth,
-                   String profileUrl, Tendency tendency, RoleType role, SocialType socialType, String socialId) {
+    private Member(Long id, LoginId loginId, Email email, Password password, Nickname nickname, String profileUrl,
+                   Tendency tendency, RoleType role, SocialType socialType, String socialId, AgreeTerms agreeTerms) {
 
         this.id = id;
         this.loginId = loginId;
