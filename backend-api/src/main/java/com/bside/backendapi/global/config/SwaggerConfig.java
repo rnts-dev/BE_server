@@ -24,7 +24,7 @@ public class SwaggerConfig {
                                 .bearerFormat("JWT")))
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .info(new Info()
-                        .title("factoryVision backend API document")
+                        .title("RNTS API document")
                         .version("2.2.0"));
     }
 
