@@ -1,7 +1,6 @@
 package com.bside.backendapi.domain.member.dto;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.vo.Name;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.domain.vo.Password;
 import com.fasterxml.jackson.annotation.JsonProperty;
