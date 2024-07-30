@@ -47,8 +47,8 @@ jobs:
 
       - name: Clean up old containers
         run: |
-          docker ps -q --filter "publish=8443" | xargs docker stop || true
-          docker ps -aq --filter "publish=8443" | xargs docker rm || true
+          docker ps -q --filter "publish=8443" | xargs -r docker stop || true
+          docker ps -aq --filter "publish=8443" | xargs -r docker rm || true
 
   deploy:
     runs-on: ubuntu-latest
