@@ -45,12 +45,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rnts2:latest
 
-      - name: Clean up old containers
-        run: |
-          docker ps -q --filter "publish=8443" | xargs -r docker stop || true
-          echo "Stopping containers using port 8443..."
-          docker ps -aq --filter "publish=8443" | xargs -r docker rm || true
-          echo "Cleanup complete."
+     
 
   deploy:
     runs-on: ubuntu-latest
@@ -82,6 +77,17 @@ jobs:
           
             # Login to Docker Hub
             echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+          
+          
+            # Remove old images
+            echo "Removing old images..."
+            sudo docker images -q --filter "dangling=true" | xargs -r sudo docker rmi || true
+            sudo docker images -q --filter "label=project=rnts2" | xargs -r sudo docker rmi || true
+
+            # Remove old containers
+            echo "Removing old containers..."
+            sudo docker ps -a -q --filter "status=exited" | xargs -r sudo docker rm || true
+          
           
             # Pull the latest image
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rnts2:latest
