@@ -79,6 +79,10 @@ jobs:
             echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
           
           
+            # Find and kill process using port 8443 (if any)
+            PID=$(sudo lsof -t -i:8443) && [ ! -z "$PID" ] && sudo kill -9 $PID || echo "No process found using port 8443"
+      
+      
             # Remove old images
             echo "Removing old images..."
             sudo docker images -q --filter "dangling=true" | xargs -r sudo docker rmi || true
