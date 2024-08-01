@@ -20,6 +20,7 @@ services:
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
+      - SSL_KEY_PASSWORD=${SSL_KEY_PASSWORD}
       #
       - JWT_SECRET=${JWT_SECRET_KEY}
       #

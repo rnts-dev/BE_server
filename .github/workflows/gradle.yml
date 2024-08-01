@@ -83,14 +83,16 @@ jobs:
             PID=$(sudo lsof -t -i:8443) && [ ! -z "$PID" ] && sudo kill -9 $PID || echo "No process found using port 8443"
       
       
+            # Remove old containers
+            echo "Removing old containers..."
+            sudo docker ps -a -q --filter "name=rnts-app2" | xargs -r sudo docker stop || true
+            sudo docker ps -a -q --filter "name=rnts-app2" | xargs -r sudo docker rm || true
+
             # Remove old images
             echo "Removing old images..."
             sudo docker images -q --filter "dangling=true" | xargs -r sudo docker rmi || true
             sudo docker images -q --filter "label=project=rnts2" | xargs -r sudo docker rmi || true
-
-            # Remove old containers
-            echo "Removing old containers..."
-            sudo docker ps -a -q --filter "status=exited" | xargs -r sudo docker rm || true
+          
           
           
             # Pull the latest image
