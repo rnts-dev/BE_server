@@ -72,6 +72,9 @@ jobs:
           USER: ${{ secrets.NCP_SERVER_USER }}
           HOST: ${{ secrets.NCP_SERVER_HOST }}
         run: |
+          # Copy keystore to the server
+          scp -o StrictHostKeyChecking=no -i /tmp/your-key.pem /tmp/keystore.p12 $USER@$HOST:/tmp/keystore.p12
+          
           ssh -o StrictHostKeyChecking=no -i /tmp/your-key.pem $USER@$HOST << 'EOF'
             # Ensure Docker is running
             sudo service docker start
@@ -80,8 +83,8 @@ jobs:
             # Create /app directory if it doesn't exist
             [ ! -d /app ] && sudo mkdir /app
           
-            # Create keystore file from base64 encoded string
-            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /app/keystore.p12
+            # Move the keystore file to the appropriate location
+            sudo mv /tmp/keystore.p12 /app/keystore.p12
             sudo chmod 600 /app/keystore.p12
           
           
