@@ -57,8 +57,9 @@ jobs:
 
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /app/keystore.p12
-          chmod 600 /app/keystore.p12
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /tmp/keystore.p12
+          chmod 600 /tmp/keystore.p12
+          
 
       - name: Decode SSH key
         id: decode-key
@@ -74,6 +75,15 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i /tmp/your-key.pem $USER@$HOST << 'EOF'
             # Ensure Docker is running
             sudo service docker start
+          
+          
+            # Create /app directory if it doesn't exist
+            [ ! -d /app ] && sudo mkdir /app
+          
+            # Move the keystore file to the appropriate location
+            sudo cp /tmp/keystore.p12 /app/keystore.p12
+            sudo chmod 600 /app/keystore.p12
+          
           
             # Login to Docker Hub
             echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
