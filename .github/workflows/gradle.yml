@@ -57,8 +57,8 @@ jobs:
 
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /tmp/keystore.p12
-          chmod 600 /tmp/keystore.p12
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /app/keystore.p12
+          chmod 600 /app/keystore.p12
 
       - name: Decode SSH key
         id: decode-key
