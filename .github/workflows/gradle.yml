@@ -84,7 +84,7 @@ jobs:
           
             # Move the keystore file to the appropriate location
             # sudo mv /tmp/keystore.p12 /app/keystore.p12
-            # sudo chmod 600 /app/keystore.p12
+            sudo chmod 600 /app/keystore.p12
           
           
             # Login to Docker Hub
