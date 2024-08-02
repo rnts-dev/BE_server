@@ -80,8 +80,8 @@ jobs:
             # Create /app directory if it doesn't exist
             [ ! -d /app ] && sudo mkdir /app
           
-            # Move the keystore file to the appropriate location
-            sudo cp /tmp/keystore.p12 /app/keystore.p12
+            # Create keystore file from base64 encoded string
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /app/keystore.p12
             sudo chmod 600 /app/keystore.p12
           
           
