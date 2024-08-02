@@ -73,19 +73,18 @@ jobs:
           HOST: ${{ secrets.NCP_SERVER_HOST }}
         run: |
           # Copy keystore to the server
-          scp -o StrictHostKeyChecking=no -i /tmp/your-key.pem /tmp/keystore.p12 $USER@$HOST:/tmp/keystore.p12
+          scp -o StrictHostKeyChecking=no -i /tmp/your-key.pem /tmp/keystore.p12 $USER@$HOST:/app/keystore.p12
           
           ssh -o StrictHostKeyChecking=no -i /tmp/your-key.pem $USER@$HOST << 'EOF'
             # Ensure Docker is running
             sudo service docker start
           
-          
-            # Create /app directory if it doesn't exist
-            [ ! -d /app ] && sudo mkdir /app
+            # Verify the keystore file is present
+            ls -l /app/keystore.p12          
           
             # Move the keystore file to the appropriate location
-            sudo mv /tmp/keystore.p12 /app/keystore.p12
-            sudo chmod 600 /app/keystore.p12
+            # sudo mv /tmp/keystore.p12 /app/keystore.p12
+            # sudo chmod 600 /app/keystore.p12
           
           
             # Login to Docker Hub
