@@ -45,8 +45,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rnts2:latest
 
-     
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -59,7 +57,6 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /tmp/keystore.p12
           chmod 600 /tmp/keystore.p12
-          
 
       - name: Decode SSH key
         id: decode-key
@@ -72,29 +69,25 @@ jobs:
           USER: ${{ secrets.NCP_SERVER_USER }}
           HOST: ${{ secrets.NCP_SERVER_HOST }}
         run: |
-          # Copy keystore to the server
+          # Copy keystore and SSH key to the server
           scp -o StrictHostKeyChecking=no -i /tmp/your-key.pem /tmp/keystore.p12 $USER@$HOST:/app/keystore.p12
           
           ssh -o StrictHostKeyChecking=no -i /tmp/your-key.pem $USER@$HOST << 'EOF'
             # Ensure Docker is running
             sudo service docker start
-          
+
             # Verify the keystore file is present
-            ls -l /app/keystore.p12          
-          
-            # Move the keystore file to the appropriate location
-            # sudo mv /tmp/keystore.p12 /app/keystore.p12
+            ls -l /app/keystore.p12
+
+            # Set permissions for the keystore file
             sudo chmod 644 /app/keystore.p12
-          
-          
+
             # Login to Docker Hub
             echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-          
-          
+
             # Find and kill process using port 8443 (if any)
             PID=$(sudo lsof -t -i:8443) && [ ! -z "$PID" ] && sudo kill -9 $PID || echo "No process found using port 8443"
-      
-      
+
             # Remove old containers
             echo "Removing old containers..."
             sudo docker ps -a -q --filter "name=rnts-app2" | xargs -r sudo docker stop || true
@@ -104,23 +97,22 @@ jobs:
             echo "Removing old images..."
             sudo docker images -q --filter "dangling=true" | xargs -r sudo docker rmi || true
             sudo docker images -q --filter "label=project=rnts2" | xargs -r sudo docker rmi || true
-          
-          
-          
+
             # Pull the latest image
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rnts2:latest
-          
+
             # Move the keystore file to the appropriate location
-            sudo cp /tmp/keystore.p12 /app/keystore.p12
-          
+            sudo cp /app/keystore.p12 /app/keystore.p12
+
             # Update docker-compose.yml with the latest version
             # Change the image name in the docker-compose file
             sed -i "s|image:.*|image: ${{ secrets.DOCKER_HUB_USERNAME }}/rnts2:latest|g" /path/to/your/project/docker-compose.yml
-          
+
             # Stop the currently running containers
             docker-compose down
-          
+
             # Start the new containers
             docker-compose up --build --force-recreate -d
           EOF
+
 
