@@ -35,7 +35,7 @@ public class PenaltyController {
     }
 
     //패널티 조회
-    @Operation(summary = "패널티", description = ".")
+    @Operation(summary = "패널티 조회", description = ".")
     @GetMapping("penalty/{appointmentId}")
     public ResponseEntity<PenaltyGetResponse> findPenaltyByAppointmentId(@PathVariable Long appointmentId){
         PenaltyGetResponse penaltyGetResponse = penaltyService.findByAppointment(appointmentId);
@@ -45,7 +45,7 @@ public class PenaltyController {
 
 
     //패널티 등록 (내가 받는 패널티 등록)
-    @Operation(summary = "패널티", description = ".")
+    @Operation(summary = "패널티 등록", description = ".")
     @PostMapping("penalty/receiveed/{penaltyId}")
     public ResponseEntity<PenaltyResponse> addReceivedMember(@PathVariable Long penaltyId){
 
@@ -59,7 +59,7 @@ public class PenaltyController {
 
 
     //내가 생성한 패널티 조회
-    @Operation(summary = "패널티", description = ".")
+    @Operation(summary = "생성한 패널티 조회", description = ".")
     @GetMapping("penalties/my-created")
     public ResponseEntity<List<PenaltyGetResponse>> getMyCreatedPenalties(){
 
@@ -72,7 +72,7 @@ public class PenaltyController {
 
 
     // 내가 받은 패널티 조회
-    @Operation(summary = "패널티", description = ".")
+    @Operation(summary = "받은 패널티 조회", description = ".")
     @GetMapping("penalies")
     public ResponseEntity<List<PenaltyGetResponse>> getMyPenaltiest(){
 
