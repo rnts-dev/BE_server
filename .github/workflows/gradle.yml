@@ -36,6 +36,11 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - name: Copy keystore to the build context
+        run: |
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > backend-api/src/main/resources/keystore.p12
+            chmod 600 backend-api/src/main/resources/keystore.p12
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
@@ -53,10 +58,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Decode keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /tmp/keystore.p12
-          chmod 600 /tmp/keystore.p12
+#      - name: Decode keystore
+#        run: |
+#          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > /tmp/keystore.p12
+#          chmod 600 /tmp/keystore.p12
 
       - name: Decode SSH key
         id: decode-key
@@ -70,7 +75,7 @@ jobs:
           HOST: ${{ secrets.NCP_SERVER_HOST }}
         run: |
           # Copy keystore and SSH key to the server
-          scp -o StrictHostKeyChecking=no -i /tmp/your-key.pem /tmp/keystore.p12 $USER@$HOST:/app/keystore.p12
+          # scp -o StrictHostKeyChecking=no -i /tmp/your-key.pem /tmp/keystore.p12 $USER@$HOST:/app/keystore.p12
           
           ssh -o StrictHostKeyChecking=no -i /tmp/your-key.pem $USER@$HOST << 'EOF'
             # Ensure Docker is running
@@ -82,6 +87,10 @@ jobs:
             # Set permissions for the keystore file
             sudo chmod 644 /app/keystore.p12
           
+            # Move keystore to the appropriate location
+            # sudo mkdir -p /app
+            # sudo mv /app/keystore.p12 app/keystore.p12
+            
 
             # Login to Docker Hub
             echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
