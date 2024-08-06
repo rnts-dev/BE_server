@@ -12,9 +12,6 @@ RUN ./gradlew bootJar
 FROM eclipse-temurin:17-jre
 COPY --from=builder build/libs/*.jar app.jar
 
-
-
-
 EXPOSE 8443
 
 CMD ["java", "-jar", "app.jar"]
