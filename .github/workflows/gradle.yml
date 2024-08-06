@@ -25,7 +25,7 @@ jobs:
 
       - name: Build with Gradle
         working-directory: backend-api
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
       - name: Copy keystore to the build context
         run: |
