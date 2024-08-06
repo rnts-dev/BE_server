@@ -83,7 +83,8 @@ jobs:
             sudo chmod 644 /app/keystore.p12
           
             # Move keystore to the appropriate location
-            sudo mv /app/keystore.p12 /src/main/resources/keystore.p12
+            sudo mv /app/keystore.p12 app/backend-api/src/main/resources/keystore.p12
+            
 
             # Login to Docker Hub
             echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
