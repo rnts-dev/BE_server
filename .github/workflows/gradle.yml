@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - feature/YFTD-10
+      - main
 
 jobs:
   build:
