@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
@@ -18,9 +17,9 @@ import java.util.Objects;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Password {
     @NotBlank(message = "비밀번호를 입력하세요.")
-    @Length(min = 9)
     @Column(nullable = false)
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,12}", message = "비밀번호는 9~12자 영문(대소문자), 숫자, 특수문자를 사용하세요.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,12}",
+            message = "영어 대소문자, 숫자, 특수문자를 포함한 8 ~ 15자리 여야 합니다.")
     private String password;
 
     public static Password from(final String password) {
@@ -28,15 +27,8 @@ public class Password {
     }
 
     public static Password encode(final String rawPassword, final PasswordEncoder passwordEncoder) {
-//        validatedPassword(rawPassword);
         return new Password(passwordEncoder.encode(rawPassword));
     }
-
-//    private static void validatedPassword(final String rawPassword) {
-//        if (Objects.isNull(rawPassword) || rawPassword.isBlank()) {
-//            throw new PasswordNullException(ErrorCode.PASSWORD_NULL_ERROR);
-//        }
-//    }
 
     @JsonValue
     public String password() {
