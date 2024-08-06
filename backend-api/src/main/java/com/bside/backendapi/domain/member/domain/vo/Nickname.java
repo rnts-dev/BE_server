@@ -13,14 +13,15 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable // 엔티티의 속성으로 포함될 수 있는 클래스
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Nickname implements Serializable {
     @NotBlank(message = "닉네임을 입력하세요.")
     @Column(nullable = false)
     @Length(max = 16)
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣_-]+$")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣_-]+$",
+            message = "영어 대소문자, 한글 및 _(언더스코어), -(하이픈)만 사용 가능합니다.")
     private String nickname;
 
     public static Nickname from(final String nickname) {

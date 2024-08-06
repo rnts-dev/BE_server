@@ -8,6 +8,7 @@ import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -35,7 +36,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         CustomOAuth2User principal = (CustomOAuth2User) customUserDetailsService.loadUserByUsername(loginId.loginId());
 
         if (!passwordEncoder().matches(password.password(), principal.getPassword())) {
-            throw new MismatchPasswordException(ErrorCode.MISMATCH_PASSWORD);
+            throw new AuthenticationServiceException("비밀번호가 일치하지 않습니다.");
+//            throw new MismatchPasswordException(ErrorCode.MISMATCH_PASSWORD);
         }
         return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
     }

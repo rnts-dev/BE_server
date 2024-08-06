@@ -5,8 +5,8 @@ import com.bside.backendapi.global.jwt.filter.JwtAuthenticationEntryPoint;
 import com.bside.backendapi.global.jwt.filter.JwtAuthenticationProcessingFilter;
 import com.bside.backendapi.global.jwt.handler.CustomAccessDeniedHandler;
 import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
-import com.bside.backendapi.global.oauth.handler.CustomLoginSuccessHandler;
-import com.bside.backendapi.global.oauth.handler.LoginFailureHandler;
+import com.bside.backendapi.global.oauth.handler.CustomAuthenticationFailureHandler;
+import com.bside.backendapi.global.oauth.handler.CustomAuthenticationSuccessHandler;
 import com.bside.backendapi.global.security.filter.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
-    private final CustomLoginSuccessHandler customLoginSuccessHandler;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final TokenProvider tokenProvider;
@@ -50,11 +50,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public LoginFailureHandler loginFailureHandler() {
-        return new LoginFailureHandler();
     }
 
     @Bean
@@ -70,25 +65,22 @@ public class SecurityConfig {
         // 헤더에 "Authorization" : "access token" 전달
         CustomAuthenticationFilter customAuthenticationFilter =
                 new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration, authenticationManagerBuilder));
-        customAuthenticationFilter.setFilterProcessesUrl("/api/v1/public/auth/login");
+        customAuthenticationFilter.setFilterProcessesUrl("/login");
         customAuthenticationFilter.setPostOnly(true); // 항상 POST 처리
-        customAuthenticationFilter.setAuthenticationSuccessHandler(customLoginSuccessHandler);
-        customAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
+        customAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+        customAuthenticationFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-
                 .cors(cors -> cors.configurationSource(configurationSource()))
-
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
                         .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
-                        .requestMatchers(PUBLIC).permitAll()
-                        .requestMatchers("/api/v1/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(PUBLIC, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/error").permitAll() // '/error' 경로에 대한 접근 허용
-
                         .anyRequest().authenticated())
 
                 .exceptionHandling(handlingConfigurer -> handlingConfigurer
@@ -98,21 +90,20 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .formLogin(AbstractHttpConfigurer::disable)
                 .addFilter(customAuthenticationFilter)
 
                 .addFilterBefore(new JwtAuthenticationProcessingFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 // OAuth 로그인
                 .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-//                        .loginPage("") // 권한 접근 실패 시 이동할 페이지
-//                        .defaultSuccessUrl("") // 로그인 성공 시 이동할 페이지
-//                        .failureUrl("") // 로그인 실패 시 이동할 페이지
+//                        .loginPage("www.rnts.o-r.kr") // 권한 접근 실패 시 이동할 페이지
+//                        .defaultSuccessUrl("www.rnts.o-r.kr") // 로그인 성공 시 이동할 페이지
+//                        .failureUrl("/login") // 로그인 실패 시 이동할 페이지
 
                         // userInfoEndpoint : 로그인 성공 후 사용자 정보 가져올 때의 설정
                         // userService : 소셜 로그인 성공 시 진행될 UserService 구현체 등록
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
-                                .successHandler(customLoginSuccessHandler)
+                                .successHandler(customAuthenticationSuccessHandler)
                 )
                 .build();
     }
@@ -124,7 +115,7 @@ public class SecurityConfig {
         // localhost:8080 백엔드, localhost:3000 프론트엔드
         configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트 앤드 IP만 허용 react)
         configuration.setAllowCredentials(false); // 클라이언트에서 쿠키 요청 허용
-        configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트 였다. 지금은 아닙니다.
+        configuration.addExposedHeader("Authorization");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // /login, /board, /product/
         return source;
