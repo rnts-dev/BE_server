@@ -8,7 +8,8 @@ public enum ErrorCode {
     // Common
     METHOD_NOT_ALLOWED(405, "C001", "잘못된 요청입니다."),
     ACCESS_DENIED(403, "C002", "해당 자원에 대한 접근 권한이 없습니다."),
-    INTERNAL_SERVER_ERROR(500, "C003", "서버 내부 오류 입니다."),
+    INVALID_INPUT_VALUE(400, "C003", "잘못된 입력입니다."),
+    INTERNAL_SERVER_ERROR(500, "C004", "서버 내부 오류 입니다."),
 
     // Member
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),

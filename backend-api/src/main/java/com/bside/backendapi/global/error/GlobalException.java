@@ -5,12 +5,40 @@ import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.nio.file.AccessDeniedException;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalException {
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        log.error("HttpRequestMethodNotSupportedException", e);
+
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
+        log.error("MethodArgumentNotValidException", e);
+        final ErrorResponse response = ErrorResponse.createBinding(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("AccessDeniedException", e);
+
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ACCESS_DENIED.getStatus()));
+    }
 
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
