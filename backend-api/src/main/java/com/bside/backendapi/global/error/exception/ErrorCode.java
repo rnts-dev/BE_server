@@ -10,6 +10,7 @@ public enum ErrorCode {
     ACCESS_DENIED(403, "C002", "해당 자원에 대한 접근 권한이 없습니다."),
     INVALID_INPUT_VALUE(400, "C003", "잘못된 입력입니다."),
     INTERNAL_SERVER_ERROR(500, "C004", "서버 내부 오류 입니다."),
+    VERIFICATION_FAILED(401, "C005", "인증 실패했습니다."),
 
     // Member
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),
@@ -20,6 +21,7 @@ public enum ErrorCode {
     DUPLICATED_PASSWORD(400, "M006", "기존 비밀번호와 동일합니다."),
     MISMATCH_PASSWORD(400, "M007", "비밀번호가 일치하지 않습니다."),
     EMAIL_NOT_FOUND(400, "M008", "이메일이 존재하지 않습니다."),
+    LOGINID_NOT_FOUND(400, "M009", "해당 이메일로 등록된 아이디가 존재하지 않습니다."),
 
     // JWT
     TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
