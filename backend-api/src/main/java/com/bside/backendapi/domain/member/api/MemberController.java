@@ -71,13 +71,12 @@ public class MemberController {
 
     @Operation(summary = "아이디 찾기", description = "인증코드와 이메일로 회원 검증 후 해당 메일을 가진 회원의 ID를 표시하게 됩니다.")
     @PostMapping("/public/searchId")
-    public ResponseEntity<String> searchId(@Valid @RequestBody VerifiedRequest verifiedRequest) {
+    public ResponseEntity<SearchIdResponse> searchId(@Valid @RequestBody VerifiedRequest verifiedRequest) {
         boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail(), verifiedRequest.getAuthCode());
-        String result = memberSearchService.searchId(isVerified, verifiedRequest.getMail());
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(memberSearchService.searchId(isVerified, verifiedRequest.getMail()));
     }
 
-    @Operation(summary = "새 비밀번호 변경",
+    @Operation(summary = "비밀번호 변경",
             description = "인증코드 발송 시 사용된 메일(mail)과 새 비밀번호(newPassword), 비밀번호 확인(confirmPassword)를 통해 새 비밀번호로 변경합니다.")
     @PatchMapping("/public/updatePassword")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody MemberUpdatePasswordRequest memberUpdatePasswordRequest) {
