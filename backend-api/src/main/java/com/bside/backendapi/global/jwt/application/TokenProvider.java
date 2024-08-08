@@ -1,7 +1,10 @@
 package com.bside.backendapi.global.jwt.application;
 
+import com.bside.backendapi.domain.member.domain.vo.Email;
 import com.bside.backendapi.domain.member.domain.vo.LoginId;
+import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.jwt.dto.TokenDTO;
+import com.bside.backendapi.global.jwt.error.TokenNotFoundException;
 import com.bside.backendapi.global.jwt.vo.AccessToken;
 import com.bside.backendapi.global.jwt.vo.RefreshToken;
 import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
@@ -84,6 +87,7 @@ public class TokenProvider implements InitializingBean {
 
         return new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), authorities);
     }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -94,14 +98,14 @@ public class TokenProvider implements InitializingBean {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.error("잘못된 JWT 서명입니다.");
+            throw new TokenNotFoundException(ErrorCode.TOKEN_NOT_FOUND);
         } catch (ExpiredJwtException e) {
             log.error("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            log.error("지원하지 않는 JWT 토큰입니다.");
+            throw new TokenNotFoundException(ErrorCode.TOKEN_EXPIRED);
         } catch (IllegalArgumentException e) {
             log.error("JWT 토큰이 잘못되었습니다.");
+            throw new TokenNotFoundException(ErrorCode.TOKEN_INVALID);
         }
-        return false;
     }
 
     public String generateToken(LoginId loginId, String authorities, Long expiration) {
@@ -113,6 +117,23 @@ public class TokenProvider implements InitializingBean {
                 .expiration(new Date(expirationTime))
                 .signWith(this.key, Jwts.SIG.HS512)
                 .compact();
+    }
+
+    public String generateTokenForMail(Email mail) {
+        long expirationTime = (new Date()).getTime() + 1000 * 60 * 15;
+        return Jwts.builder()
+                .claim("mail", mail.email())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(expirationTime))
+                .signWith(this.key, Jwts.SIG.HS512)
+                .compact();
+    }
+
+    public Claims getMailFromToken(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token).getPayload();
     }
 
 }
