@@ -24,7 +24,9 @@ public enum ErrorCode {
     LOGINID_NOT_FOUND(400, "M009", "해당 이메일로 등록된 아이디가 존재하지 않습니다."),
 
     // JWT
-    TOKEN_NOT_FOUND(400, "J001", "잘못된 토큰입니다."),
+    TOKEN_NOT_FOUND(401, "J001", "잘못된 토큰입니다."),
+    TOKEN_EXPIRED(401, "J002", "토큰이 만료되었습니다."),
+    TOKEN_INVALID(401, "J003", "토큰이 유효하지 않습니다."),
 
     // APPOINTMENT
     APPOINTMENT_NOT_FOUND(400, "A001", "약속이 없습니다."),

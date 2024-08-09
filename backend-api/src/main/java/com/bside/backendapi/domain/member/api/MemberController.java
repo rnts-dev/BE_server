@@ -76,17 +76,6 @@ public class MemberController {
         return ResponseEntity.ok().body(memberSearchService.searchId(isVerified, verifiedRequest.getMail()));
     }
 
-    @Operation(summary = "비밀번호 변경",
-            description = "인증코드 발송 시 사용된 메일(mail)과 새 비밀번호(newPassword), 비밀번호 확인(confirmPassword)를 통해 새 비밀번호로 변경합니다.")
-    @PatchMapping("/public/updatePassword")
-    public ResponseEntity<String> updatePassword(@Valid @RequestBody MemberUpdatePasswordRequest memberUpdatePasswordRequest) {
-        if (!memberUpdatePasswordRequest.getNewPassword().equals(memberUpdatePasswordRequest.getConfirmPassword()))
-            return ResponseEntity.badRequest().body("비밀번호를 올바르게 입력하세요.");
-
-        memberSearchService.updatePassword(memberUpdatePasswordRequest.toEntity());
-        return ResponseEntity.ok().body("비밀번호가 성공적으로 변경되었습니다.");
-    }
-
     // 현재 인증된 사용자의 정보 가져오기
     public CustomOAuth2User getPrincipal() {
         return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

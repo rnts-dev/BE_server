@@ -96,7 +96,7 @@ public class Member extends BaseEntity {
         this.profileUrl = member.getProfileUrl();
     }
 
-    public void updatePassword(final Member member, final PasswordEncoder passwordEncoder) {
+    public void resetPassword(final Member member, final PasswordEncoder passwordEncoder) {
         this.password = Password.encode(member.getPassword().password(), passwordEncoder);
     }
 
