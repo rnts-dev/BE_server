@@ -1,12 +1,12 @@
 package com.bside.backendapi.global.jwt.filter;
 
 import com.bside.backendapi.global.jwt.application.TokenProvider;
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -23,7 +23,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String NO_CHECK_URL = "/api/v1/public/auth/login";
+        String NO_CHECK_URL = "/login";
         // "/login" 요청이 들어오면, 다음 필터 호출
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
             filterChain.doFilter(request, response);
@@ -32,13 +32,15 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         String jwt = resolveToken(request);
         String requestURI = request.getRequestURI();
 
+        log.info("request_uri : {}", requestURI);
+
         // 무조건 요청이 여길 거쳐가므로 예외처리는 생략
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         else {
-            log.debug("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
+            log.info("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
         }
         filterChain.doFilter(request, response);
     }

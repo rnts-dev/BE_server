@@ -14,13 +14,12 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String errorMessage = "Authentication failed3";
+        String errorMessage = "인증 실패했습니다.";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
 
         if (exception.getCause() instanceof BusinessException businessException) {
             errorMessage = businessException.getMessage();
             status = HttpStatus.valueOf(businessException.getErrorCode().getStatus());
-            System.out.println("여기");
         }
 
         response.setStatus(status.value());

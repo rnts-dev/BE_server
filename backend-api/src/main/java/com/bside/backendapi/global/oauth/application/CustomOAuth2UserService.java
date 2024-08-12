@@ -52,6 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private Member loadOrSaveMember(String OAuthLoginId, OAuth2Attributes oAuth2Attributes) {
         Member member = memberRepository.findByLoginId(LoginId.from(OAuthLoginId)).orElse(null);
+        log.info("loadOrSaveMember 호출 --------------");
 
         if (member == null) {
             return memberRepository.save(oAuth2Attributes.toEntity(OAuthLoginId, oAuth2Attributes.getOauth2UserInfo()));
