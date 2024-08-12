@@ -15,13 +15,11 @@ public class PenaltyGetResponse {
 
     private String content;
 
-    private int fine;
-
     private Long penaltyCreatorId;
 
 
     public static PenaltyGetResponse empty() {
-        return new PenaltyGetResponse(null, null, null, 0, null);
+        return new PenaltyGetResponse(null, null, null,  null);
     }
 
     public static PenaltyGetResponse of(final Penalty penalty){
@@ -29,7 +27,6 @@ public class PenaltyGetResponse {
                 penalty.getId(),
                 penalty.getPenaltyType(),
                 penalty.getContent(),
-                penalty.getFine(),
                 penalty.getPenaltyCreatorId()
         );
     }

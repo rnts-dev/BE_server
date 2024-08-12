@@ -19,16 +19,11 @@ public class PenaltyCreateRequest {
     private PenaltyType penaltyType;
 
     private String content;
-    private int fine;
-
-    private Long penaltyCreatorId;
-
 
 
     public Penalty toEntity(){
         return Penalty.builder()
                 .penaltyType(penaltyType)
-                .fine(fine)
                 .build();
     }
 
