@@ -31,8 +31,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
         String jwt = resolveToken(request);
 
-        log.info("request_uri : {}", requestURI);
-
         // 무조건 요청이 여길 거쳐가므로 예외처리는 생략
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
