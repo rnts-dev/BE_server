@@ -27,10 +27,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         // "/login" 요청이 들어오면, 다음 필터 호출
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         String jwt = resolveToken(request);
-        String requestURI = request.getRequestURI();
 
         log.info("request_uri : {}", requestURI);
 
@@ -39,9 +39,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        else {
-            log.info("유효한 JWT 토큰이 없습니다. uri: {}", requestURI);
-        }
+
         filterChain.doFilter(request, response);
     }
 

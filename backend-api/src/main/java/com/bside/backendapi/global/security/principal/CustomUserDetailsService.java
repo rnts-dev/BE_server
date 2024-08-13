@@ -5,11 +5,13 @@ import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -19,6 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String loginId) throws UsernameNotFoundException {
         return memberRepository.findUserDetailsByLoginId(LoginId.from(loginId))
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
