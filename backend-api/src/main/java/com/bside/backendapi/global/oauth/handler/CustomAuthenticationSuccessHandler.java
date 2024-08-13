@@ -38,6 +38,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // JWT 생성
         TokenDTO token = tokenProvider.createToken(user.getLoginId(), authentication);
 
+        log.info("success handler : {}", token);
+
         // Response Header로 전달
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
