@@ -66,30 +66,36 @@ public class PenaltyController {
 
 
     //내가 생성한 패널티 전체 조회
-    @Operation(summary = "생성한 패널티 조회", description = ".")
+    @Operation(summary = "내가 생성한 패널티 전체 조회", description = "1등 아닌경우 패널티 조회")
     @GetMapping("penalties/my-created")
     public ResponseEntity<List<PenaltyGetResponse>> getMyCreatedPenalties(){
 
+        //현재 로그인 사용자 받아오기
         Long memberId = this.getPrincipal().getId();
 
+        //memberid 파라미터로, MyCreatedPenalties 메서드 동작
         List<PenaltyGetResponse> penaltyGetResponses = penaltyService.MyCreatedPenalties(memberId);
 
         return ResponseEntity.ok(penaltyGetResponses);
     }
 
 
-    // 내가 받은 패널티 조회
-    @Operation(summary = "받은 패널티 조회", description = ".")
+    // 내가 받은(등록된) 패널티 조회
+    @Operation(summary = "받은 패널티 전체 조회", description = ".")
     @GetMapping("penalies")
     public ResponseEntity<List<PenaltyGetResponse>> getMyPenaltiest(){
 
+        //현재 로그인 사용자 받아오기
         Long memberId = this.getPrincipal().getId();
 
+        //memberid 파라미터로, myPenalties 메서드 동작
         List<PenaltyGetResponse> penaltyGetResponses = penaltyService.myPenalties(memberId);
 
         return ResponseEntity.ok(penaltyGetResponses);
     }
 
+
+    //현재 로그인한 사용자 불러오는 메서드
     private CustomOAuth2User getPrincipal() {
         return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

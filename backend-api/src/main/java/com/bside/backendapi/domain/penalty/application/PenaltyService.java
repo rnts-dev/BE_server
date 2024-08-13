@@ -63,7 +63,7 @@ public class PenaltyService {
     }
 
 
-    //약속에서 패널티 조회 서비스
+    //약속으로 패널티 조회 서비스
     public PenaltyGetResponse findByAppointment(final Long appointmentId){
 
         //약속 조회
@@ -122,15 +122,20 @@ public class PenaltyService {
     //내가 생성한 패널티 조회
     public List<PenaltyGetResponse> MyCreatedPenalties(final Long memberId){
 
+        //penalty에서 memberid와 creatorid 일치하는 것들 리스트로 가져오기
         List<Penalty> penalties = penaltyRepository.findByPenaltyCreatorId(memberId);
 
+        //받아온 penalties 예외처리
         if (penalties == null || penalties.isEmpty()){
             throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
         }
+
+        //penalties dto값으로 변환하여 response로
         List<PenaltyGetResponse> penaltyResponses = penalties.stream()
                 .map(PenaltyGetResponse::of)
                 .collect(Collectors.toList());
 
+        //response 리턴
         return penaltyResponses;
     }
 
@@ -140,6 +145,8 @@ public class PenaltyService {
 
         //memberid로 receivedPenalties(penaltyid + memberid) 가져오기
         List<ReceivedPenalty> receivedPenalties = receivedPenaltyRepository.findByMemberId(memberId);
+
+        //받아온 receivedPenalties 예외처리
         if (receivedPenalties == null || receivedPenalties.isEmpty()){
             throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
         }
@@ -151,16 +158,18 @@ public class PenaltyService {
 
         //추출한 penaltyid로 penalty정보 추출
         List<Penalty> penalties = penaltyRepository.findAllById(penaltyIds);
+
+        //penalties 예외처리
         if (penalties.isEmpty()) {
             throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
         }
 
         //penaltyResponses에 담아서 리턴
-        List<PenaltyGetResponse> penaltyResponses = penalties.stream()
+        List<PenaltyGetResponse> penaltyGetResponses = penalties.stream()
                 .map(PenaltyGetResponse::of)
                 .collect(Collectors.toList());
 
-        return penaltyResponses;
+        return penaltyGetResponses;
     }
 
 
