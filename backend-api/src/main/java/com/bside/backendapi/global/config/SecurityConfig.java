@@ -24,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -53,6 +54,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration,
                                                        AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
@@ -68,7 +74,7 @@ public class SecurityConfig {
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         customAuthenticationFilter.setPostOnly(true); // 항상 POST 처리
         customAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
-        customAuthenticationFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
+        customAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler());
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -91,19 +97,15 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .addFilter(customAuthenticationFilter)
+                .addFilterBefore(new JwtAuthenticationProcessingFilter(tokenProvider), CustomAuthenticationFilter.class)
 
-                .addFilterBefore(new JwtAuthenticationProcessingFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
-                // OAuth 로그인
                 .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-//                        .loginPage("www.rnts.o-r.kr") // 권한 접근 실패 시 이동할 페이지
-//                        .defaultSuccessUrl("www.rnts.o-r.kr") // 로그인 성공 시 이동할 페이지
-//                        .failureUrl("/login") // 로그인 실패 시 이동할 페이지
-
                         // userInfoEndpoint : 로그인 성공 후 사용자 정보 가져올 때의 설정
                         // userService : 소셜 로그인 성공 시 진행될 UserService 구현체 등록
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
                                 .successHandler(customAuthenticationSuccessHandler)
+                                .failureHandler(customAuthenticationFailureHandler())
                 )
                 .build();
     }

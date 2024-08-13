@@ -40,7 +40,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         // Response Header로 전달
         response.setContentType(APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("UTF-8");
         response.setHeader(HEADER, token.getAccessToken().accessToken());
 
         // Http 응답에 JSON 데이터 작성

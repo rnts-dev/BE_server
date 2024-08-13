@@ -15,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
@@ -26,18 +27,22 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        // 넘어오는 데이터가 JSON 형태이면 이를 변환하는 과정이 필요
-        ServletInputStream servletInputStream = request.getInputStream();
-        String body = StreamUtils.copyToString(servletInputStream, StandardCharsets.UTF_8);
+        try {
+            // 넘어오는 데이터가 JSON 형태이면 이를 변환하는 과정이 필요
+            ServletInputStream servletInputStream = request.getInputStream();
+            String body = StreamUtils.copyToString(servletInputStream, StandardCharsets.UTF_8);
 
-        // JSON -> Java 객체
-        ObjectMapper objectMapper = new ObjectMapper();
-        LoginRequest loginRequest = objectMapper.readValue(body, LoginRequest.class);
-        String loginId = loginRequest.getLoginId().loginId();
-        String password = loginRequest.getPassword().password();
+            // JSON -> Java 객체
+            ObjectMapper objectMapper = new ObjectMapper();
+            LoginRequest loginRequest = objectMapper.readValue(body, LoginRequest.class);
+            String loginId = loginRequest.getLoginId().loginId();
+            String password = loginRequest.getPassword().password();
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
 
-        return authenticationManager.authenticate(authenticationToken);
+            return authenticationManager.authenticate(authenticationToken);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
