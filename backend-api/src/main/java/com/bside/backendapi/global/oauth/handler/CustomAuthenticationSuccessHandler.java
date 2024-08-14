@@ -49,5 +49,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put(HEADER, token.getAccessToken().accessToken());
         new ObjectMapper().writeValue(response.getWriter(), responseMap);
+
+        response.sendRedirect("https://www.rnts.o-r.kr");
     }
 }

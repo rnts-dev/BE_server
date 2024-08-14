@@ -13,25 +13,25 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
-    // 요청이 들어올 때마다 토큰 검증
+
     private final TokenProvider tokenProvider;
+    private static final Set<String> NO_CHECK_URLS = Set.of("/login", "/oauth2/authorization/*", "/oauth/*", "/oauth2/*");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String requestURI = request.getRequestURI();
+        String jwt = resolveToken(request);
 
-        String NO_CHECK_URL = "/login";
-        if (request.getRequestURI().equals(NO_CHECK_URL)) {
+        if (NO_CHECK_URLS.stream().anyMatch(requestURI::matches)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String jwt = resolveToken(request);
-
-        // 무조건 요청이 여길 거쳐가므로 예외처리는 생략
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
