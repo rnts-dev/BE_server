@@ -4,7 +4,7 @@ import com.bside.backendapi.global.jwt.application.TokenProvider;
 import com.bside.backendapi.global.jwt.filter.JwtAuthenticationEntryPoint;
 import com.bside.backendapi.global.jwt.filter.JwtAuthenticationProcessingFilter;
 import com.bside.backendapi.global.jwt.handler.CustomAccessDeniedHandler;
-import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
+//import com.bside.backendapi.global.oauth.application.CustomOAuth2UserService;
 import com.bside.backendapi.global.oauth.handler.CustomAuthenticationFailureHandler;
 import com.bside.backendapi.global.oauth.handler.CustomAuthenticationSuccessHandler;
 import com.bside.backendapi.global.security.filter.CustomAuthenticationFilter;
@@ -43,7 +43,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+//    private final CustomOAuth2UserService customOAuth2UserService;
     private final TokenProvider tokenProvider;
 
     private static final String PUBLIC = "/api/v1/public/**";
@@ -99,14 +99,14 @@ public class SecurityConfig {
                 .addFilter(customAuthenticationFilter)
                 .addFilterBefore(new JwtAuthenticationProcessingFilter(tokenProvider), CustomAuthenticationFilter.class)
 
-                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
-                        // userInfoEndpoint : 로그인 성공 후 사용자 정보 가져올 때의 설정
-                        // userService : 소셜 로그인 성공 시 진행될 UserService 구현체 등록
-                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService))
-                                .successHandler(customAuthenticationSuccessHandler)
-                                .failureHandler(customAuthenticationFailureHandler())
-                )
+//                .oauth2Login(oAuth2LoginConfigurer -> oAuth2LoginConfigurer
+//                        // userInfoEndpoint : 로그인 성공 후 사용자 정보 가져올 때의 설정
+//                        // userService : 소셜 로그인 성공 시 진행될 UserService 구현체 등록
+//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+//                                .userService(customOAuth2UserService))
+//                                .successHandler(customAuthenticationSuccessHandler)
+//                                .failureHandler(customAuthenticationFailureHandler())
+//                )
                 .build();
     }
 
