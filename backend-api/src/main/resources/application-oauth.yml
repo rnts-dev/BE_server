@@ -7,7 +7,7 @@ spring:
             client-id: 3791f336642b43c859459e063130cb5a # 앱키 -> REST API 키
             client-secret: TmggycaEFNBFmPNbkerH4yLzyOqldVCB # 카카오 로그인 -> 보안 -> Client Secret 코드
             authorization-grant-type: authorization_code
-            redirect-uri: https://rnts.o-r.kr/login/oauth2/code/kakao
+            redirect-uri: https://www.rnts.o-r.kr/login/oauth2/code/kakao
             client-authentication-method: client_secret_basic # POST 사용 불가 (setRequestEntityConverter를 사용하여 POST를 지원하는 인스턴스를 제공해야한다.)
             scope: # kakao 개인 정보 동의 항목 설정의 ID 값
               - profile_nickname
