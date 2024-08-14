@@ -54,7 +54,7 @@ public class CustomOAuth2User implements UserDetails, OAuth2User {
     // UserDetails 메서드
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

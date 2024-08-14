@@ -23,8 +23,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -84,9 +82,12 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
-                        .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
+                        .requestMatchers("/","/css/**","/images/**","/js/**", "/static/favicon.ico","/h2-console/**").permitAll()
                         .requestMatchers(PUBLIC, "/swagger-ui/**", "/v3/api-docs/**", "/login").permitAll()
                         .requestMatchers("/error").permitAll() // '/error' 경로에 대한 접근 허용
+                        .requestMatchers("/oauth2/authorization/**").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll()
+                        .requestMatchers("/oauth/**").permitAll()
                         .anyRequest().authenticated())
 
                 .exceptionHandling(handlingConfigurer -> handlingConfigurer
