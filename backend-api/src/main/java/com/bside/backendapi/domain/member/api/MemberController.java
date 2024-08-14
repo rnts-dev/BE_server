@@ -76,6 +76,8 @@ public class MemberController {
         return ResponseEntity.ok().body(memberSearchService.searchId(isVerified, verifiedRequest.getMail()));
     }
 
+
+
     // 현재 인증된 사용자의 정보 가져오기
     public CustomOAuth2User getPrincipal() {
         return (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

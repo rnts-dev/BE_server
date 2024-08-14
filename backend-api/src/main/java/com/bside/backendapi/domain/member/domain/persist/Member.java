@@ -109,6 +109,8 @@ public class Member extends BaseEntity {
         this.agreeTerms.setAllAgree();
     }
 
+
+
     public void delete() {
         activated = false;
         recordDeletedTime();
@@ -122,6 +124,8 @@ public class Member extends BaseEntity {
         Member member = (Member) obj;
         return Objects.equals(id, member.id);
     }
+
+
 
     // id를 기반으로 hash code 생성, 동일한 id를 가진 객체는 동일한 hash code 가짐
     @Override
