@@ -20,7 +20,7 @@ import java.util.Set;
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
-    private static final Set<String> NO_CHECK_URLS = Set.of("/login", "/oauth2/authorization/*", "/oauth/*", "/oauth2/*");
+    private static final Set<String> NO_CHECK_URLS = Set.of("/login", "/oauth2/authorization/*", "/oauth/*", "/oauth2/*" ,"/login/oauth2/code/*");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
