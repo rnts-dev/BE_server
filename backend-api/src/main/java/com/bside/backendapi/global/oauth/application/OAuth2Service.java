@@ -104,14 +104,19 @@ public class OAuth2Service {
         //id string으로
         String kakaoId = "kakao_" + kakaoUserInfo.getKakaoId();
 
+
+
         // DB에서 사용자 조회
         Member member = memberRepository.findBySocialIdAndSocialType(kakaoId, SocialType.KAKAO).orElse(null);
+
+
 
         if (member == null) {
             // 첫 로그인 - 새로운 회원 객체 생성
             member = Member.builder()
                     .loginId(LoginId.from(kakaoId))
                     .email(Email.from(kakaoUserInfo.getEmail()))
+                    .password(Password.from("kakao"))
                     .nickname(Nickname.from(kakaoUserInfo.getNickname()))
                     .profileUrl(null) // 처음 로그인 시 프로필 URL은 null
                     .tendency(null) // 초기 성향은 null

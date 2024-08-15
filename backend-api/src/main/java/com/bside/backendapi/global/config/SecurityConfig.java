@@ -83,7 +83,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
                         .requestMatchers("/","/css/**","/images/**","/js/**", "/static/favicon.ico","/h2-console/**").permitAll()
-                        .requestMatchers(PUBLIC, "/swagger-ui/**", "/v3/api-docs/**", "/login").permitAll()
+                        .requestMatchers(PUBLIC, "/swagger-ui/**", "/v3/api-docs/**", "/login", "/api/v1/kakao/callback").permitAll()
                         .requestMatchers("/error").permitAll() // '/error' 경로에 대한 접근 허용
                         .requestMatchers("/oauth2/authorization/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
@@ -91,7 +91,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
 
                 .exceptionHandling(handlingConfigurer -> handlingConfigurer
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 인증되지 않은 사용자가 리소스에 접근할 때
+//                        .authenticationEntryPoint(jwtAuthenticationEntryPoint) // 인증되지 않은 사용자가 리소스에 접근할 때
                         .accessDeniedHandler(customAccessDeniedHandler)) // 인증된 사용자가 접근 권한이 없는 리소스에 접근할 때
 
                 .sessionManagement(sessionManagement ->
