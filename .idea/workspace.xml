@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ffd71fa9-6047-4b42-bb44-f8d32fc3ed3b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/resources/static/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/resources/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/CorsMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/CorsMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtAuthenticationProcessingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtAuthenticationProcessingFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/api/OAuth2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/api/OAuth2Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/application/OAuth2Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/application/OAuth2Service.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
