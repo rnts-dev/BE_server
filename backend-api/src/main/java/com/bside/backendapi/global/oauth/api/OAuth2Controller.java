@@ -11,10 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
 
 
 @Slf4j
@@ -34,14 +39,16 @@ public class OAuth2Controller {
 
         String accessToken = oAuth2Service.getAccessTokenFromKakao(code);
         KakaoUserInfo kakaoUserInfo = oAuth2Service.getKakaoUserInfo(accessToken);
-        // 3. 사용자 정보를 이용해 회원을 생성하거나 조회
+        // 사용자 정보를 이용해 회원을 생성하거나 조회
         Member member = oAuth2Service.loadOrSaveMember(kakaoUserInfo);
 
-        // 4. JWT 토큰 생성
-        Authentication authentication = new UsernamePasswordAuthenticationToken(member.getLoginId(), member.getPassword());
+        // 권한 생성
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        // JWT 토큰 생성
+        Authentication authentication = new UsernamePasswordAuthenticationToken(member.getLoginId(), member.getPassword(), authorities);
         TokenDTO tokenDTO = tokenProvider.createToken(member.getLoginId(), authentication);
 
-        return ResponseEntity.ok("Access Token: " + tokenDTO.getAccessToken().accessToken());
+        return ResponseEntity.ok(tokenDTO.getAccessToken().accessToken());
     }
 
 
