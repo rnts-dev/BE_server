@@ -22,8 +22,8 @@ public class ReceivedPenalty extends BaseEntity {
 
     @Builder
     public ReceivedPenalty(Long memberId, Long penaltyId){
-        memberId = this.memberId;
-        penaltyId = this.penaltyId;
+        this.memberId = memberId;
+        this.penaltyId = penaltyId;
     }
 
     //비지니스 로직 추가

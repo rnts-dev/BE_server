@@ -35,6 +35,7 @@ public enum ErrorCode {
     DUPLICATED_CUSTOM_TYPE(400, "A004", "해당 약속 유형이 이미 존재합니다."),
 
     // PENALTY
+    RECEIVED_PENALTY_SAVE_ERROR(400,"P002","받은 패널티 저장 실패"),
     PENALTY_NOT_FOUND(400,"P001","해당 패널티를 찾을수 없습니다");
 
     private final int status;

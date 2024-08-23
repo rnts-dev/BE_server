@@ -19,17 +19,16 @@ public class TempPenaltyCreateRequest {
     private PenaltyType penaltyType;
 
     private String content;
-    private int fine;
-
-    private Long penaltyCreatorId;
-
 
 
     public Penalty toEntity(){
         return Penalty.builder()
                 .penaltyType(penaltyType)
-                .fine(fine)
                 .build();
+    }
+
+    public static TempPenaltyCreateRequest of(PenaltyType penaltyType, String content) {
+        return new TempPenaltyCreateRequest(penaltyType, content);
     }
 
 }

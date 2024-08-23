@@ -27,8 +27,6 @@ public class Penalty extends BaseEntity {
 
     private String content;
 
-    private int fine;
-
     private Long penaltyCreatorId;
 
     // 엔티티가 아닌 값 타입, 임베디드 타에 대해 1:N 매핑으로 테이블 생성 후 데이터 저장
@@ -41,23 +39,18 @@ public class Penalty extends BaseEntity {
         this.id = id;
         this.penaltyType = penaltyType;
         this.content = content;
-        this.fine = fine;
         this.penaltyCreatorId = penaltyCreatorId;
 //        this.penaltyReceivedMemberId = penaltyReceivedMemberId;
     }
 
     // 비즈니스 로직 추가
+
+    //패널티 만든사람 추가 로직
     public Penalty addPenaltyCreatorId(final Long penaltyCreatorId){
         this.penaltyCreatorId = penaltyCreatorId;
         return this;
     }
 
-    //패널티 등록 로직
-//    public void addReceivedMember(Long memberId) {
-//        if (this.penaltyReceivedMemberId == null) {
-//            this.penaltyReceivedMemberId = new ArrayList<>();
-//        }
-//        this.penaltyReceivedMemberId.add(memberId);
-//    }
+
 
 }
