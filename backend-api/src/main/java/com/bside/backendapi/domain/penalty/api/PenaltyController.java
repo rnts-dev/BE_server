@@ -23,7 +23,7 @@ public class PenaltyController {
     private final PenaltyService penaltyService;
 
     //패널티 생성 (1등이 등록)
-    @Operation(summary = "패널티 생성", description = "1등일 경우 패널티 생성 -> 지각x: 패널티 타입 선택 , 지각: 바로 반성문으로 생성 (content는 null)")
+    @Operation(summary = "패널티 생성", description = "1등일 경우 패널티 생성 -> 지각x: 패널티 타입 선택 , 지각: 바로 반성문(REFLECTION)으로 생성 (content는 null)")
     @PostMapping("penalty/{appointmentId}")
     public ResponseEntity<PenaltyResponse> createPenalty(@RequestBody PenaltyCreateRequest request, @PathVariable Long appointmentId){
 

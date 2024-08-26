@@ -13,12 +13,14 @@ import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenaltyRepository;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
+import com.bside.backendapi.domain.penalty.error.PenaltyAlreadyExistsException;
 import com.bside.backendapi.domain.penalty.error.PenaltyNotFoundExepception;
 import com.bside.backendapi.domain.penalty.error.ReceivedPenaltySaveException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +36,7 @@ public class PenaltyService {
     private final MemberRepository memberRepository;
 
     //패널티 생성 서비스
+    @Transactional
     public Long create(final Penalty penalty, final Long memberId, final  Long appointmentId){
 
         //패널티 저장 할 객체 생성
@@ -52,6 +55,11 @@ public class PenaltyService {
         Appointment updatedAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
                 () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
+
+        //appointment에 의미 패널티 저장되어있으면 예외처리
+        if (updatedAppointment.getPenaltyId() != null){
+            throw new PenaltyAlreadyExistsException(ErrorCode.PENALTY_ALREADY_EXISTS);
+        }
 
         //해당 appointment에 penaltyid 추가
         updatedAppointment.addPenalty(savedPenalty.getId());
