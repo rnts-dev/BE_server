@@ -3,7 +3,7 @@ jwt:
   secretKey: ${JWT_SECRET}
 
   access:
-    expiration : 360000 # 1시간
+    expiration : 18000000 # 5시간
 
   refresh:
     expiration: 1209600000 # 2주 (1000(ms -> s) * 60 * 60 * 24 * 14일)

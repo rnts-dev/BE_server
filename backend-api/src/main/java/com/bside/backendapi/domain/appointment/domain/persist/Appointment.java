@@ -70,6 +70,8 @@ public class Appointment extends BaseEntity {
         this.penaltyId = penaltyId;
     }
 
+
+
     public void update(final Appointment updateAppointment) {
         this.title = updateAppointment.title;
         this.appointmentType = updateAppointment.appointmentType;
