@@ -10,12 +10,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SearchIdResponse {
+public class CheckLoginIdRequest {
 
     @Valid
     private LoginId loginId;
 
-    public static SearchIdResponse of(final LoginId loginId) {
-        return new SearchIdResponse(loginId);
-    }
 }
