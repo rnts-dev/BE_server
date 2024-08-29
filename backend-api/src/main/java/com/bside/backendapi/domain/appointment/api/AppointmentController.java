@@ -5,7 +5,7 @@ import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.global.common.ApiResponse;
 import com.bside.backendapi.global.common.MessageContants;
-import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

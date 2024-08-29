@@ -1,20 +1,22 @@
 package com.bside.backendapi.domain.member.application;
 
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.Email;
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
-import com.bside.backendapi.domain.member.domain.vo.Nickname;
-import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.error.*;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.dto.MemberDetailResponse;
+import com.bside.backendapi.domain.member.dto.SearchIdResponse;
+import com.bside.backendapi.domain.member.dto.SignUpResponse;
+import com.bside.backendapi.domain.member.exception.*;
+import com.bside.backendapi.domain.member.repository.MemberRepository;
+import com.bside.backendapi.domain.member.vo.LoginId;
+import com.bside.backendapi.domain.member.vo.Mail;
+import com.bside.backendapi.domain.member.vo.Nickname;
 import com.bside.backendapi.global.error.exception.ErrorCode;
+import com.bside.backendapi.global.mail.MailNotFoundException;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,55 +25,62 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberResponse join(final Member member) {
-        existedEmail(member.getEmail());
+    public SignUpResponse signUp(final Member member) {
+        existedMail(member.getMail());
         existedNickname(member.getNickname());
 
-        member.allAgreed();
-        Member savedMember = memberRepository.save(member.encode(passwordEncoder));
-        return MemberResponse.of(savedMember);
+        Member newMember = memberRepository.save(member.encode(passwordEncoder));
+        return SignUpResponse.of(newMember);
     }
 
     public void existedLoginId(final LoginId loginId) {
-        if (memberRepository.existsByLoginId(loginId)) {
+        if (memberRepository.existsByLoginId(loginId))
             throw new DuplicatedLoginIdException(ErrorCode.DUPLICATED_LOGINID);
-        }
     }
 
-    public void update(final Member updateMember, final Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
-        member.update(updateMember, passwordEncoder);
-    }
-
-    public void delete(final Long memberId) {
-        memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
-                .delete();
-    }
-
-    public void existedEmail(final Email email) {
-        if (memberRepository.existsByEmail(email)) {
-            throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
-        }
-    }
-
-    public void mailNotFound(final Email email) {
-        if (!memberRepository.existsByEmail(email)) {
-            throw new EmailNotFoundException(ErrorCode.EMAIL_NOT_FOUND);
-        }
+    public void existedMail(final Mail mail) {
+        if (memberRepository.existsByMail(mail))
+            throw new DuplicatedMailException(ErrorCode.DUPLICATED_MAIL);
     }
 
     private void existedNickname(final Nickname nickname) {
-        if (memberRepository.existsByNickname(nickname)) {
+        if (memberRepository.existsByNickname(nickname))
             throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
+    }
+
+    public MemberDetailResponse getDetailByLoginId(final CustomOAuth2User principal) {
+        return memberRepository.findByLoginId(LoginId.from(principal.getUsername()))
+                .map(MemberDetailResponse::of)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    public void update(final Member updateMember, final CustomOAuth2User principal) {
+        Member member = memberRepository.findByLoginId(LoginId.from(principal.getUsername()))
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        if (updateMember.getNickname() != null ||
+                updateMember.getProfileImage() != null ||
+                updateMember.getTendency() != member.getTendency()) {
+            member.update(updateMember);
         }
     }
 
-    public void updateTendency(final Member updateMember, final Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+    public void delete(final CustomOAuth2User principal) {
+        memberRepository.delete(principal.getMember());
+    }
 
-        member.setTendency(updateMember);
+    public void mailNotFound(final Mail mail) {
+        if (!memberRepository.existsByMail(mail))
+            throw new MailNotFoundException(ErrorCode.MAIL_NOT_FOUND);
+    }
+
+    public SearchIdResponse searchId(final boolean isVerified, String mail) {
+        if (!isVerified)
+            throw new VerificationFailedException(ErrorCode.VERIFICATION_FAILED);
+
+        Member member = memberRepository.findByMail(Mail.from(mail))
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        return SearchIdResponse.of(member.getLoginId());
     }
 }

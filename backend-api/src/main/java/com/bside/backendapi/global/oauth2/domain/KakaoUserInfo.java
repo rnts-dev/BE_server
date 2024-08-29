@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.oauth.domain;
+package com.bside.backendapi.global.oauth2.domain;
 
 public class KakaoUserInfo {
     private final String kakaoId;

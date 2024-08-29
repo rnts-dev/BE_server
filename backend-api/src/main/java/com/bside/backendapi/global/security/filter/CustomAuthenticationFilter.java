@@ -28,9 +28,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
+            // 일반 로그인 (소셜 로그인은 OAuth2LoginAuthenticationFilter에 자동 적용)
             // 넘어오는 데이터가 JSON 형태이면 이를 변환하는 과정이 필요
             ServletInputStream servletInputStream = request.getInputStream();
             String body = StreamUtils.copyToString(servletInputStream, StandardCharsets.UTF_8);
+
+            log.info("Method : {}", request.getMethod());
+            log.info("RequestURI : {}", request.getRequestURI());
 
             // JSON -> Java 객체
             ObjectMapper objectMapper = new ObjectMapper();

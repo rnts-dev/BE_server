@@ -1,4 +1,4 @@
-package com.zerob.my_rnts.domain.member.vo;
+package com.bside.backendapi.domain.member.vo;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.Embeddable;

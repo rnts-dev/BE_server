@@ -16,11 +16,11 @@ public enum ErrorCode {
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),
     MEMBER_NOT_FOUND(400, "M002", "회원이 아닙니다."),
     DUPLICATED_LOGINID(400, "M003", "이미 존재하는 아이디 입니다."),
-    DUPLICATED_EMAIL(400, "M004", "이미 존재하는 이메일 입니다."),
+    DUPLICATED_MAIL(400, "M004", "이미 존재하는 이메일 입니다."),
     DUPLICATED_NICKNAME(400, "M005", "이미 존재하는 닉네임 입니다."),
     DUPLICATED_PASSWORD(400, "M006", "기존 비밀번호와 동일합니다."),
     MISMATCH_PASSWORD(400, "M007", "비밀번호가 일치하지 않습니다."),
-    EMAIL_NOT_FOUND(400, "M008", "이메일이 존재하지 않습니다."),
+    MAIL_NOT_FOUND(400, "M008", "이메일이 존재하지 않습니다."),
     LOGINID_NOT_FOUND(400, "M009", "해당 이메일로 등록된 아이디가 존재하지 않습니다."),
 
     // JWT

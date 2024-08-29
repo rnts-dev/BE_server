@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.appointmentMember.domain.entity;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
-import com.bside.backendapi.domain.member.domain.persist.Member;
+import com.bside.backendapi.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

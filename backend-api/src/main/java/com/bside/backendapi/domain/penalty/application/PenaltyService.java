@@ -2,11 +2,11 @@ package com.bside.backendapi.domain.penalty.application;
 
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.exception.AppointmentNotFound;
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
 import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenalty;
@@ -53,7 +53,7 @@ public class PenaltyService {
 
         //appointmentId로 appointment 가져오기
         Appointment updatedAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
-                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
 
         //appointment에 의미 패널티 저장되어있으면 예외처리
@@ -76,7 +76,7 @@ public class PenaltyService {
 
         //약속 조회
         Appointment findAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
-                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
 
         //약속에서 패널티id 가져오기
@@ -105,7 +105,7 @@ public class PenaltyService {
 
         // memberId가 유효한지 확인 (연관관계 사용 안해서 직접 검사)
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         //receivedPenalty 객체 생성
         ReceivedPenalty receivedPenalty = ReceivedPenalty.builder()

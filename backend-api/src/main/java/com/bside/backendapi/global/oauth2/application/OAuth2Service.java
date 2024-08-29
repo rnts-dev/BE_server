@@ -1,9 +1,9 @@
-package com.bside.backendapi.global.oauth.application;
+package com.bside.backendapi.global.oauth2.application;
 
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.member.vo.*;
-import com.bside.backendapi.global.oauth.domain.KakaoUserInfo;
+import com.bside.backendapi.global.oauth2.domain.KakaoUserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

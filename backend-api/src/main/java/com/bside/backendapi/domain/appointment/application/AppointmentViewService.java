@@ -8,7 +8,7 @@ import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeR
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.global.error.exception.ErrorCode;
-import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

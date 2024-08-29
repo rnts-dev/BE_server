@@ -1,10 +1,9 @@
-package com.bside.backendapi.global.oauth.api;
+package com.bside.backendapi.global.oauth2.api;
 
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.global.jwt.application.TokenProvider;
-import com.bside.backendapi.global.jwt.dto.TokenDTO;
-import com.bside.backendapi.global.oauth.application.OAuth2Service;
-import com.bside.backendapi.global.oauth.domain.KakaoUserInfo;
+import com.bside.backendapi.global.oauth2.application.OAuth2Service;
+import com.bside.backendapi.global.oauth2.domain.KakaoUserInfo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

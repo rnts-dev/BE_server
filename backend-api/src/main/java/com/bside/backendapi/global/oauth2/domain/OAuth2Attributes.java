@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.oauth.domain;
+package com.bside.backendapi.global.oauth2.domain;
 
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.vo.*;

@@ -1,7 +1,7 @@
-package com.zerob.my_rnts.global.login.handler;
+package com.bside.backendapi.global.login.handler;
 
-import com.zerob.my_rnts.global.jwt.TokenProvider;
-import com.zerob.my_rnts.global.oauth2.userInfo.CustomIntegratedUser;
+import com.bside.backendapi.global.jwt.application.TokenProvider;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,7 +32,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        CustomIntegratedUser user = (CustomIntegratedUser) authentication.getPrincipal();
+        CustomOAuth2User user = (CustomOAuth2User) authentication.getPrincipal();
 
         String accessToken = tokenProvider.createToken(user.getUsername(), authentication);
 

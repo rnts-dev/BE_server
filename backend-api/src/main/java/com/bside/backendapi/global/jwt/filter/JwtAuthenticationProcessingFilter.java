@@ -13,24 +13,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
-    private static final Set<String> NO_CHECK_URLS = Set.of("/login", "/oauth2/authorization/*", "/oauth/*", "/oauth2/*" ,"/login/oauth2/code/*","/api/v1/kakao/callback");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
         String jwt = resolveToken(request);
-
-        if (NO_CHECK_URLS.stream().anyMatch(requestURI::matches)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);

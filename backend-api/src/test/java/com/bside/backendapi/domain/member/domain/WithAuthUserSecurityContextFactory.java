@@ -1,6 +1,6 @@
 //package com.bside.backendapi.domain.member.domain;
 //
-//import com.bside.backendapi.domain.member.domain.persist.Member;
+//import com.bside.backendapi.domain.member.domain.Member;
 //import com.bside.backendapi.domain.member.domain.vo.*;
 //import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

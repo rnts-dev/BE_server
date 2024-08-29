@@ -1,10 +1,10 @@
-package com.zerob.my_rnts.domain.member.dto;
+package com.bside.backendapi.domain.member.dto;
 
 
-import com.zerob.my_rnts.domain.member.domain.Member;
-import com.zerob.my_rnts.domain.member.vo.LoginId;
-import com.zerob.my_rnts.domain.member.vo.Mail;
-import com.zerob.my_rnts.domain.member.vo.Nickname;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.vo.LoginId;
+import com.bside.backendapi.domain.member.vo.Mail;
+import com.bside.backendapi.domain.member.vo.Nickname;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

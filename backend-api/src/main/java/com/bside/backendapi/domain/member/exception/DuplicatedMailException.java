@@ -1,7 +1,7 @@
-package com.zerob.my_rnts.domain.member.exception;
+package com.bside.backendapi.domain.member.exception;
 
-import com.zerob.my_rnts.global.exception.BusinessException;
-import com.zerob.my_rnts.global.exception.ErrorCode;
+import com.bside.backendapi.global.error.exception.BusinessException;
+import com.bside.backendapi.global.error.exception.ErrorCode;
 
 public class DuplicatedMailException extends BusinessException {
 

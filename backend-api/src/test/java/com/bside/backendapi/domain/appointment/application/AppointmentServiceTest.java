@@ -3,7 +3,7 @@
 //import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 //import com.bside.backendapi.domain.appointment.util.GivenAppointment;
 //import com.bside.backendapi.domain.member.application.MemberService;
-//import com.bside.backendapi.domain.member.domain.persist.Member;
+//import com.bside.backendapi.domain.member.domain.Member;
 //import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 //import com.bside.backendapi.domain.member.dto.MemberResponse;
 //import com.bside.backendapi.domain.member.error.MemberNotFoundException;

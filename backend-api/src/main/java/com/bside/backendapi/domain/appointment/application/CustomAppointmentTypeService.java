@@ -6,12 +6,12 @@ import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeResponse
 import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.repository.MemberRepository;
+import com.bside.backendapi.domain.member.vo.LoginId;
 import com.bside.backendapi.global.error.exception.ErrorCode;
-import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

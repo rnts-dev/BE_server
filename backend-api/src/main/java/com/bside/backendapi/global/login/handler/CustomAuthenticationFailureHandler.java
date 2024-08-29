@@ -1,4 +1,4 @@
-package com.zerob.my_rnts.global.login.handler;
+package com.bside.backendapi.global.login.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
