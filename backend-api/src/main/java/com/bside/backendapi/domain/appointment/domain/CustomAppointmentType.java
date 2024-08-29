@@ -1,9 +1,11 @@
-package com.bside.backendapi.domain.appointment.domain.persist;
+package com.bside.backendapi.domain.appointment.domain;
 
 import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -12,30 +14,32 @@ import org.hibernate.validator.constraints.Length;
 public class CustomAppointmentType {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "custom_appointment_type_id")
+    @Column(name = "custom_appointment_id")
     private Long id;
 
-    @ManyToOne @JsonProperty("member")
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Length(min = 1, max = 6)
-    @Column(name = "type_name")
     private String typeName;
 
-    @Column(name = "image")
-    private String image;
+    private String imageUrl;
 
     @Builder
-    private CustomAppointmentType(Long id, Member member, String typeName, String image) {
+    public CustomAppointmentType(Long id, Member member, String typeName, String imageUrl) {
         this.id = id;
         this.member = member;
         this.typeName = typeName;
-        this.image = image;
+        this.imageUrl = imageUrl;
     }
 
-    // Member 추가
     public void addMember(final Member member) {
         this.member = member;
+    }
+
+    public void update(final CustomAppointmentType customAppointmentType) {
+        this.typeName = customAppointmentType.getTypeName();
+        this.imageUrl = customAppointmentType.getImageUrl();
     }
 }

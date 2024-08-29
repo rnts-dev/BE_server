@@ -1,19 +1,21 @@
 package com.bside.backendapi.domain.appointment.application;
 
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentType;
-import com.bside.backendapi.domain.appointment.domain.persist.CustomAppointmentTypeRepository;
-import com.bside.backendapi.domain.appointment.error.AppointmentNotFoundException;
-import com.bside.backendapi.domain.appointment.error.CustomAppointmentTypeNotFoundException;
+import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
+import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
+import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
+import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
+import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
+import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
+import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,57 +29,54 @@ public class AppointmentService {
     private final AppointmentMemberRepository appointmentMemberRepository;
     private final CustomAppointmentTypeRepository customAppointmentTypeRepository;
 
-    public Long create(final Appointment appointment, final Long memberId){
-        CustomAppointmentType customAppointmentType = null;
+    public AppointmentResponse create(final Appointment appointment, final CustomOAuth2User principal) {
 
-        if (appointment.getCustomAppointmentType().getTypeName() != null) {
-            String customTypeName = appointment.getCustomAppointmentType().getTypeName();
-            customAppointmentType = customAppointmentTypeRepository.findByMemberIdAndTypeName(memberId, customTypeName)
+        Appointment newAppointment = appointment.create(appointment);
+        appointmentRepository.save(newAppointment);
+
+        saveAppointmentMember(newAppointment, principal);
+
+        // 사용자 정의 약속 유형의 ID가 있는 경우 해당 유형 이름과 함께 약속 반환
+        if (appointment.getCustomAppointmentTypeId() != null) {
+            CustomAppointmentType customAppointmentType = customAppointmentTypeRepository.findById(appointment.getCustomAppointmentTypeId())
                     .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
+            return AppointmentResponse.of(newAppointment, customAppointmentType);
         }
-
-        Appointment savedAppointment =
-                appointmentRepository.save(appointment.create(appointment.getAppointmentType(), customAppointmentType));
-
-        appointmentMemberRepository.save(buildAppointmentMember(savedAppointment, getMemberEntity(memberId)));
-        return savedAppointment.getId();
+        else
+            return AppointmentResponse.of(newAppointment);
     }
 
-    public void update(final Appointment updateAppointment, final Long appointmentId) {
-        Appointment appointment = getAppointmentEntity(appointmentId);
+    public void delete(final Long appointmentId, final CustomOAuth2User principal) {
+        appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, getMember(principal).getId());
+        appointmentRepository.deleteById(appointmentId);
+    }
+
+    public void acceptInvite(final Long appointmentId, final CustomOAuth2User principal) {
+        saveAppointmentMember(getAppointment(appointmentId), principal);
+    }
+
+    public void udpate(final Appointment updateAppointment, final Long appointmentId) {
+        Appointment appointment = getAppointment(appointmentId);
         appointment.update(updateAppointment);
     }
 
-    public void delete(final Long appointmentId, final Long memberId) {
-        appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, memberId);
+    private void saveAppointmentMember(final Appointment appointment, final CustomOAuth2User principal) {
+        Member member = getMember(principal);
 
-        if (appointmentMemberRepository.findAllByAppointmentId(appointmentId).isEmpty()) {
-            appointmentRepository.delete(getAppointmentEntity(appointmentId));
-        }
+        AppointmentMember newAppointmentMember = AppointmentMember.builder()
+                .appointment(appointment).member(member).build();
+
+        appointmentMemberRepository.save(newAppointmentMember);
     }
 
-    public void invite(final Long appointmentId, final Long memberId) {
-        Appointment appointment = getAppointmentEntity(appointmentId);
-        Member invitedMember = getMemberEntity(memberId);
-
-        appointmentMemberRepository.save(buildAppointmentMember(appointment, invitedMember));
-    }
-
-    public AppointmentMember buildAppointmentMember(final Appointment appointment, final Member member) {
-        return AppointmentMember.builder()
-                .appointment(appointment)
-                .member(member)
-                .build();
-    }
-
-    public Appointment getAppointmentEntity(final Long appointmentId) {
+    private Appointment getAppointment(final Long appointmentId) {
         return appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND));
     }
 
-    public Member getMemberEntity(final Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+    private Member getMember(final CustomOAuth2User principal) {
+        return memberRepository.findByLoginId(LoginId.from(principal.getUsername()))
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
 }
