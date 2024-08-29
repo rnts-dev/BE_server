@@ -2,7 +2,7 @@ package com.bside.backendapi.global.error;
 
 import com.bside.backendapi.global.error.exception.BusinessException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
-import com.bside.backendapi.global.jwt.error.TokenNotFoundException;
+import com.bside.backendapi.global.jwt.exception.TokenNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

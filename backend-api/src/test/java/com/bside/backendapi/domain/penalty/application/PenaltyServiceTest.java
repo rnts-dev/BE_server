@@ -1,31 +1,34 @@
 package com.bside.backendapi.domain.penalty.application;
+
 import com.bside.backendapi.domain.appointment.application.AppointmentService;
 import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.exception.AppointmentNotFound;
 import com.bside.backendapi.domain.appointment.util.GivenAppointment;
 import com.bside.backendapi.domain.member.application.MemberService;
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.dto.SignUpResponse;
+import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.member.util.GivenMember;
 import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
 import com.bside.backendapi.domain.penalty.domain.vo.PenaltyType;
 import com.bside.backendapi.domain.penalty.dto.request.TempPenaltyCreateRequest;
 import com.bside.backendapi.global.error.exception.ErrorCode;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -56,14 +59,15 @@ public class PenaltyServiceTest {
     static Long penaltyId;
     @BeforeEach
     void init(){
-        MemberResponse joinResponse = memberService.join(GivenMember.toEntity());
-        testMember = memberRepository.findById(joinResponse.getId()).orElseThrow(
-                () -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND)
+        SignUpResponse signUpResponse = memberService.signUp(GivenMember.toEntity());
+        testMember = memberRepository.findById(signUpResponse.getId()).orElseThrow(
+                () -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND)
         );
 
-        Long testAppointmentId = appointmentService.create(GivenAppointment.toEntity(), testMember.getId());
+        Long testAppointmentId = appointmentService.create(GivenAppointment.toEntity(),
+                (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         testAppointment = appointmentRepository.findById(testAppointmentId).orElseThrow(
-                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
     }
 
@@ -103,7 +107,7 @@ public class PenaltyServiceTest {
         assertThat(savedPenalty.get().getPenaltyCreatorId()).isEqualTo(testMember.getId()); // 검증: 생성자 ID 확인
     }
 
-//    @Test
+//    @Test티
 //    @DisplayName("패널티 조회")
 //    @Transactional(readOnly = true)
 //    void findPenaltyByAppointment(){

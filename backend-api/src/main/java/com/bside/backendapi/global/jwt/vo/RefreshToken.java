@@ -1,6 +1,6 @@
 package com.bside.backendapi.global.jwt.vo;
 
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
+import com.bside.backendapi.domain.member.vo.LoginId;
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.zerob.my_rnts.domain.member.dto;
+package com.bside.backendapi.domain.member.dto;
 
-import com.zerob.my_rnts.domain.member.domain.Member;
-import com.zerob.my_rnts.domain.member.vo.*;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.vo.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

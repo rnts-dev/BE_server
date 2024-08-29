@@ -1,6 +1,6 @@
-package com.zerob.my_rnts.domain.member.dto;
+package com.bside.backendapi.domain.member.dto;
 
-import com.zerob.my_rnts.domain.member.vo.LoginId;
+import com.bside.backendapi.domain.member.vo.LoginId;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

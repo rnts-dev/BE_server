@@ -4,7 +4,7 @@ import com.bside.backendapi.domain.penalty.application.PenaltyService;
 import com.bside.backendapi.domain.penalty.dto.request.PenaltyCreateRequest;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
-import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
+import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

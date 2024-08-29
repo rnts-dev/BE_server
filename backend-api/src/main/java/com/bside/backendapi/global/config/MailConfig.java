@@ -19,6 +19,8 @@ public class MailConfig {
     private String username;
     @Value("${spring.mail.password}")
     private String password;
+    @Value("${spring.mail.port}")
+    private int port;
 
     @Bean
     public JavaMailSender javaMailService() {
@@ -27,7 +29,7 @@ public class MailConfig {
         javaMailSender.setHost(host); // 메인 도메인 서버 주소 => 정확히는 smtp 서버 주소
         javaMailSender.setUsername(username); // 네이버 아이디
         javaMailSender.setPassword(password); // 네이버 비밀번호
-        javaMailSender.setPort(465); // 메일 인증서버 포트
+        javaMailSender.setPort(port); // 메일 인증서버 포트
         javaMailSender.setJavaMailProperties(getMailProperties()); // 메일 인증서버 정보 가져오기
 
         return javaMailSender;

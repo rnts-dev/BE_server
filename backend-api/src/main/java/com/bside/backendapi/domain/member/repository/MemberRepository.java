@@ -1,10 +1,11 @@
-package com.zerob.my_rnts.domain.member.repository;
+package com.bside.backendapi.domain.member.repository;
 
 
-import com.zerob.my_rnts.domain.member.domain.Member;
-import com.zerob.my_rnts.domain.member.vo.LoginId;
-import com.zerob.my_rnts.domain.member.vo.Mail;
-import com.zerob.my_rnts.domain.member.vo.Nickname;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.vo.LoginId;
+import com.bside.backendapi.domain.member.vo.Mail;
+import com.bside.backendapi.domain.member.vo.Nickname;
+import com.bside.backendapi.domain.member.vo.SocialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -18,4 +19,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByLoginId(final LoginId loginId);
 
     Optional<Member> findByMail(final Mail mail);
+
+    Optional<Member> findBySocialIdAndSocialType(String kakaoId, SocialType socialType);
 }

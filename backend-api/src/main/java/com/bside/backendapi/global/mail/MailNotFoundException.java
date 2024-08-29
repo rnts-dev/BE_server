@@ -1,6 +1,6 @@
-package com.zerob.my_rnts.global.mail;
+package com.bside.backendapi.global.mail;
 
-import com.zerob.my_rnts.global.exception.ErrorCode;
+import com.bside.backendapi.global.error.exception.ErrorCode;
 import jakarta.persistence.EntityNotFoundException;
 
 public class MailNotFoundException extends EntityNotFoundException {
