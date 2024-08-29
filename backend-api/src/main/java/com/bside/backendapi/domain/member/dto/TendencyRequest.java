@@ -1,7 +1,8 @@
-package com.bside.backendapi.domain.member.dto;
+package com.zerob.my_rnts.domain.member.dto;
 
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.vo.Tendency;
+import com.zerob.my_rnts.domain.member.domain.Member;
+import com.zerob.my_rnts.domain.member.vo.Tendency;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TendencyRequest {
 
+    @Valid
     private Tendency tendency;
-
-    public static TendencyRequest of(final Tendency tendency) {
-        return new TendencyRequest(tendency);
-    }
 
     public Member toEntity() {
         return Member.builder().tendency(tendency).build();

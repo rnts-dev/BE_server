@@ -1,28 +1,26 @@
-package com.bside.backendapi.domain.member.dto;
+package com.zerob.my_rnts.domain.member.dto;
 
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
-import com.bside.backendapi.domain.member.domain.vo.Password;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
+import com.zerob.my_rnts.domain.member.domain.Member;
+import com.zerob.my_rnts.domain.member.vo.LoginId;
+import com.zerob.my_rnts.domain.member.vo.Password;
+import com.zerob.my_rnts.domain.member.vo.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginRequest {
 
-    @Valid
-    @NotNull(message = "ID를 입력하세요.")
     private LoginId loginId;
-
-    @Valid
-    @NotNull(message = "Password를 입력하세요.")
     private Password password;
 
-    public static LoginRequest of(final LoginId loginId, final Password password) {
-        return new LoginRequest(loginId, password);
+    public Member toEntity() {
+        return Member.builder()
+                .loginId(loginId)
+                .password(password)
+                .role(RoleType.USER)
+                .build();
     }
 }
