@@ -3,9 +3,9 @@ package com.bside.backendapi.domain.member.application;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.domain.vo.Email;
-import com.bside.backendapi.domain.member.error.DuplicatedPasswordException;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
-import com.bside.backendapi.domain.member.error.VerificationFailedException;
+import com.bside.backendapi.domain.member.exception.DuplicatedPasswordException;
+import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.exception.VerificationFailedException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.jwt.application.TokenProvider;
 import com.bside.backendapi.global.jwt.error.TokenNotFoundException;
@@ -37,7 +37,7 @@ public class PasswordService {
 
         String mail = String.valueOf(tokenProvider.getMailFromToken(token).get("mail"));
         Member member = memberRepository.findMemberByEmail(Email.from(mail))
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         if (passwordEncoder.matches(resetMember.getPassword().password(), member.getPassword().password()))
             throw new DuplicatedPasswordException(ErrorCode.DUPLICATED_PASSWORD);

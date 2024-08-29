@@ -1,51 +1,65 @@
 package com.bside.backendapi.domain.appointment.application;
 
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.dto.AppointmentViewResponse;
+import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
+import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
+import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
+import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
+import com.bside.backendapi.global.error.exception.ErrorCode;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class AppointmentViewService {
 
     private final AppointmentMemberRepository appointmentMemberRepository;
+    private final CustomAppointmentTypeRepository customAppointmentTypeRepository;
 
-    public List<AppointmentViewResponse> getAllAppointments(final Long memberId) {
-        return appointmentMemberRepository.findAllByMemberId(memberId)
+    public List<AppointmentResponse> getAllAppointments(final CustomOAuth2User principal) {
+        return getAppointmentsByFilter(principal, appointment -> true);
+    }
+
+    public List<AppointmentResponse> getPastAppointments(final CustomOAuth2User principal) {
+        return getAppointmentsByFilter(principal,
+                appointment -> appointment.getAppointmentTime().isBefore(LocalDateTime.now()));
+    }
+
+    public List<AppointmentResponse> getUpcomingAppointments(final CustomOAuth2User principal) {
+        return getAppointmentsByFilter(principal,
+                appointment -> appointment.getAppointmentTime().isAfter(LocalDateTime.now()));
+    }
+
+    public List<AppointmentResponse> getAppointmentsByFilter(final CustomOAuth2User principal,
+                                                             Predicate<Appointment> filter) {
+        return appointmentMemberRepository.findAllByMemberId(principal.getMember().getId())
                 .stream()
-                .map(appointmentMember -> convertToResponse(appointmentMember.getAppointment()))
+                .map(AppointmentMember::getAppointment)
+                .filter(filter)
+                .map(this::mapToAppointmentResponse)
                 .collect(Collectors.toList());
     }
 
-    public List<AppointmentViewResponse> getPastAppointments(final Long memberId) {
-        return appointmentMemberRepository.findAllByMemberId(memberId)
-                .stream()
-                .filter(appointmentMember -> appointmentMember.getAppointment().getAppointmentTime().isBefore(LocalDateTime.now()))
-                .map(appointmentMember -> convertToResponse(appointmentMember.getAppointment()))
-                .collect(Collectors.toList());
+    private CustomAppointmentType getCustomAppointmentType(final Long customAppointmentId) {
+        return customAppointmentTypeRepository.findById(customAppointmentId)
+                .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
     }
 
-    public List<AppointmentViewResponse> getRestAppointments(final Long memberId) {
-        return appointmentMemberRepository.findAllByMemberId(memberId)
-                .stream()
-                .filter(appointmentMember -> appointmentMember.getAppointment().getAppointmentTime().isAfter(LocalDateTime.now()))
-                .map(appointmentMember -> convertToResponse(appointmentMember.getAppointment()))
-                .collect(Collectors.toList());
-    }
-
-    public AppointmentViewResponse convertToResponse(final Appointment appointment) {
-        return AppointmentViewResponse.of(appointment);
+    private AppointmentResponse mapToAppointmentResponse(final Appointment appointment) {
+        if (appointment.getCustomAppointmentTypeId() != null)
+            return AppointmentResponse.of(appointment, getCustomAppointmentType(appointment.getCustomAppointmentTypeId()));
+        else{
+            return AppointmentResponse.of(appointment);
+        }
     }
 }

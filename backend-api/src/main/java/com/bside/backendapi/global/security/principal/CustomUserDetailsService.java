@@ -2,8 +2,6 @@ package com.bside.backendapi.global.security.principal;
 
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.domain.vo.LoginId;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
-import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
