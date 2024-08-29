@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.appointment.domain.vo;
+package com.bside.backendapi.domain.appointment.vo;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.Column;

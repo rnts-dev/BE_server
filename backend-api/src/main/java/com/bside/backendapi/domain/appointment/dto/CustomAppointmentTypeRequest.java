@@ -9,16 +9,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CustomAppointmentTypeResponse {
+public class CustomAppointmentTypeRequest {
 
-    private Long id;
     private String typeName;
     private String imageUrl;
 
-    public static CustomAppointmentTypeResponse of(final CustomAppointmentType customAppointmentType) {
-        return new CustomAppointmentTypeResponse(
-                customAppointmentType.getId(),
-                customAppointmentType.getTypeName(),
-                customAppointmentType.getImageUrl());
+    public CustomAppointmentType toEntity() {
+        return CustomAppointmentType.builder()
+                .typeName(typeName)
+                .imageUrl(imageUrl)
+                .build();
     }
 }

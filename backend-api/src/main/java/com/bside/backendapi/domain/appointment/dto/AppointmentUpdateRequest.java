@@ -1,9 +1,9 @@
 package com.bside.backendapi.domain.appointment.dto;
 
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
-import com.bside.backendapi.domain.appointment.domain.vo.Location;
-import com.bside.backendapi.domain.appointment.domain.vo.Title;
+import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.vo.AppointmentType;
+import com.bside.backendapi.domain.appointment.vo.Location;
+import com.bside.backendapi.domain.appointment.vo.Title;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import lombok.*;

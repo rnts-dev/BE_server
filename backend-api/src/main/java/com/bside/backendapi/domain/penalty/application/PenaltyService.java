@@ -1,9 +1,9 @@
 package com.bside.backendapi.domain.penalty.application;
 
 
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.error.AppointmentNotFound;
+import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
+import com.bside.backendapi.domain.appointment.exception.AppointmentNotFound;
 import com.bside.backendapi.domain.member.domain.persist.Member;
 import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
 import com.bside.backendapi.domain.member.error.MemberNotFoundException;

@@ -5,14 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ffd71fa9-6047-4b42-bb44-f8d32fc3ed3b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/common/ApiResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/common/MessageContants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/backend-api.main.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/persist/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/persist/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/api/PenaltyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/api/PenaltyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/api/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/api/AppointmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/api/CustomAppointmentTypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/api/CustomAppointmentTypeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/application/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/application/AppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/application/AppointmentViewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/application/AppointmentViewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/application/CustomAppointmentTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/application/CustomAppointmentTypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/persist/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/persist/AppointmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/repository/AppointmentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/persist/CustomAppointmentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/CustomAppointmentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/persist/CustomAppointmentTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/repository/CustomAppointmentTypeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/vo/AppointmentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/vo/AppointmentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/vo/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/vo/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/domain/vo/Title.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/vo/Title.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentCreateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/AppointmentViewResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/CustomAppointmentTypeCreateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/CustomAppointmentTypeResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/CustomAppointmentTypeResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto/CustomAppointmentTypeViewResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/error/AppointmentExistException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/exception/AppointmentExistException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/error/AppointmentMissMatchException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/exception/AppointmentMissMatchException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/error/AppointmentNotFound.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/error/AppointmentNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/exception/AppointmentNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/error/CustomAppointmentTypeNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/exception/CustomAppointmentTypeNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/error/DuplicatedCustomAppointmentTypeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/exception/DuplicatedCustomAppointmentTypeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointmentMember/domain/entity/AppointmentMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointmentMember/domain/entity/AppointmentMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/member/error/MemberNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/member/error/MemberNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/application/PenaltyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/application/PenaltyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/request/PenaltyCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/penalty/dto/request/PenaltyCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/error/exception/EntityNotFoundException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/error/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/error/exception/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/api/OAuth2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/api/OAuth2Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/resources/application-jwt.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/resources/application-jwt.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/test/java/com/bside/backendapi/domain/appointment/application/AppointmentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/test/java/com/bside/backendapi/domain/appointment/application/AppointmentServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/test/java/com/bside/backendapi/domain/appointment/util/GivenAppointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/test/java/com/bside/backendapi/domain/appointment/util/GivenAppointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/test/java/com/bside/backendapi/domain/penalty/application/PenaltyServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/test/java/com/bside/backendapi/domain/penalty/application/PenaltyServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +83,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/YFYD-21" />
+        <entry key="$PROJECT_DIR$" value="feature/YFYD-31" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,6 +96,7 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2kdF5sPm7L9cO58B90wQyb53SZ7" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -74,8 +106,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/YFYD-21",
-    "last_opened_file_path": "/Users/dongwonchu/Desktop/rnts/rnts_BE/backend-api/src/main/resources",
+    "git-widget-placeholder": "feature/YFYD-32",
+    "last_opened_file_path": "/Users/kwonseyoung/Desktop/rnts_BE/backend-api/src/main/java/com/bside/backendapi/global/common",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -86,11 +118,25 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/backend-api/src/main/resources" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/common" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/vo" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/repository" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/exception" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/appointment/dto" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend-api/src/main/resources/static" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="BackendServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="backend-api.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bside.backendapi.BackendServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -101,6 +147,7 @@
       <option name="presentableId" value="Default" />
       <updated>1723607466720</updated>
       <workItem from="1723607469434" duration="5063000" />
+      <workItem from="1724927290344" duration="2000000" />
     </task>
     <servers />
   </component>
