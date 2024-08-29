@@ -10,7 +10,7 @@
 //public @interface WithAuthUser {
 //    long id() default 1L;
 //    String loginId() default "givenID";
-//    String email() default "givenmail@naver.com";
+//    String mail() default "givenmail@naver.com";
 //    String password() default "givenpw123!";
 //    String name() default "테스트이름";
 //    String nickname() default "givennick";

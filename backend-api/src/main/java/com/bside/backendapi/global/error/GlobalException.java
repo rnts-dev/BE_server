@@ -3,6 +3,7 @@ package com.bside.backendapi.global.error;
 import com.bside.backendapi.global.error.exception.BusinessException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.jwt.error.TokenNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,22 @@ import java.nio.file.AccessDeniedException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalException {
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handlerEntityNotFoundException(EntityNotFoundException e) {
+        final ErrorCode errorCode = ErrorCode.valueOf(e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(errorCode);
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+        final ErrorCode errorCode = e.getErrorCode();
+        final ErrorResponse response = ErrorResponse.of(errorCode);
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
@@ -39,16 +56,6 @@ public class GlobalException {
 
         final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ACCESS_DENIED.getStatus()));
-    }
-
-    @ExceptionHandler(BusinessException.class)
-    protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
-        log.error("handleBusinessException", e);
-
-        final ErrorCode errorCode = e.getErrorCode();
-        final ErrorResponse response = ErrorResponse.of(errorCode);
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
     @ExceptionHandler(TokenNotFoundException.class)

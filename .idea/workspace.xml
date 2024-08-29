@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffd71fa9-6047-4b42-bb44-f8d32fc3ed3b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/resources/static/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend-api/src/main/resources/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtAuthenticationProcessingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/jwt/filter/JwtAuthenticationProcessingFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/domain/CustomOAuth2User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/domain/CustomOAuth2User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/handler/CustomAuthenticationSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/handler/CustomAuthenticationSuccessHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-api/src/main/resources/application-oauth.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/resources/application-oauth.yml" afterDir="false" />
-    </list>
+    <list default="true" id="ffd71fa9-6047-4b42-bb44-f8d32fc3ed3b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +18,9 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/backend-api">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand />
@@ -52,13 +46,16 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/YFYD-21" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -71,22 +68,56 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/YFYD-21",
+    "last_opened_file_path": "/Users/kwonseyoung/Desktop/rnts_project/rnts_BE/backend-api/src/main/java/com/bside/backendapi/global/oauth",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth" />
+      <recent name="$PROJECT_DIR$/backend-api/src/test/resources" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/member/exception" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/common" />
+      <recent name="$PROJECT_DIR$/backend-api/src/main/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend-api/src/main/resources/static" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.bside.backendapi.domain.appointment.domain" />
+      <recent name="com.bside.backendapi.domain.member.domain" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.bside.backendapi.global.oauth.application" />
+      <recent name="com.bside.backendapi.domain.appointment.api" />
+      <recent name="com.bside.backendapi.domain.member.dto" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="BackendServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="backend-api.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bside.backendapi.BackendServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -96,7 +127,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723607466720</updated>
-      <workItem from="1723607469434" duration="5063000" />
+      <workItem from="1723607469434" duration="5918000" />
+      <workItem from="1723784545489" duration="56000" />
+      <workItem from="1723790098771" duration="5728000" />
+      <workItem from="1723814029032" duration="10402000" />
+      <workItem from="1723966308607" duration="1444000" />
+      <workItem from="1724051886782" duration="10796000" />
+      <workItem from="1724140978961" duration="23404000" />
+      <workItem from="1724577127405" duration="9675000" />
+      <workItem from="1724587011114" duration="9418000" />
+      <workItem from="1724598312443" duration="2182000" />
+      <workItem from="1724662444668" duration="33915000" />
+      <workItem from="1724824460244" duration="18067000" />
+      <workItem from="1724856445408" duration="11282000" />
+      <workItem from="1724867791312" duration="131000" />
+      <workItem from="1724867929378" duration="786000" />
+      <workItem from="1724868725240" duration="9589000" />
+      <workItem from="1724921419510" duration="1295000" />
     </task>
     <servers />
   </component>

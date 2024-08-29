@@ -25,7 +25,7 @@ public class PasswordController {
 
     @Operation(summary = "인증코드 검증 및 JWT 토큰 생성",
             description = "인증코드 검증 후 JWT 토큰을 생성하고 클라이언트에 전달합니다.")
-    @PostMapping("/public/requestPasswordReset")
+    @PostMapping("/public/password/code")
     public ResponseEntity<Map<String, String>> requestPasswordReset(@Valid @RequestBody VerifiedRequest verifiedRequest) {
         boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail(), verifiedRequest.getAuthCode());
         String token = passwordService.requestPasswordReset(isVerified, verifiedRequest.getMail());
@@ -37,7 +37,7 @@ public class PasswordController {
     }
 
     @Operation(summary = "비밀번호 변경", description = "JWT 토큰을 검증하고 비밀번호를 변경합니다.")
-    @PatchMapping("/public/resetPassword")
+    @PatchMapping("/public/password/change")
     public ResponseEntity<Map<String, String>> resetPassword(@Valid @RequestBody TokenWithPasswordRequest tokenWithPasswordRequest) {
         passwordService.resetPassword(tokenWithPasswordRequest.getToken(), tokenWithPasswordRequest.toEntity());
 

@@ -1,19 +1,45 @@
 package com.bside.backendapi.domain.appointment.dto;
 
-import com.bside.backendapi.domain.appointment.domain.vo.Title;
+import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.vo.AppointmentType;
+import com.bside.backendapi.domain.appointment.vo.Location;
+import com.bside.backendapi.domain.appointment.vo.Title;
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AppointmentRequest {
 
+    @Valid
     private Title title;
-    private String appointmentType;
-    private LocalDateTime time;
-    private String latitude;
-    private String longitude;
-    private String place;
+
+    @Valid
+    private AppointmentType appointmentType;
+
+    @Valid
+    private Long customAppointmentTypeId;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime appointmentTime;
+
+    @Valid
+    private Location location;
+
+    public Appointment toEntity() {
+        return Appointment.builder()
+                .title(title)
+                .appointmentType(appointmentType)
+                .customAppointmentTypeId(customAppointmentTypeId)
+                .appointmentTime(appointmentTime)
+                .location(location)
+                .build();
+    }
 }

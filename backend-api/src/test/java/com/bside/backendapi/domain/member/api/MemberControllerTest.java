@@ -45,7 +45,7 @@
 //    void join() throws Exception {
 //        JoinRequest joinRequest = JoinRequest.builder()
 //                .loginId(GIVEN_LOGINID)
-//                .email(GIVEN_EMAIL)
+//                .mail(GIVEN_EMAIL)
 //                .password(GIVEN_PASSWORD)
 //                .nickname(GIVEN_NICKNAME)
 //                .name(GIVEN_NAME)
@@ -63,7 +63,7 @@
 //                .andDo(document("member/join",
 //                        requestFields(
 //                                fieldWithPath("loginId").description("아이디"),
-//                                fieldWithPath("email").description("이메일"),
+//                                fieldWithPath("mail").description("이메일"),
 //                                fieldWithPath("password").description("패스워드"),
 //                                fieldWithPath("name").description("이름"),
 //                                fieldWithPath("nickname").description("닉네임"),
@@ -82,7 +82,7 @@
 //    void join_null() throws Exception {
 //        JoinRequest joinRequest = JoinRequest.builder()
 //                .loginId(GIVEN_LOGINID)
-//                .email(GIVEN_EMAIL)
+//                .mail(GIVEN_EMAIL)
 //                .password(GIVEN_PASSWORD)
 //                .nickname(GIVEN_NICKNAME)
 //                .name(null)

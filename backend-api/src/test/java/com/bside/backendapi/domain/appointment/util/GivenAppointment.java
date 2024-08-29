@@ -1,6 +1,6 @@
 //package com.bside.backendapi.domain.appointment.util;
 //
-//import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
+//import com.bside.backendapi.domain.appointment.domain.Appointment;
 //import com.bside.backendapi.domain.appointment.domain.vo.AppointmentType;
 //import com.bside.backendapi.domain.appointment.domain.vo.Location;
 //import com.bside.backendapi.domain.appointment.domain.vo.Title;

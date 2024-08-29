@@ -1,6 +1,6 @@
 jwt:
   header: Authorization
-  secretKey: ${JWT_SECRET}
+  secretKey: ${JWT_SECRET_KEY}
 
   access:
     expiration : 360000 # 1시간

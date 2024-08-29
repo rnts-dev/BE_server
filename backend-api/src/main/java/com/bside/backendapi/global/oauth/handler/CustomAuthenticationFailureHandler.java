@@ -7,12 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
+@Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
@@ -20,11 +22,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.setCharacterEncoding("UTF-8");
         response.setContentType(APPLICATION_JSON_VALUE);
-
-        String errorMessage;
-        if (exception.getCause() instanceof UsernameNotFoundException) errorMessage = "회원이 아닙니다.";
-        else errorMessage = "아이디 혹은 비밀번호가 올바르지 않습니다.";
-
-        response.getWriter().write("{\"error\" : \"" + errorMessage + "\"}");
+        response.getWriter().write("{\"error\" : \"아이디 혹은 비밀번호가 올바르지 않습니다.\"}");
     }
 }

@@ -1,17 +1,6 @@
 //package com.bside.backendapi.domain.penalty.application;
-import com.bside.backendapi.domain.appointment.application.AppointmentService;
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.error.AppointmentNotFound;
 //import com.bside.backendapi.domain.appointment.util.GivenAppointment;
-import com.bside.backendapi.domain.member.application.MemberService;
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
-import com.bside.backendapi.domain.member.util.GivenMember;
-import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
-import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
+
 //import com.bside.backendapi.domain.penalty.domain.vo.PenaltyType;
 //import com.bside.backendapi.domain.penalty.dto.request.TempPenaltyCreateRequest;
 //import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;

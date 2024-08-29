@@ -1,5 +1,4 @@
 #local docker 테스트용
-version: '3'
 services:
   spring-app:
     container_name: rnts-api
@@ -22,16 +21,17 @@ services:
       - REDIS_PORT=${REDIS_PORT}
       - SSL_KEY_PASSWORD=${SSL_KEY_PASSWORD}
       #
-      - JWT_SECRET=${JWT_SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       #
-#      - KAKAO_CLIENT_ID={KAKAO_CLIENT_ID}
-#      - KAKAO_CLIENT_SECRET={KAKAO_CLIENT_SECRET}
-#      - KAKAO_REDIRECT_URI={KAKAO_REDIRECT_URI}
+      - KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
+      - KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}
+      - KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
     networks:
       - network
 
   mysql-db:
-    image: mysql:latest
+    container_name: mysql-db
+    image:  mysql:8.0.29
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -43,6 +43,7 @@ services:
       - network
 
   redis:
+    container_name: redis
     image: redis:latest
     ports:
       - "6379:6379"

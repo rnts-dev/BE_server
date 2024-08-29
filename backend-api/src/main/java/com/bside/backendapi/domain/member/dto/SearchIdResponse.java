@@ -1,6 +1,6 @@
 package com.bside.backendapi.domain.member.dto;
 
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
+import com.bside.backendapi.domain.member.vo.LoginId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

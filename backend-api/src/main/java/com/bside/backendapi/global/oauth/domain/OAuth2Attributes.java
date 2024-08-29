@@ -1,27 +1,24 @@
 package com.bside.backendapi.global.oauth.domain;
 
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.vo.*;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.vo.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
+@Builder
+@RequiredArgsConstructor
 public class OAuth2Attributes {
 
     private final String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드 값, PK와 같은 의미
-    private final OAuth2UserInfo oauth2UserInfo; // 소셜 타입별 로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
+    private final OAuth2UserInfo oAuth2UserInfo; // 소셜 타입별 로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
 
-    @Builder
-    public OAuth2Attributes(String nameAttributeKey, OAuth2UserInfo oAuth2UserInfo) {
-        this.nameAttributeKey = nameAttributeKey;
-        this.oauth2UserInfo = oAuth2UserInfo;
-    }
-
-    public static OAuth2Attributes of(SocialType socialType, String userNameAttributeName,
-                                      Map<String, Object> attributes) {
+    public static OAuth2Attributes of(SocialType socialType, String userNameAttributeName, Map<String, Object> attributes) {
         if (Objects.equals(socialType, SocialType.KAKAO)) {
             return ofKakao(userNameAttributeName, attributes);
         }
@@ -36,15 +33,16 @@ public class OAuth2Attributes {
                 .build();
     }
 
-    public Member toEntity(String OAuthLoginId, OAuth2UserInfo oAuth2UserInfo) {
+    public Member toEntity(String oAuthLoginId, OAuth2UserInfo oAuth2UserInfo) {
         return Member.builder()
-                .loginId(LoginId.from(OAuthLoginId))
-                .email(Email.from(oAuth2UserInfo.getEmail()))
+                .loginId(LoginId.from(oAuthLoginId))
+                .mail(Mail.from(oAuth2UserInfo.getMail()))
+                .password(Password.from(UUID.randomUUID().toString())) // 임시 비밀번호 (소셜 로그인은 비밀번호가 없음)
                 .nickname(Nickname.from(oAuth2UserInfo.getNickname()))
-                .profileUrl(oAuth2UserInfo.getProfileUrl())
+                .profileImage(oAuth2UserInfo.getProfileImage())
                 .role(RoleType.USER)
                 .socialType(SocialType.KAKAO)
-                .socialId(oAuth2UserInfo.getId())
+                .socialId(oAuth2UserInfo.getSocialId())
                 .build();
     }
 }

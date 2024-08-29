@@ -1,26 +1,24 @@
 package com.bside.backendapi.global.security.principal;
 
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.LoginId;
-import com.bside.backendapi.domain.member.error.MemberNotFoundException;
-import com.bside.backendapi.global.error.exception.ErrorCode;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.repository.MemberRepository;
+import com.bside.backendapi.domain.member.vo.LoginId;
+import com.bside.backendapi.global.oauth.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    // 일반 로그인 서비스
     private final MemberRepository memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(final String loginId) throws UsernameNotFoundException {
-        return memberRepository.findUserDetailsByLoginId(LoginId.from(loginId))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Member member = memberRepository.findByLoginId(LoginId.from(loginId))
+                .orElseThrow(() -> new UsernameNotFoundException("loadUserByUsername - 사용자를 찾을 수 없습니다."));
+        return new CustomOAuth2User(member);
     }
 }

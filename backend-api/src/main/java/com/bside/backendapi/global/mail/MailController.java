@@ -1,7 +1,7 @@
 package com.bside.backendapi.global.mail;
 
 import com.bside.backendapi.domain.member.application.MemberService;
-import com.bside.backendapi.domain.member.domain.vo.Email;
+import com.bside.backendapi.domain.member.vo.Mail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -27,9 +24,9 @@ public class MailController {
 
     @Operation(summary = "회원가입 시, 메일을 통해 인증코드 전송",
             description = "사용자가 입력한 메일(mail)을 통해 인증코드를 전송합니다. 메일이 이미 존재할 경우, 400 에러 반환합니다.")
-    @PostMapping("/mail/signUp")
+    @PostMapping("/mail/sign-up")
     public ResponseEntity<String> mailForSignUp(@Valid @RequestBody VerificationRequest verificationRequest) throws MessagingException {
-        memberService.existedEmail(Email.from(verificationRequest.getMail()));
+        memberService.existedMail(Mail.from(verificationRequest.getMail()));
 
         String authCode = mailService.sendMail(verificationRequest.getMail());
 
@@ -40,9 +37,9 @@ public class MailController {
 
     @Operation(summary = "아이디 / 비밀번호 찾기 시, 메일을 통해 인증코드 전송",
             description = "사용자가 입력한 메일(mail)을 통해 인증코드를 전송합니다. 메일이 존재하지 않을 경우, 400 에러 반환합니다.")
-    @PostMapping("/mail/recovery")
+    @GetMapping("/mail/recovery")
     public ResponseEntity<String> mailForRecovery(@Valid @RequestBody VerificationRequest verificationRequest) throws MessagingException {
-        memberService.mailNotFound(Email.from(verificationRequest.getMail()));
+        memberService.mailNotFound(Mail.from(verificationRequest.getMail()));
 
         String authCode = mailService.sendMail(verificationRequest.getMail());
 

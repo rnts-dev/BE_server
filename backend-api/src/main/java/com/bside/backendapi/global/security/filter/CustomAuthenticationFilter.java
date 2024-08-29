@@ -32,6 +32,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             ServletInputStream servletInputStream = request.getInputStream();
             String body = StreamUtils.copyToString(servletInputStream, StandardCharsets.UTF_8);
 
+            log.info("Method : {}", request.getMethod());
+            log.info("RequestURI : {}", request.getRequestURI());
+
             // JSON -> Java 객체
             ObjectMapper objectMapper = new ObjectMapper();
             LoginRequest loginRequest = objectMapper.readValue(body, LoginRequest.class);

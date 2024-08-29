@@ -14,13 +14,13 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getId() {
+    public String getSocialId() {
         return socialId;
     }
 
     @Override
-    public String getEmail() {
-        return (String) account.get("email");
+    public String getMail() {
+        return (String) account.get("mail");
     }
 
     @Override
@@ -29,25 +29,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     }
 
     @Override
-    public String getProfileUrl() {
+    public String getProfileImage() {
         return (String) profile.get("thumbnail_image_url");
     }
 }
-
-/*
- <kakao Attributes>
- {
-     id=2632890179,
-     connected_at=2023-01-22T08:17:54Z,
-     properties = {nickname=},
-     kakao_account = {
-         profile_nickname_needs_agreement=false,
-         profile={nickname=},
-         has_email=true,
-         email_needs_agreement=false,
-         is_email_valid=true,
-         is_email_verified=true,
-         email=
-     }
- }
- */
