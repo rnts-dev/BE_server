@@ -1,6 +1,6 @@
 //package com.bside.backendapi.domain.appointment.application;
 //
-//import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
+//import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 //import com.bside.backendapi.domain.appointment.util.GivenAppointment;
 //import com.bside.backendapi.domain.member.application.MemberService;
 //import com.bside.backendapi.domain.member.domain.persist.Member;

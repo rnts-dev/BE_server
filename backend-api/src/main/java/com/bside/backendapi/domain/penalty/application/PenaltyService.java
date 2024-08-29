@@ -1,15 +1,15 @@
 package com.bside.backendapi.domain.penalty.application;
 
 
-import com.bside.backendapi.domain.appointment.domain.persist.Appointment;
-import com.bside.backendapi.domain.appointment.domain.persist.AppointmentRepository;
-import com.bside.backendapi.domain.appointment.error.AppointmentNotFound;
+import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
+import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
 import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenaltyRepository;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
-import com.bside.backendapi.domain.penalty.error.PenaltyNotFoundExepception;
+import com.bside.backendapi.domain.penalty.exception.PenaltyNotFoundExepception;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class PenaltyService {
 
         //해당 appointment에 penaltyid 추가
         Appointment updatedAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
-                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
         updatedAppointment.addPenalty(savedPenalty.getId());
         appointmentRepository.save(updatedAppointment);
@@ -48,7 +48,7 @@ public class PenaltyService {
     public PenaltyGetResponse findByAppointment(final Long appointmentId){
 
         Appointment findAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
-                () -> new AppointmentNotFound(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
         );
         //조회성공 여부
         Long penaltyId = findAppointment.getPenaltyId();

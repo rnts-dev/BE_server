@@ -6,7 +6,7 @@ import com.bside.backendapi.domain.member.domain.vo.Email;
 import com.bside.backendapi.domain.member.domain.vo.LoginId;
 import com.bside.backendapi.domain.member.domain.vo.Nickname;
 import com.bside.backendapi.domain.member.dto.MemberResponse;
-import com.bside.backendapi.domain.member.error.*;
+import com.bside.backendapi.domain.member.exception.*;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,13 +40,13 @@ public class MemberService {
 
     public void update(final Member updateMember, final Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         member.update(updateMember, passwordEncoder);
     }
 
     public void delete(final Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND))
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND))
                 .delete();
     }
 
@@ -58,7 +58,7 @@ public class MemberService {
 
     public void mailNotFound(final Email email) {
         if (!memberRepository.existsByEmail(email)) {
-            throw new EmailNotFoundException(ErrorCode.EMAIL_NOT_FOUND);
+            throw new MailNotFoundException(ErrorCode.EMAIL_NOT_FOUND);
         }
     }
 
@@ -70,7 +70,7 @@ public class MemberService {
 
     public void updateTendency(final Member updateMember, final Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         member.setTendency(updateMember);
     }

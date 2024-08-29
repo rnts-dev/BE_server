@@ -22,16 +22,16 @@ services:
       - REDIS_PORT=${REDIS_PORT}
       - SSL_KEY_PASSWORD=${SSL_KEY_PASSWORD}
       #
-      - JWT_SECRET=${JWT_SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       #
-#      - KAKAO_CLIENT_ID={KAKAO_CLIENT_ID}
-#      - KAKAO_CLIENT_SECRET={KAKAO_CLIENT_SECRET}
-#      - KAKAO_REDIRECT_URI={KAKAO_REDIRECT_URI}
+      - KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
+      - KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}
+      - KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
     networks:
       - network
 
   mysql-db:
-    image: mysql:latest
+    image: mysql:8.0.29
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
