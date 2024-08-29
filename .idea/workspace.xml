@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffd71fa9-6047-4b42-bb44-f8d32fc3ed3b" name="Changes" comment="" />
+    <list default="true" id="ffd71fa9-6047-4b42-bb44-f8d32fc3ed3b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/domain/KakaoUserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/member/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/domain/member/repository/MemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/api/OAuth2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/api/OAuth2Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/application/OAuth2Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-api/src/main/java/com/bside/backendapi/global/oauth/application/OAuth2Service.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,6 +81,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/YFYD-21",
     "last_opened_file_path": "/Users/kwonseyoung/Desktop/rnts_project/rnts_BE/backend-api/src/main/java/com/bside/backendapi/global/oauth",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -104,6 +111,7 @@
       <recent name="com.bside.backendapi.domain.member.domain" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.bside.backendapi.global.oauth.domain" />
       <recent name="com.bside.backendapi.global.oauth.application" />
       <recent name="com.bside.backendapi.domain.appointment.api" />
       <recent name="com.bside.backendapi.domain.member.dto" />
@@ -143,7 +151,8 @@
       <workItem from="1724867791312" duration="131000" />
       <workItem from="1724867929378" duration="786000" />
       <workItem from="1724868725240" duration="9589000" />
-      <workItem from="1724921419510" duration="1295000" />
+      <workItem from="1724921419510" duration="1398000" />
+      <workItem from="1724923094847" duration="688000" />
     </task>
     <servers />
   </component>

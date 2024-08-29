@@ -1,8 +1,7 @@
 package com.bside.backendapi.global.oauth.api;
 
-import com.bside.backendapi.domain.member.domain.persist.Member;
+import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.global.jwt.application.TokenProvider;
-import com.bside.backendapi.global.jwt.dto.TokenDTO;
 import com.bside.backendapi.global.oauth.application.OAuth2Service;
 import com.bside.backendapi.global.oauth.domain.KakaoUserInfo;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,9 +45,9 @@ public class OAuth2Controller {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
         // JWT 토큰 생성
         Authentication authentication = new UsernamePasswordAuthenticationToken(member.getLoginId(), member.getPassword(), authorities);
-        TokenDTO tokenDTO = tokenProvider.createToken(member.getLoginId(), authentication);
+        String token = tokenProvider.createToken(member.getLoginId().loginId(), authentication);
 
-        return ResponseEntity.ok(tokenDTO.getAccessToken().accessToken());
+        return ResponseEntity.ok(token);
     }
 
 

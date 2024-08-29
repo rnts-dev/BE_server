@@ -4,6 +4,7 @@ import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.vo.LoginId;
 import com.bside.backendapi.domain.member.vo.Mail;
 import com.bside.backendapi.domain.member.vo.Nickname;
+import com.bside.backendapi.domain.member.vo.SocialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -19,4 +20,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberCus
     Optional<Member> findByMail(final Mail mail);
 
     Optional<Member> findByLoginId(final LoginId loginId);
+
+
+    Optional<Member> findBySocialIdAndSocialType(String socialId, SocialType socialType);
+
 }

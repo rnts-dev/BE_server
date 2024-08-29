@@ -1,8 +1,8 @@
 package com.bside.backendapi.global.oauth.application;
 
-import com.bside.backendapi.domain.member.domain.persist.Member;
-import com.bside.backendapi.domain.member.domain.persist.MemberRepository;
-import com.bside.backendapi.domain.member.domain.vo.*;
+import com.bside.backendapi.domain.member.domain.Member;
+import com.bside.backendapi.domain.member.repository.MemberRepository;
+import com.bside.backendapi.domain.member.vo.*;
 import com.bside.backendapi.global.oauth.domain.KakaoUserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -115,10 +115,10 @@ public class OAuth2Service {
             // 첫 로그인 - 새로운 회원 객체 생성
             member = Member.builder()
                     .loginId(LoginId.from(kakaoId))
-                    .email(Email.from(kakaoUserInfo.getEmail()))
+                    .mail(Mail.from(kakaoUserInfo.getEmail()))
                     .password(Password.from("kakao"))
                     .nickname(Nickname.from(kakaoUserInfo.getNickname()))
-                    .profileUrl(null) // 처음 로그인 시 프로필 URL은 null
+                    .profileImage(null) // 처음 로그인 시 프로필 URL은 null
                     .tendency(null) // 초기 성향은 null
                     .role(RoleType.USER) // 기본 역할 설정 (예: USER)
                     .socialType(SocialType.KAKAO)
