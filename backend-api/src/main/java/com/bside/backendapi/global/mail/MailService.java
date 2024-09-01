@@ -18,10 +18,9 @@ public class MailService {
 
     private final JavaMailSender javaMailSender;
     private final RedisService redisService;
-    private static final String senderEmail = "seyoungkwon29@naver.com";
+    private static final String senderEmail = "rnts2405@gmail.com";
     private static final String AUTH_CODE_PREFIX = "AuthCode";
     private static final Duration DURATION = Duration.ofMillis(60000 * 5L);
-
 
     private String createCode() {
         Random random = new Random();

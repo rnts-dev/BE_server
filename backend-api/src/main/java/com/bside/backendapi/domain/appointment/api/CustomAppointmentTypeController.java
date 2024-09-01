@@ -26,26 +26,26 @@ public class CustomAppointmentTypeController {
     private final CustomAppointmentTypeService customAppointmentTypeService;
 
     @Operation(summary = "사용자 정의 약속 유형 생성", description = "약속 유형(typeName)과 이미지(image)를 이용하여 사용자 정의 약속 유형을 생성합니다.")
-    @PostMapping("/customAppointmentType")
+    @PostMapping("/custom-appointment-type")
     public ResponseEntity<CustomAppointmentTypeResponse> create(@Valid @RequestBody CustomAppointmentTypeRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customAppointmentTypeService.create(request.toEntity(), this.getPrincipal()));
     }
 
     @Operation(summary = "사용자 정의 약속 유형 조회", description = "사용자가 정의한 약속 유형을 List로 반환합니다.")
-    @GetMapping("/customAppointmentType/getCustomAppointmentType")
+    @GetMapping("/custom-appointment-types")
     public ResponseEntity<List<CustomAppointmentTypeResponse>> getCustomAppointmentType() {
         return ResponseEntity.ok().body(customAppointmentTypeService.getCustomAppointmentTypeList(this.getPrincipal().getId()));
     }
 
     @Operation(summary = "사용자 정의 약속 유형 수정")
-    @PatchMapping("/customAppointmentType/{customAppointmentTypeId}")
+    @PatchMapping("/custom-appointment-type/{customAppointmentTypeId}")
     public ResponseEntity<CustomAppointmentTypeResponse> update(@Valid @RequestBody CustomAppointmentTypeRequest request,
                                                                 @PathVariable Long customAppointmentTypeId) {
         return ResponseEntity.ok().body(customAppointmentTypeService.update(request.toEntity(), customAppointmentTypeId));
     }
 
     @Operation(summary = "사용자 정의 약속 유형 삭제")
-    @DeleteMapping("/customAppointmentType/{customAppointmentTypeId}")
+    @DeleteMapping("/custom-appointment-type/{customAppointmentTypeId}")
     public ResponseEntity<ApiResponse> delete(@PathVariable Long customAppointmentTypeId) {
         customAppointmentTypeService.delete(customAppointmentTypeId);
         ApiResponse response = new ApiResponse(MessageContants.SUCCESS_DELETED);

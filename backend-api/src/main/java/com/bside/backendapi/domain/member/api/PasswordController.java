@@ -25,7 +25,7 @@ public class PasswordController {
     private final PasswordService passwordService;
     private final MailService mailService;
 
-    @Operation(summary = "인증코드 검증 및 비밀번호 검증을 위한 토큰 생성")
+    @Operation(summary = "인증코드 검증 및 비밀번호 찾기를 위한 토큰 생성")
     @PostMapping("/public/password/code")
     public ResponseEntity<Map<String, String>> requestPasswordReset(@Valid @RequestBody VerifiedRequest verifiedRequest) {
         boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail(), verifiedRequest.getAuthCode());
