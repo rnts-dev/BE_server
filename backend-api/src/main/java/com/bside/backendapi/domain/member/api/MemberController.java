@@ -53,7 +53,7 @@ public class MemberController {
         return ResponseEntity.ok().body(response);
     }
 
-    @Operation(summary = "사용자 삭제")
+    @Operation(summary = "회원 탈퇴")
     @DeleteMapping("/member")
     public ResponseEntity<ApiResponse> delete() {
         memberService.delete(this.getPrincipal());

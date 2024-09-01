@@ -39,7 +39,6 @@ public class AppointmentController {
         return ResponseEntity.ok(response);
     }
 
-
     @Operation(summary = "약속 빠지기",
             description = "해당 약속에서 사용자가 제외됩니다. 모든 사용자가 약속에서 빠질 경우, 자동으로 약속이 삭제됩니다.")
     @DeleteMapping("/appointment/{appointmentId}")

@@ -15,7 +15,7 @@ spring:
   mail:
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
-    host: smtp.naver.com
+    host: smtp.gmail.com
     port: 465
 
   jpa:
