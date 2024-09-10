@@ -48,8 +48,8 @@ public class MemberController {
     @Operation(summary = "사용자 정보 수정")
     @PatchMapping("/member")
     public ResponseEntity<ApiResponse> update(@Valid @RequestBody UpdateRequest updateRequest) {
-        memberService.update(updateRequest.toEntity(), this.getPrincipal());
-        ApiResponse response = new ApiResponse(MessageContants.SUCCESS_DELETED);
+        memberService.update(updateRequest.toEntity(), this.getPrincipal(), false);
+        ApiResponse response = new ApiResponse(MessageContants.SUCCESS_UPDATED);
         return ResponseEntity.ok().body(response);
     }
 
@@ -64,7 +64,7 @@ public class MemberController {
     @Operation(summary = "사용자 성향 수정")
     @PatchMapping("/member/tendency")
     public ResponseEntity<ApiResponse> updateTendency(@Valid @RequestBody TendencyRequest tendencyRequest) {
-        memberService.update(tendencyRequest.toEntity(), this.getPrincipal());
+        memberService.update(tendencyRequest.toEntity(), this.getPrincipal(), true);
         ApiResponse response = new ApiResponse(MessageContants.SUCCESS_UPDATED);
         return ResponseEntity.ok(response);
     }

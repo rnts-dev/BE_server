@@ -54,15 +54,12 @@ public class MemberService {
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
-    public void update(final Member updateMember, final CustomOAuth2User principal) {
+    public void update(final Member updateMember, final CustomOAuth2User principal, final Boolean isTendencyUpdate) {
         Member member = memberRepository.findByLoginId(LoginId.from(principal.getUsername()))
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if (updateMember.getNickname() != null ||
-                updateMember.getProfileImage() != null ||
-                updateMember.getTendency() != member.getTendency()) {
-            member.update(updateMember);
-        }
+        if (isTendencyUpdate) member.updateTendency(updateMember);
+        else member.update(updateMember);
     }
 
     public void delete(final CustomOAuth2User principal) {

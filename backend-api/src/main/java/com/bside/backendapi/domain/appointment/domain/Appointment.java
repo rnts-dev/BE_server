@@ -33,7 +33,7 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime appointmentTime;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Location location;
 
     private Long penaltyId;

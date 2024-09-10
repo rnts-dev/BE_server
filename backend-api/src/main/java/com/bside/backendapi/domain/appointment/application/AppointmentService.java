@@ -37,7 +37,7 @@ public class AppointmentService {
         saveAppointmentMember(newAppointment, principal);
 
         // 사용자 정의 약속 유형의 ID가 있는 경우 해당 유형 이름과 함께 약속 반환
-        if (appointment.getCustomAppointmentTypeId() != null) {
+        if (appointment.getCustomAppointmentTypeId() != 0) {
             CustomAppointmentType customAppointmentType = customAppointmentTypeRepository.findById(appointment.getCustomAppointmentTypeId())
                     .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
             return AppointmentResponse.of(newAppointment, customAppointmentType);
@@ -48,7 +48,10 @@ public class AppointmentService {
 
     public void delete(final Long appointmentId, final CustomOAuth2User principal) {
         appointmentMemberRepository.deleteByAppointmentIdAndMemberId(appointmentId, getMember(principal).getId());
-        appointmentRepository.deleteById(appointmentId);
+
+        // 멤버가 약속에서 빠질 때 해당 약속 id가 포함된 중간테이블의 레코드가 없을 경우 해당 약속의 멤버가 없음 -> 약속 삭제
+        if (appointmentMemberRepository.findAllByAppointmentId(appointmentId).isEmpty())
+            appointmentRepository.deleteById(appointmentId);
     }
 
     public void acceptInvite(final Long appointmentId, final CustomOAuth2User principal) {

@@ -65,10 +65,15 @@ public class Member extends BaseEntity {
         return this;
     }
 
-    public void update(final Member member) {
-        if (member.getNickname() != null) this.nickname = member.getNickname();
-        if (member.getProfileImage() != null) this.profileImage = member.getProfileImage();
-        if(member.getTendency() != this.tendency) this.tendency = member.getTendency();
+    public Member update(final Member member) {
+        this.nickname = member.getNickname();
+        this.profileImage = member.getProfileImage();
+        return this;
+    }
+
+    public Member updateTendency(final Member member) {
+        this.tendency = member.getTendency();
+        return this;
     }
 
     public void changePassowrd(final Member resetMember, final PasswordEncoder passwordEncoder) {
