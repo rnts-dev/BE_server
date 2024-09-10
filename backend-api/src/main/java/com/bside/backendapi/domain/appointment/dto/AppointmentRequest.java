@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.dto;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.vo.AppointmentType;
 import com.bside.backendapi.domain.appointment.vo.Location;
 import com.bside.backendapi.domain.appointment.vo.Title;
@@ -41,5 +42,18 @@ public class AppointmentRequest {
                 .appointmentTime(appointmentTime)
                 .location(location)
                 .build();
+    }
+
+    public static AppointmentRequest of(final Appointment appointment) {
+        AppointmentType appointmentType = appointment.getAppointmentType();
+        Long customAppointmentTypeId = appointment.getCustomAppointmentTypeId();
+
+        return new AppointmentRequest(
+                appointment.getTitle(),
+                appointmentType,
+                customAppointmentTypeId,
+                appointment.getAppointmentTime(),
+                appointment.getLocation()
+        );
     }
 }

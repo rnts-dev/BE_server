@@ -32,7 +32,7 @@ public class AppointmentResponse {
                 appointment.getAppointmentTime());
     }
 
-    public static AppointmentResponse of(final Appointment appointment, CustomAppointmentType customAppointmentType) {
+    public static AppointmentResponse of(final Appointment appointment, final CustomAppointmentType customAppointmentType) {
         return new AppointmentResponse(
                 appointment.getId(),
                 appointment.getTitle(),

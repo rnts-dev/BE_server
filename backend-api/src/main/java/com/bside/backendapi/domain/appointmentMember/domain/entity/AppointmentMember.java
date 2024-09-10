@@ -28,7 +28,8 @@ public class AppointmentMember {
     private Member member;
 
     @Builder
-    public AppointmentMember(Appointment appointment, Member member) {
+    public AppointmentMember(Long id, Appointment appointment, Member member) {
+        this.id = id;
         this.appointment = appointment;
         this.member = member;
     }

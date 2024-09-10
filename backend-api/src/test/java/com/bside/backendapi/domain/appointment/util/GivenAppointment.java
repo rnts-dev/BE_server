@@ -19,6 +19,7 @@ public class GivenAppointment {
 
     public static Appointment toEntity() {
         return Appointment.builder()
+                .id(1L)
                 .title(GIVEN_TITLE)
                 .appointmentType(GIVEN_TYPE)
                 .appointmentTime(GIVEN_TIME)
@@ -26,11 +27,11 @@ public class GivenAppointment {
                 .build();
     }
 
-    public static Appointment toEntityWithId() {
+    public static Appointment toEntityWithCustomType() {
         return Appointment.builder()
-                .id(1L)
                 .title(GIVEN_TITLE)
-                .appointmentType(GIVEN_TYPE)
+                .appointmentType(null)
+                .customAppointmentTypeId(1L)
                 .appointmentTime(GIVEN_TIME)
                 .location(GIVEN_LOCATION)
                 .build();

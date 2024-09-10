@@ -42,7 +42,7 @@ public class AppointmentViewService {
 
     public List<AppointmentResponse> getAppointmentsByFilter(final CustomOAuth2User principal,
                                                              Predicate<Appointment> filter) {
-        return appointmentMemberRepository.findAllByMemberId(principal.getMember().getId())
+        return appointmentMemberRepository.findAllWithAppointmentsByMemberId(principal.getMember().getId())
                 .stream()
                 .map(AppointmentMember::getAppointment)
                 .filter(filter)

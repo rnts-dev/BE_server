@@ -5,6 +5,7 @@ import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.vo.LoginId;
 import com.bside.backendapi.domain.member.vo.Mail;
 import com.bside.backendapi.domain.member.vo.Nickname;
+import com.bside.backendapi.domain.member.vo.Tendency;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class MemberDetailResponse {
     private LoginId loginId;
     private Mail mail;
     private Nickname nickname;
+    private Tendency tendency;
     private String profileImage;
 
     public static MemberDetailResponse of(final Member member) {
@@ -27,6 +29,7 @@ public class MemberDetailResponse {
                 member.getLoginId(),
                 member.getMail(),
                 member.getNickname(),
+                member.getTendency(),
                 member.getProfileImage());
     }
 }
