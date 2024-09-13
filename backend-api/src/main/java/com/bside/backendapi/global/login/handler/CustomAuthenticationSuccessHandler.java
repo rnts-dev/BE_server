@@ -9,11 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
@@ -27,7 +24,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Value("${jwt.header}")
     private String HEADER;
     private final TokenProvider tokenProvider;
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -40,13 +36,5 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         response.setHeader(HEADER, "Bearer " + accessToken);
 
         log.info("access token : {}", "Bearer " + accessToken);
-
-        // 리디렉션 URL 구성
-        String redirectUrl = UriComponentsBuilder.fromUriString("https://www.rnts.o-r.kr")
-                .queryParam(HEADER, accessToken)
-                .build().toUriString();
-
-        // 리디렉션 수행
-        redirectStrategy.sendRedirect(request, response, redirectUrl);
     }
 }
