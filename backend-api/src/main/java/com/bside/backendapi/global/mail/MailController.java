@@ -33,7 +33,7 @@ public class MailController {
 
     @Operation(summary = "아이디 / 비밀번호 찾기 시, 메일을 통해 인증코드 전송",
             description = "사용자가 입력한 메일(mail)을 통해 인증코드를 전송합니다. 메일이 존재하지 않을 경우, 400 에러 반환합니다.")
-    @GetMapping("/mail/recovery")
+    @PostMapping("/mail/recovery")
     public ResponseEntity<ApiResponse> mailForRecovery(@Valid @RequestBody VerificationRequest verificationRequest) throws MessagingException {
         memberService.mailNotFound(verificationRequest.getMail());
         mailService.sendMail(verificationRequest.getMail().mail());
