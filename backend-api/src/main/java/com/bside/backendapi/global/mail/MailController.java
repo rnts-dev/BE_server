@@ -27,9 +27,9 @@ public class MailController {
             description = "사용자가 입력한 메일(mail)을 통해 인증코드를 전송합니다. 메일이 이미 존재할 경우, 400 에러 반환합니다.")
     @PostMapping("/mail/sign-up")
     public ResponseEntity<ApiResponse> mailForSignUp(@Valid @RequestBody VerificationRequest verificationRequest) throws MessagingException {
-        memberService.existedMail(Mail.from(verificationRequest.getMail()));
+        memberService.existedMail(verificationRequest.getMail());
 
-        String authCode = mailService.sendMail(verificationRequest.getMail());
+        String authCode = mailService.sendMail(String.valueOf(verificationRequest.getMail()));
 
         log.info("인증번호 : {}", authCode);
 
@@ -41,9 +41,9 @@ public class MailController {
             description = "사용자가 입력한 메일(mail)을 통해 인증코드를 전송합니다. 메일이 존재하지 않을 경우, 400 에러 반환합니다.")
     @GetMapping("/mail/recovery")
     public ResponseEntity<String> mailForRecovery(@Valid @RequestBody VerificationRequest verificationRequest) throws MessagingException {
-        memberService.mailNotFound(Mail.from(verificationRequest.getMail()));
+        memberService.mailNotFound(verificationRequest.getMail());
 
-        String authCode = mailService.sendMail(verificationRequest.getMail());
+        String authCode = mailService.sendMail(String.valueOf(verificationRequest.getMail()));
 
         log.info("인증번호 : {}", authCode);
 
