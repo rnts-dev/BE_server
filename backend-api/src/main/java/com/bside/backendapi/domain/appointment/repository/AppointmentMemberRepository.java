@@ -1,6 +1,6 @@
-package com.bside.backendapi.domain.appointmentMember.domain.repository;
+package com.bside.backendapi.domain.appointment.repository;
 
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
+import com.bside.backendapi.domain.appointment.domain.AppointmentMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

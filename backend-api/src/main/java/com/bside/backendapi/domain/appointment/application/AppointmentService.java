@@ -7,8 +7,8 @@ import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundExce
 import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
-import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
+import com.bside.backendapi.domain.appointment.domain.AppointmentMember;
+import com.bside.backendapi.domain.appointment.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
 import com.bside.backendapi.domain.member.repository.MemberRepository;

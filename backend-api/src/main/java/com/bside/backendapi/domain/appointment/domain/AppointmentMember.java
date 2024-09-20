@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.appointmentMember.domain.entity;
+package com.bside.backendapi.domain.appointment.domain;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
 import com.bside.backendapi.domain.member.domain.Member;
