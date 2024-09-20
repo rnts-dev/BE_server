@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.appointment.application;
 
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
-import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
+import com.bside.backendapi.domain.appointment.domain.AppointmentMember;
+import com.bside.backendapi.domain.appointment.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.util.GivenMember;
 import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;

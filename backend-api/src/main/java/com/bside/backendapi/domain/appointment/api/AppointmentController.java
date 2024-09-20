@@ -48,7 +48,7 @@ public class AppointmentController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "약속 초대 처리", description = "파라미터가 'accept'일 경우, 해당 약속에 사용자가 추가됩니다. \n" +
+    @Operation(summary = "약속 초대 처리", description = "파라미터가 'accept'일 경우, 해당 약속에 사용자가 추가됩니다. " +
             "파라미터가 'decline'일 경우, 해당 약속에 추가되지 않습니다.")
     @GetMapping("/appointment/invite/{appointmentId}")
     public ResponseEntity<ApiResponse> invite(@PathVariable Long appointmentId, @RequestParam("status") String status) {
