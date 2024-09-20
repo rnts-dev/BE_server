@@ -71,7 +71,7 @@ public class MemberService {
             throw new MailNotFoundException(ErrorCode.MAIL_NOT_FOUND);
     }
 
-    public SearchIdResponse searchId(final boolean isVerified, String mail) {
+    public SearchIdResponse searchId(final boolean isVerified, final String mail) {
         if (!isVerified)
             throw new VerificationFailedException(ErrorCode.VERIFICATION_FAILED);
 
