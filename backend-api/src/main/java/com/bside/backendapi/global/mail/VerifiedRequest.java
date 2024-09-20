@@ -1,10 +1,18 @@
 package com.bside.backendapi.global.mail;
 
-import lombok.Data;
+import com.bside.backendapi.domain.member.vo.Mail;
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class VerifiedRequest {
 
-    private String mail;
+    @Valid
+    private Mail mail;
     private String authCode;
 }
