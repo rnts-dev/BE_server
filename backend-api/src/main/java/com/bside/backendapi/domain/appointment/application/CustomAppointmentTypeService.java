@@ -3,14 +3,15 @@ package com.bside.backendapi.domain.appointment.application;
 import com.bside.backendapi.domain.appointment.domain.Appointment;
 import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.dto.CustomAppointmentTypeResponse;
-import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
+import com.bside.backendapi.domain.appointment.exception.AppointmentErrorCode;
+import com.bside.backendapi.domain.appointment.exception.AppointmentException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.member.domain.Member;
-import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.exception.MemberErrorCode;
+import com.bside.backendapi.domain.member.exception.MemberException;
 import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.member.vo.LoginId;
-import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,12 +67,12 @@ public class CustomAppointmentTypeService {
 
     public Member getMember(final CustomOAuth2User principal) {
         return memberRepository.findByLoginId(LoginId.from(principal.getUsername()))
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
     }
 
     public CustomAppointmentType getCustomAppointmentType(final Long customAppointmentTypeId) {
         return customAppointmentTypeRepository.findById(customAppointmentTypeId)
-                .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
+                .orElseThrow(() -> new AppointmentException(AppointmentErrorCode.CUSTOM_TYPE_NOT_FOUND));
     }
 
     private CustomAppointmentTypeResponse mapToCustomAppointmentTypeResponse(final CustomAppointmentType customAppointmentType) {

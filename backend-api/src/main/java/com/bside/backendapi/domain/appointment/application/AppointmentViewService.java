@@ -3,11 +3,11 @@ package com.bside.backendapi.domain.appointment.application;
 import com.bside.backendapi.domain.appointment.domain.Appointment;
 import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
-import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
+import com.bside.backendapi.domain.appointment.exception.AppointmentErrorCode;
+import com.bside.backendapi.domain.appointment.exception.AppointmentException;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
-import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +52,7 @@ public class AppointmentViewService {
 
     private CustomAppointmentType getCustomAppointmentType(final Long customAppointmentId) {
         return customAppointmentTypeRepository.findById(customAppointmentId)
-                .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
+                .orElseThrow(() -> new AppointmentException(AppointmentErrorCode.CUSTOM_TYPE_NOT_FOUND));
     }
 
     private AppointmentResponse mapToAppointmentResponse(final Appointment appointment) {

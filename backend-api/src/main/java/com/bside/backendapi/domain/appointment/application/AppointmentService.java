@@ -3,17 +3,17 @@ package com.bside.backendapi.domain.appointment.application;
 import com.bside.backendapi.domain.appointment.domain.Appointment;
 import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
-import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
-import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
+import com.bside.backendapi.domain.appointment.exception.AppointmentErrorCode;
+import com.bside.backendapi.domain.appointment.exception.AppointmentException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
 import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
 import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.domain.Member;
-import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.exception.MemberErrorCode;
+import com.bside.backendapi.domain.member.exception.MemberException;
 import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.member.vo.LoginId;
-import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class AppointmentService {
         // 사용자 정의 약속 유형의 ID가 있는 경우 해당 유형 이름과 함께 약속 반환
         if (appointment.getCustomAppointmentTypeId() != 0) {
             CustomAppointmentType customAppointmentType = customAppointmentTypeRepository.findById(appointment.getCustomAppointmentTypeId())
-                    .orElseThrow(() -> new CustomAppointmentTypeNotFoundException(ErrorCode.CUSTOM_TYPE_NOT_FOUND));
+                    .orElseThrow(() -> new AppointmentException(AppointmentErrorCode.CUSTOM_TYPE_NOT_FOUND));
             return AppointmentResponse.of(newAppointment, customAppointmentType);
         }
         else
@@ -74,12 +74,12 @@ public class AppointmentService {
 
     private Appointment getAppointment(final Long appointmentId) {
         return appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND));
+                .orElseThrow(() -> new AppointmentException(AppointmentErrorCode.APPOINTMENT_NOT_FOUND));
     }
 
     private Member getMember(final CustomOAuth2User principal) {
         return memberRepository.findByLoginId(LoginId.from(principal.getUsername()))
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
     }
 
 }

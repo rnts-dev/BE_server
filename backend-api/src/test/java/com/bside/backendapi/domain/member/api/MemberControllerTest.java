@@ -5,7 +5,7 @@
 //import com.bside.backendapi.domain.member.application.MemberService;
 //import com.bside.backendapi.domain.member.dto.JoinRequest;
 //import com.bside.backendapi.domain.member.dto.MemberResponse;
-//import com.bside.backendapi.global.mail.MailService;
+//import com.bside.backendapi.global.mail.application.MailService;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;

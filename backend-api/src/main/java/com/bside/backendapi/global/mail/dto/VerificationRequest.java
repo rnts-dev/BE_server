@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.mail;
+package com.bside.backendapi.global.mail.dto;
 
 import com.bside.backendapi.domain.member.vo.Mail;
 import jakarta.validation.Valid;

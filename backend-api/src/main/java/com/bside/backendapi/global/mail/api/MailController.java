@@ -1,8 +1,10 @@
-package com.bside.backendapi.global.mail;
+package com.bside.backendapi.global.mail.api;
 
 import com.bside.backendapi.domain.member.application.MemberService;
-import com.bside.backendapi.domain.member.vo.Mail;
 import com.bside.backendapi.global.common.ApiResponse;
+import com.bside.backendapi.global.mail.application.MailService;
+import com.bside.backendapi.global.mail.dto.VerificationRequest;
+import com.bside.backendapi.global.mail.dto.VerifiedRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;

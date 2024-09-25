@@ -1,8 +1,8 @@
 package com.bside.backendapi.global.jwt.application;
 
 import com.bside.backendapi.domain.member.vo.Mail;
-import com.bside.backendapi.global.error.exception.ErrorCode;
-import com.bside.backendapi.global.jwt.exception.TokenNotFoundException;
+import com.bside.backendapi.global.jwt.exception.TokenErrorCode;
+import com.bside.backendapi.global.jwt.exception.TokenException;
 import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import com.bside.backendapi.global.security.principal.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
@@ -88,13 +88,13 @@ public class TokenProvider implements InitializingBean {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             log.error("잘못된 JWT 서명입니다.");
-            throw new TokenNotFoundException(ErrorCode.TOKEN_NOT_FOUND);
+            throw new TokenException(TokenErrorCode.TOKEN_NOT_FOUND);
         } catch (ExpiredJwtException e) {
             log.error("만료된 JWT 토큰입니다.");
-            throw new TokenNotFoundException(ErrorCode.TOKEN_EXPIRED);
+            throw new TokenException(TokenErrorCode.TOKEN_EXPIRED);
         } catch (IllegalArgumentException e) {
             log.error("JWT 토큰이 잘못되었습니다.");
-            throw new TokenNotFoundException(ErrorCode.TOKEN_INVALID);
+            throw new TokenException(TokenErrorCode.TOKEN_INVALID);
         }
     }
 

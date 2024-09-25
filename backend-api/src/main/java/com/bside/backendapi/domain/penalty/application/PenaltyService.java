@@ -2,10 +2,12 @@ package com.bside.backendapi.domain.penalty.application;
 
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
-import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
+import com.bside.backendapi.domain.appointment.exception.AppointmentErrorCode;
+import com.bside.backendapi.domain.appointment.exception.AppointmentException;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.member.domain.Member;
-import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
+import com.bside.backendapi.domain.member.exception.MemberErrorCode;
+import com.bside.backendapi.domain.member.exception.MemberException;
 import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.penalty.domain.persist.Penalty;
 import com.bside.backendapi.domain.penalty.domain.persist.PenaltyRepository;
@@ -13,10 +15,8 @@ import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenalty;
 import com.bside.backendapi.domain.penalty.domain.persist.ReceivedPenaltyRepository;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyGetResponse;
 import com.bside.backendapi.domain.penalty.dto.response.PenaltyResponse;
-import com.bside.backendapi.domain.penalty.error.PenaltyAlreadyExistsException;
-import com.bside.backendapi.domain.penalty.error.PenaltyNotFoundExepception;
-import com.bside.backendapi.domain.penalty.error.ReceivedPenaltySaveException;
-import com.bside.backendapi.global.error.exception.ErrorCode;
+import com.bside.backendapi.domain.penalty.exception.PenaltyErrorCode;
+import com.bside.backendapi.domain.penalty.exception.PenaltyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -53,12 +53,12 @@ public class PenaltyService {
 
         //appointmentId로 appointment 가져오기
         Appointment updatedAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
-                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentException(AppointmentErrorCode.APPOINTMENT_NOT_FOUND)
         );
 
         //appointment에 의미 패널티 저장되어있으면 예외처리
         if (updatedAppointment.getPenaltyId() != null){
-            throw new PenaltyAlreadyExistsException(ErrorCode.PENALTY_ALREADY_EXISTS);
+            throw new PenaltyException(PenaltyErrorCode.PENALTY_ALREADY_EXISTS);
         }
 
         //해당 appointment에 penaltyid 추가
@@ -76,7 +76,7 @@ public class PenaltyService {
 
         //약속 조회
         Appointment findAppointment = appointmentRepository.findById(appointmentId).orElseThrow(
-                () -> new AppointmentNotFoundException(ErrorCode.APPOINTMENT_NOT_FOUND)
+                () -> new AppointmentException(AppointmentErrorCode.APPOINTMENT_NOT_FOUND)
         );
 
         //약속에서 패널티id 가져오기
@@ -88,7 +88,7 @@ public class PenaltyService {
 
         //패널티id로 패널티 정보 가져오기
         Penalty getPenalty = penaltyRepository.findById(penaltyId).orElseThrow(
-                () -> new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND)
+                () -> new PenaltyException(PenaltyErrorCode.PENALTY_NOT_FOUND)
         );
 
         //dto변환 후 response 담아서 리턴
@@ -101,11 +101,11 @@ public class PenaltyService {
 
         // penaltyId가 유효한지 확인 (연관관계 사용 안해서 직접 검사)
         Penalty penalty = penaltyRepository.findById(penaltyId)
-                .orElseThrow(() -> new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND));
+                .orElseThrow(() -> new PenaltyException(PenaltyErrorCode.PENALTY_NOT_FOUND));
 
         // memberId가 유효한지 확인 (연관관계 사용 안해서 직접 검사)
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         //receivedPenalty 객체 생성
         ReceivedPenalty receivedPenalty = ReceivedPenalty.builder()
@@ -118,7 +118,7 @@ public class PenaltyService {
 
         // 저장 실패 시 예외 던지기
         if (savedReceivedPenalty == null || !savedReceivedPenalty.getPenaltyId().equals(penaltyId)) {
-            throw new ReceivedPenaltySaveException(ErrorCode.RECEIVED_PENALTY_SAVE_ERROR);
+            throw new PenaltyException(PenaltyErrorCode.RECEIVED_PENALTY_SAVE_ERROR);
         }
 
         //dto변환 후 response 담아서 리턴
@@ -135,7 +135,7 @@ public class PenaltyService {
 
         //받아온 penalties 예외처리
         if (penalties == null || penalties.isEmpty()){
-            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+            throw new PenaltyException(PenaltyErrorCode.PENALTY_NOT_FOUND);
         }
 
         //penalties dto값으로 변환하여 response로
@@ -156,7 +156,7 @@ public class PenaltyService {
 
         //받아온 receivedPenalties 예외처리
         if (receivedPenalties == null || receivedPenalties.isEmpty()){
-            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+            throw new PenaltyException(PenaltyErrorCode.PENALTY_NOT_FOUND);
         }
 
         //receivedPenalties에서 penaltyid 추출
@@ -169,7 +169,7 @@ public class PenaltyService {
 
         //penalties 예외처리
         if (penalties.isEmpty()) {
-            throw new PenaltyNotFoundExepception(ErrorCode.PENALTY_NOT_FOUND);
+            throw new PenaltyException(PenaltyErrorCode.PENALTY_NOT_FOUND);
         }
 
         //penaltyResponses에 담아서 리턴

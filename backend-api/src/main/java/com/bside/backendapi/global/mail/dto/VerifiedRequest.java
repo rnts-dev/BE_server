@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.mail;
+package com.bside.backendapi.global.mail.dto;
 
 import lombok.Data;
 

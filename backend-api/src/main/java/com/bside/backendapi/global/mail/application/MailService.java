@@ -1,4 +1,4 @@
-package com.bside.backendapi.global.mail;
+package com.bside.backendapi.global.mail.application;
 
 import com.bside.backendapi.global.redis.RedisService;
 import jakarta.mail.MessagingException;

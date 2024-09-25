@@ -1,13 +1,13 @@
 package com.bside.backendapi.domain.member.application;
 
 import com.bside.backendapi.domain.member.domain.Member;
-import com.bside.backendapi.domain.member.exception.DuplicatedPasswordException;
-import com.bside.backendapi.domain.member.exception.MemberNotFoundException;
-import com.bside.backendapi.domain.member.exception.VerificationFailedException;
+import com.bside.backendapi.domain.member.exception.MemberErrorCode;
+import com.bside.backendapi.domain.member.exception.MemberException;
 import com.bside.backendapi.domain.member.repository.MemberRepository;
 import com.bside.backendapi.domain.member.vo.Mail;
-import com.bside.backendapi.global.error.exception.ErrorCode;
 import com.bside.backendapi.global.jwt.application.TokenProvider;
+import com.bside.backendapi.global.mail.exception.MailErrorCode;
+import com.bside.backendapi.global.mail.exception.MailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class PasswordService {
     private final PasswordEncoder passwordEncoder;
 
     public String requestPasswordReset(final boolean isVerified, final String mail) {
-        if (!isVerified) throw new VerificationFailedException(ErrorCode.VERIFICATION_FAILED);
+        if (!isVerified) throw new MailException(MailErrorCode.VERIFICATION_FAILED);
         return tokenProvider.generateTokenForMail(Mail.from(mail));
     }
 
@@ -32,10 +32,10 @@ public class PasswordService {
 
         String mail = (String) tokenProvider.getMailFromToken(token).get("mail");
         Member member = memberRepository.findByMail(Mail.from(mail))
-                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         if (passwordEncoder.matches(resetMember.getPassword().password(), member.getPassword().password()))
-            throw new DuplicatedPasswordException(ErrorCode.DUPLICATED_PASSWORD);
+            throw new MemberException(MemberErrorCode.DUPLICATED_PASSWORD);
         else
             member.changePassowrd(resetMember, passwordEncoder);
     }
