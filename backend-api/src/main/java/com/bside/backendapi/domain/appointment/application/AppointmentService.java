@@ -37,7 +37,7 @@ public class AppointmentService {
         saveAppointmentMember(newAppointment, principal);
 
         // 사용자 정의 약속 유형의 ID가 있는 경우 해당 유형 이름과 함께 약속 반환
-        if (appointment.getCustomAppointmentTypeId() != 0) {
+        if (appointment.getCustomAppointmentTypeId() != 0L) {
             CustomAppointmentType customAppointmentType = customAppointmentTypeRepository.findById(appointment.getCustomAppointmentTypeId())
                     .orElseThrow(() -> new AppointmentException(AppointmentErrorCode.CUSTOM_TYPE_NOT_FOUND));
             return AppointmentResponse.of(newAppointment, customAppointmentType);
