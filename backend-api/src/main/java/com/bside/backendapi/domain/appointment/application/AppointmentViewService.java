@@ -56,7 +56,7 @@ public class AppointmentViewService {
     }
 
     private AppointmentResponse mapToAppointmentResponse(final Appointment appointment) {
-        if (appointment.getCustomAppointmentTypeId() != null)
+        if (appointment.getCustomAppointmentTypeId() != 0L)
             return AppointmentResponse.of(appointment, getCustomAppointmentType(appointment.getCustomAppointmentTypeId()));
         else{
             return AppointmentResponse.of(appointment);
