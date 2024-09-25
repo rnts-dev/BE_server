@@ -26,6 +26,9 @@ public class AppointmentController {
     @Operation(summary = "약속 생성", description = "제목과 약속 정보를 이용하여 새로운 약속을 생성합니다.")
     @PostMapping("/appointment")
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentRequest appointmentRequest) {
+
+        if (appointmentRequest.getCustomAppointmentTypeId() == null) appointmentRequest.setCustomTypeIdZero();
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(appointmentService.create(appointmentRequest.toEntity(), this.getPrincipal()));
     }

@@ -56,4 +56,9 @@ public class AppointmentRequest {
                 appointment.getLocation()
         );
     }
+
+    public void setCustomTypeIdZero() {
+        if (this.getCustomAppointmentTypeId() == null)
+            this.customAppointmentTypeId = 0L;
+    }
 }
