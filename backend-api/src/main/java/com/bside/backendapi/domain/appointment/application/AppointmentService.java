@@ -31,7 +31,6 @@ public class AppointmentService {
     private final CustomAppointmentTypeRepository customAppointmentTypeRepository;
 
     public AppointmentResponse create(final Appointment appointment, final CustomOAuth2User principal) {
-
         Appointment newAppointment = appointment.create(principal.getId(), appointment);
         appointmentRepository.save(newAppointment);
 
