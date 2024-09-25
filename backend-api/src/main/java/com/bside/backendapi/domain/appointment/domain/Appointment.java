@@ -49,7 +49,8 @@ public class Appointment extends BaseEntity {
         this.location = location;
     }
 
-    public Appointment create(final Appointment appointment) {
+    public Appointment create(final Long creatorId, final Appointment appointment) {
+        this.setCreatorId(creatorId);
         this.title = appointment.getTitle();
         this.appointmentType = appointment.getAppointmentType();
         this.customAppointmentTypeId = appointment.getCustomAppointmentTypeId();
