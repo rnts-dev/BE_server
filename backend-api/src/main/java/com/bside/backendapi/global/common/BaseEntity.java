@@ -25,7 +25,15 @@ public class BaseEntity {
     @Column(name = "deleted_time")
     private LocalDateTime deletedTime;
 
+    @Column(name = "creator_id")
+    private Long creatorId;
+
     public void recordDeletedTime() {
         this.deletedTime = LocalDateTime.now();
+    }
+
+    // 생성자 ID 설정 메서드
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 }

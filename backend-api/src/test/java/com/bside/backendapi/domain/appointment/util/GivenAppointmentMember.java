@@ -1,7 +1,7 @@
 package com.bside.backendapi.domain.appointment.util;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
+import com.bside.backendapi.domain.appointment.domain.AppointmentMember;
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.util.GivenMember;
 import jakarta.persistence.GeneratedValue;
