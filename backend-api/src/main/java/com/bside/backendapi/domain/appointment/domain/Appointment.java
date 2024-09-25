@@ -59,7 +59,6 @@ public class Appointment extends BaseEntity {
         return this;
     }
 
-
     public void deletedCustomAppointmentType() {
         this.customAppointmentTypeId = null;
         this.appointmentType = AppointmentType.DEFAULT;
