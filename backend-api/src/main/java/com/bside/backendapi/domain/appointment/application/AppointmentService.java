@@ -2,6 +2,7 @@ package com.bside.backendapi.domain.appointment.application;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
 import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
+import com.bside.backendapi.domain.appointment.dto.AppointmentDetailsResponse;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.domain.appointment.exception.AppointmentNotFoundException;
 import com.bside.backendapi.domain.appointment.exception.CustomAppointmentTypeNotFoundException;
@@ -31,7 +32,7 @@ public class AppointmentService {
 
     public AppointmentResponse create(final Appointment appointment, final CustomOAuth2User principal) {
 
-        Appointment newAppointment = appointment.create(appointment);
+        Appointment newAppointment = appointment.create(principal.getId(), appointment);
         appointmentRepository.save(newAppointment);
 
         saveAppointmentMember(newAppointment, principal);
@@ -44,6 +45,16 @@ public class AppointmentService {
         }
         else
             return AppointmentResponse.of(newAppointment);
+    }
+
+    public AppointmentDetailsResponse getAppointmentDetails(final Long appointmentId) {
+        Appointment appointment = getAppointment(appointmentId);
+
+        // 초대한 사람 이름 찾기
+        Member creator = memberRepository.findById(appointment.getCreatorId())
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        return AppointmentDetailsResponse.of(creator.getNickname(), appointment);
     }
 
     public void delete(final Long appointmentId, final CustomOAuth2User principal) {

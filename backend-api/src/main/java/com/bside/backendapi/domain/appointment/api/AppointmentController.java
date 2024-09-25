@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.api;
 
 import com.bside.backendapi.domain.appointment.application.AppointmentService;
+import com.bside.backendapi.domain.appointment.dto.AppointmentDetailsResponse;
 import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.global.common.ApiResponse;
@@ -28,6 +29,11 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponse> create(@Valid @RequestBody AppointmentRequest appointmentRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(appointmentService.create(appointmentRequest.toEntity(), this.getPrincipal()));
+    }
+    @Operation(summary = "초대 받은 약속 정보 확인")
+    @GetMapping("/appointment/{appointmentId}")
+    public ResponseEntity<AppointmentDetailsResponse> getAppointmentDetails(@PathVariable Long appointmentId) {
+        return ResponseEntity.ok().body(appointmentService.getAppointmentDetails(appointmentId));
     }
 
     @Operation(summary = "약속 정보 수정", description = "해당 약속에 대한 정보를 수정할 수 있습니다.")
