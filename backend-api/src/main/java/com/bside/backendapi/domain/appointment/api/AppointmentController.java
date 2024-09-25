@@ -1,6 +1,7 @@
 package com.bside.backendapi.domain.appointment.api;
 
 import com.bside.backendapi.domain.appointment.application.AppointmentService;
+import com.bside.backendapi.domain.appointment.dto.AppointmentDetailsResponse;
 import com.bside.backendapi.domain.appointment.dto.AppointmentRequest;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.global.common.ApiResponse;
@@ -32,6 +33,11 @@ public class AppointmentController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(appointmentService.create(appointmentRequest.toEntity(), this.getPrincipal()));
     }
+    @Operation(summary = "초대 받은 약속 정보 확인")
+    @GetMapping("/appointment/{appointmentId}")
+    public ResponseEntity<AppointmentDetailsResponse> getAppointmentDetails(@PathVariable Long appointmentId) {
+        return ResponseEntity.ok().body(appointmentService.getAppointmentDetails(appointmentId));
+    }
 
     @Operation(summary = "약속 정보 수정", description = "해당 약속에 대한 정보를 수정할 수 있습니다.")
     @PatchMapping("/appointment/{appointmentId}")
@@ -51,7 +57,7 @@ public class AppointmentController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "약속 초대 처리", description = "파라미터가 'accept'일 경우, 해당 약속에 사용자가 추가됩니다. \n" +
+    @Operation(summary = "약속 초대 처리", description = "파라미터가 'accept'일 경우, 해당 약속에 사용자가 추가됩니다. " +
             "파라미터가 'decline'일 경우, 해당 약속에 추가되지 않습니다.")
     @GetMapping("/appointment/invite/{appointmentId}")
     public ResponseEntity<ApiResponse> invite(@PathVariable Long appointmentId, @RequestParam("status") String status) {

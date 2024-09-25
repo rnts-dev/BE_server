@@ -1,14 +1,15 @@
 package com.bside.backendapi.domain.appointment.application;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.domain.AppointmentMember;
 import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
+import com.bside.backendapi.domain.appointment.dto.AppointmentDetailsResponse;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.domain.appointment.exception.AppointmentErrorCode;
 import com.bside.backendapi.domain.appointment.exception.AppointmentException;
+import com.bside.backendapi.domain.appointment.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.appointment.repository.AppointmentRepository;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
-import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.member.domain.Member;
 import com.bside.backendapi.domain.member.exception.MemberErrorCode;
 import com.bside.backendapi.domain.member.exception.MemberException;
@@ -43,6 +44,16 @@ public class AppointmentService {
         }
         else
             return AppointmentResponse.of(newAppointment);
+    }
+
+    public AppointmentDetailsResponse getAppointmentDetails(final Long appointmentId) {
+        Appointment appointment = getAppointment(appointmentId);
+
+        // 초대한 사람 이름 찾기
+        Member creator = memberRepository.findById(appointment.getCreatorId())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        return AppointmentDetailsResponse.of(creator.getNickname(), appointment);
     }
 
     public void delete(final Long appointmentId, final CustomOAuth2User principal) {

@@ -1,13 +1,13 @@
 package com.bside.backendapi.domain.appointment.application;
 
 import com.bside.backendapi.domain.appointment.domain.Appointment;
+import com.bside.backendapi.domain.appointment.domain.AppointmentMember;
 import com.bside.backendapi.domain.appointment.domain.CustomAppointmentType;
 import com.bside.backendapi.domain.appointment.dto.AppointmentResponse;
 import com.bside.backendapi.domain.appointment.exception.AppointmentErrorCode;
 import com.bside.backendapi.domain.appointment.exception.AppointmentException;
+import com.bside.backendapi.domain.appointment.repository.AppointmentMemberRepository;
 import com.bside.backendapi.domain.appointment.repository.CustomAppointmentTypeRepository;
-import com.bside.backendapi.domain.appointmentMember.domain.entity.AppointmentMember;
-import com.bside.backendapi.domain.appointmentMember.domain.repository.AppointmentMemberRepository;
 import com.bside.backendapi.global.oauth2.domain.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

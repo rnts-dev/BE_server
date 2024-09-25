@@ -46,25 +46,27 @@ public class MailService {
         return message;
     }
 
-    // 인증코드 메일 전송
-    public String sendMail(final String to) throws MessagingException {
+    public void sendMail(final String to) throws MessagingException {
         String authCode = createCode();
         MimeMessage message = createMail(to, authCode);
 
         javaMailSender.send(message);
         redisService.setValues(AUTH_CODE_PREFIX + to, authCode, DURATION);
 
-        return authCode;
+        log.info("authCode : {}", authCode);
     }
 
-    // 인증코드 확인
     public boolean verifiedCode(final String mail, final String authCode) {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + mail);
 
         if (redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode)) {
             redisService.deleteValues(redisAuthCode);
             return true;
-        } else
-            return false;
+        } else if (!redisService.checkExistsValue(redisAuthCode)) {
+            log.info("해당 키에 대한 값이 존재하지 않습니다.");
+        } else if (!redisAuthCode.equals(authCode)) {
+            log.info("인증코드가 일치하지 않습니다.");
+        }
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-package com.bside.backendapi.domain.appointmentMember.dto.response;
+package com.bside.backendapi.domain.appointment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

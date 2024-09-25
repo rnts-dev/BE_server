@@ -72,8 +72,8 @@ public class MemberController {
     @Operation(summary = "아이디 찾기")
     @PostMapping("/public/member/search-id")
     public ResponseEntity<SearchIdResponse> searchId(@RequestBody VerifiedRequest verifiedRequest) {
-        boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail(), verifiedRequest.getAuthCode());
-        return ResponseEntity.ok(memberService.searchId(isVerified, verifiedRequest.getMail()));
+        boolean isVerified = mailService.verifiedCode(verifiedRequest.getMail().mail(), verifiedRequest.getAuthCode());
+        return ResponseEntity.ok(memberService.searchId(isVerified, verifiedRequest.getMail().mail()));
     }
 
     public CustomOAuth2User getPrincipal() {
