@@ -8,10 +8,10 @@ public enum MemberErrorCode implements ErrorCode {
 
     // MEMBER
     PASSWORD_NULL_ERROR(400, "M001", "비밀번호가 입력되지 않았습니다."),
-    MEMBER_NOT_FOUND(404, "M002", "해당 사용자가 존재하지 않습니다."),
-    DUPLICATED_LOGINID(401, "M003", "이미 존재하는 아이디 입니다."),
-    DUPLICATED_MAIL(401, "M004", "이미 존재하는 메일 입니다."),
-    DUPLICATED_NICKNAME(401, "M005", "이미 존재하는 닉네임 입니다."),
+    MEMBER_NOT_FOUND(400, "M002", "해당 사용자가 존재하지 않습니다."),
+    DUPLICATED_LOGINID(400, "M003", "이미 존재하는 아이디 입니다."),
+    DUPLICATED_MAIL(400, "M004", "이미 존재하는 메일 입니다."),
+    DUPLICATED_NICKNAME(400, "M005", "이미 존재하는 닉네임 입니다."),
     DUPLICATED_PASSWORD(400, "M006", "기존 비밀번호와 동일합니다."),
     MISMATCH_PASSWORD(400, "M007", "비밀번호가 일치하지 않습니다.");
 
