@@ -1,11 +1,14 @@
 package com.bside.backendapi.global.error;
 
+import com.bside.backendapi.domain.member.exception.MemberErrorCode;
+import com.bside.backendapi.domain.member.exception.MemberException;
 import com.bside.backendapi.global.error.exception.CustomException;
 import com.bside.backendapi.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -42,6 +45,15 @@ public class GlobalExceptionHandler {
 
         final ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(e);
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        MemberException memberException = new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
+        final ErrorCode errorCode = memberException.getErrorCode();
+        final ErrorResponse response = ErrorResponse.of(memberException);
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }

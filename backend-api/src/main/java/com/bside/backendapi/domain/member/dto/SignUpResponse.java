@@ -22,13 +22,24 @@ public class SignUpResponse {
     private String profileImage;
     private Tendency tendency;
 
+//    public static SignUpResponse of(final Member member) {
+//        return new SignUpResponse(
+//                member.getId(),
+//                member.getLoginId(),
+//                member.getMail(),
+//                member.getNickname(),
+//                member.getProfileImage(),
+//                member.getTendency());
+//    }
+
+    // 프로필 포함 객체
     public static SignUpResponse of(final Member member) {
         return new SignUpResponse(
                 member.getId(),
                 member.getLoginId(),
                 member.getMail(),
                 member.getNickname(),
-                member.getProfileImage(),
+                "https://kr.object.ncloudstorage.com/rnts/profile/1.jpg",
                 member.getTendency());
     }
 }
