@@ -46,22 +46,22 @@ public class AppointmentViewServiceTest {
 //        appointmentMemberRepository.save(appointmentMember);
     }
 
-    @Test
-    public void test_NPlusOne() {
-        List<AppointmentMember> list = appointmentMemberRepository.findAllByMemberId(1L);
-
-        for(AppointmentMember am : list) {
-            System.out.println("appointment_title : " + am.getAppointment().getTitle().title());
-        }
-    }
-
-    @Test
-    public void fix_NPlusOne() {
-        List<AppointmentMember> list = appointmentMemberRepository.findAllWithAppointmentsByMemberId(1L);
-
-        for(AppointmentMember am : list) {
-            System.out.println("appointment_title : " + am.getAppointment().getTitle().title());
-        }
-    }
+//    @Test
+//    public void test_NPlusOne() {
+//        List<AppointmentMember> list = appointmentMemberRepository.findAllByMemberId(1L);
+//
+//        for(AppointmentMember am : list) {
+//            System.out.println("appointment_title : " + am.getAppointment().getTitle().title());
+//        }
+//    }
+//
+//    @Test
+//    public void fix_NPlusOne() {
+//        List<AppointmentMember> list = appointmentMemberRepository.findAllWithAppointmentsByMemberId(1L);
+//
+//        for(AppointmentMember am : list) {
+//            System.out.println("appointment_title : " + am.getAppointment().getTitle().title());
+//        }
+//    }
 
 }
