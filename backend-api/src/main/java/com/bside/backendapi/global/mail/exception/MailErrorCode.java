@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 public enum MailErrorCode implements ErrorCode {
 
     // MAIL
-    MAIL_NOT_FOUND(404, "E000", "해당 메일로 가입된 사용자가 없습니다."),
+    MAIL_NOT_FOUND(400, "E000", "해당 메일로 가입된 사용자가 없습니다."),
     VERIFICATION_FAILED(401, "E001", "인증 실패했습니다."),
-    LOGINID_NOT_FOUND(404, "E002", "해당 이메일로 등록된 아이디가 존재하지 않습니다.");
+    LOGINID_NOT_FOUND(400, "E002", "해당 이메일로 등록된 아이디가 존재하지 않습니다.");
 
     private final int status;
     private final String code;
