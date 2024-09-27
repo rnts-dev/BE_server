@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         Member member = memberRepository.findByLoginId(LoginId.from(loginId))
-                .orElseThrow(() -> new UsernameNotFoundException("loadUserByUsername - 사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UsernameNotFoundException("UserDetailsService - loadUserByUsername() : 사용자를 찾을 수 없습니다."));
         return new CustomOAuth2User(member);
     }
 }
