@@ -5,11 +5,13 @@ import lombok.Getter;
 @Getter
 public enum AppointmentType {
 
-    DEFAULT("기타", "https://example.com/images/default.png"),
-    DRINK("술", "https://example.com/images/drink.png"),
-    MEAL("식사", "https://example.com/images/meal.png"),
-    HOBBY("취미", "https://example.com/images/hobby.png"),
-    STUDY("스터디", "https://example.com/images/team.png");
+    MEAL("식사", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Dmeal%2C%20color%3Dblack.png"),
+    HOBBY("취미", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Dfootball%2C%20color%3Dblack.png"),
+    MEET("모임", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Dflash%2C%20color%3Dblack.png"),
+    STUDY("스터디", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Dbook%2C%20color%3Dblack.png"),
+    FAMILY("가족", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Dfamily%2C%20color%3Dblack.png"),
+    DATE("데이트", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Dheart%2C%20color%3Dblack.png"),
+    ETC("기타", "https://kr.object.ncloudstorage.com/rnts/icon/type%3Detc%2C%20color%3Dblack.png");
 
     private final String typeName;
     private final String imageUrl;

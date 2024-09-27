@@ -33,6 +33,7 @@ public class AppointmentController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(appointmentService.create(appointmentRequest.toEntity(), this.getPrincipal()));
     }
+
     @Operation(summary = "초대 받은 약속 정보 확인")
     @GetMapping("/appointment/{appointmentId}")
     public ResponseEntity<AppointmentDetailsResponse> getAppointmentDetails(@PathVariable Long appointmentId) {
